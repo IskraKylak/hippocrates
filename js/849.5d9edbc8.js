@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkhippocrates"]=self["webpackChunkhippocrates"]||[]).push([[849],{849:function(e,n,r){r.r(n),r.d(n,{default:function(){return i}});var t=r(252);const c={class:"home"};function s(e,n,r,s,a,u){return(0,t.wg)(),(0,t.iD)("div",c)}var a={name:"Home"},u=r(744);const o=(0,u.Z)(a,[["render",s]]);var i=o}}]);
+//# sourceMappingURL=849.5d9edbc8.js.map
