@@ -17,7 +17,7 @@ module.exports = {
          }
       }
    },
-   publicPath: '/hippocrates/'
+   publicPath: './'
 }
 
 
