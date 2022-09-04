@@ -22,45 +22,14 @@ export default {
 <style lang="scss">
 
 .container {
-  max-width: 1400px;
-  padding: 0 15px;
+  max-width: desktop-vw(1158);
+  padding: 0 desktop-vw(15);
   margin-right: auto;
   margin-left: auto;
 }
 
-@media (min-width: 576px) {
-  .container {
-    max-width: 540px;
-  }
+@media screen and (max-width: $tablet) {
 }
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container {
-    max-width: 960px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
-}
-
-@media (min-width: 1400px) {
-  .container {
-    max-width: 1200px;
-  }
-}
-
-@media (min-width: 1520px) {
-  .container {
-    max-width: 1400px;
-  }
+@media screen and (max-width: $mobile) {
 }
 </style>
