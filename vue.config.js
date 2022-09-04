@@ -16,7 +16,10 @@ module.exports = {
             additionalData: `@import "@/assets/css/style.scss";`
          }
       }
-   }
+   },
+   publicPath: process.env.NODE_ENV === 'production'
+    ? '/my-project/'
+    : '/'
 }
 
 
