@@ -47,6 +47,28 @@ export default {
     color: #1FAEEA;
     background: #fff;
   }
+
+  &_btnPoster {
+    height: desktop-vw(48);
+    max-width: desktop-vw(251);
+    width: 100%;
+  }
+
+  &_btnFeedback {
+    height: desktop-vw(50);
+    max-width: 100%;
+    width: 100%;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    background: #1FAEEA;
+    border: 1px solid #FFFFFF;
+    border-radius: 5px;
+  }
 }
 
 </style>
