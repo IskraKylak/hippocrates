@@ -41,6 +41,12 @@ export default {
   justify-content: center;
   box-sizing: border-box;
 
+  &_btnLink {
+    max-width: desktop-vw(279);
+    width: 100%;
+    height: desktop-vw(48);
+  }
+
   &_btnBorder {
     border: 1px solid #1FAEEA;
     border-radius: 3px;
