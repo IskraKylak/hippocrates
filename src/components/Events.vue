@@ -1,0 +1,151 @@
+<template>
+    <div class="events">
+        <div class="container">
+            <div class="events_content">
+                <h2 class="events_title">
+                    нові освітні події
+                </h2>
+                <carousel class="events_carousel" :items-to-show="2" snapAlign="start">
+                    <slide v-for="slide in 10" :key="slide">
+                        <div class="events_item"> 
+                            <div class="events_img">
+                                <img src="@/assets/img/imageEvents.png" alt="img">
+                            </div>
+                            <div class="events_bottom">
+                                <div class="events_name">
+                                    Фетальне програмування та інтегральний інтервал
+                                </div>
+                                <div class="events_text">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum.
+                                </div>
+                            </div>
+                        </div>
+                    </slide>
+                    <template #addons>
+                        <navigation />
+                    </template>
+                </carousel>
+                <Button :btnClass="'btnLink'"> Особистий кабінет </Button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
+import Button from '@/components/UI/Controls/Button.vue'
+export default {
+    props: ['content'],
+    components: {
+        Button,
+        Carousel,
+        Slide,
+        Navigation
+    },
+    data() {
+        return {
+           
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+
+
+
+.carousel__prev, .carousel__next {
+    background-color: #1FAEEA;
+    height: desktop-vw(50);
+    width: desktop-vw(50);
+    border-radius: 3px;
+    svg {
+        height: 60%;
+        width: 60%;
+    }
+}
+
+.carousel__prev {
+    left: desktop-vw(-20);
+}
+
+.carousel__next {
+    right: desktop-vw(-20);
+}
+
+.events {
+
+    &_carousel {
+        margin-bottom: desktop-vw(47);
+    }
+
+    button {
+        margin: 0 auto;
+    }
+
+    &_content {
+        padding: desktop-vw(50) 0;
+    }
+
+    &_item {
+        max-width: desktop-vw(515);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &_bottom {
+        padding: desktop-vw(20) 0 0;
+    }
+
+    &_img {
+        height: desktop-vw(280);
+        width: 100%;
+        position: relative;
+        display: flex;
+        img {
+            position: absolute;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &_title {
+        font-style: normal;
+        font-weight: 700;
+        font-size: desktop-vw(24);
+        line-height: 130%;
+        /* identical to box height */
+        text-align: center;
+        text-transform: uppercase;
+        color: #1FAEEA;
+        margin-bottom: desktop-vw(50);
+    }
+
+    &_name {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 19px;
+        /* identical to box height */
+        text-transform: uppercase;
+        color: #1FAEEA;
+        margin-bottom: desktop-vw(16);  
+        text-align: left;
+    }
+
+    &_text {
+        text-align: left;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 19px;
+        color: #383838;
+        margin-bottom: desktop-vw(23); 
+    }
+}
+
+
+</style>
