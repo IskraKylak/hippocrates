@@ -3,20 +3,29 @@
         <div class="container">
             <div class="events_content">
                 <h2 class="events_title">
-                    нові освітні події
+                    {{ content.title }}
                 </h2>
                 <carousel class="events_carousel" :items-to-show="2" snapAlign="start">
-                    <slide v-for="slide in 10" :key="slide">
+                    <slide v-for="(item, idx) in content.list" :key="idx">
                         <div class="events_item"> 
                             <div class="events_img">
-                                <img src="@/assets/img/imageEvents.png" alt="img">
+                                <img :src="item.img" alt="img">
                             </div>
                             <div class="events_bottom">
                                 <div class="events_name">
-                                    Фетальне програмування та інтегральний інтервал
+                                    {{ item.name }}
                                 </div>
                                 <div class="events_text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum.
+                                    {{ item.text }}
+                                </div>
+                                <div class="events_wrapData">
+                                    <div class="events_data">
+                                        <span>Дата: {{ item.data }}</span>
+                                        <span>Час: {{ item.time }}</span>          
+                                    </div>
+                                    <div class="events_more">
+                                        Детальніше
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -127,8 +136,8 @@ export default {
     &_name {
         font-style: normal;
         font-weight: 700;
-        font-size: 14px;
-        line-height: 19px;
+        font-size: desktop-vw(14);
+        line-height: 130%;
         /* identical to box height */
         text-transform: uppercase;
         color: #1FAEEA;
@@ -140,10 +149,37 @@ export default {
         text-align: left;
         font-style: normal;
         font-weight: 400;
-        font-size: 14px;
-        line-height: 19px;
+        font-size: desktop-vw(14);
+        line-height: 130%;
         color: #383838;
         margin-bottom: desktop-vw(23); 
+    }
+
+    &_wrapData {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &_data {
+        display: flex;
+        grid-gap: desktop-vw(20);
+        span {
+            font-style: normal;
+            font-weight: 700;
+            font-size: desktop-vw(14);
+            line-height: 130%;
+            color: #1FAEEA;
+        }
+    }
+
+    &_more {
+        font-style: normal;
+        font-weight: 700;
+        font-size: desktop-vw(14);
+        line-height: 130%;
+        text-align: right;
+        color: #1FAEEA;
+        cursor: pointer;
     }
 }
 
