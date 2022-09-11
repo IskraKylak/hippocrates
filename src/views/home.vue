@@ -5,6 +5,7 @@
     <Events :content="events" />
     <Courses :content="courses" />
     <CalendarEvent :content="calendarevent" />
+    <Portfolio :content="portfolio" />
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import Instruction from '@/components/Instruction'
 import Events from '@/components/Events'
 import Courses from '@/components/Courses'
 import CalendarEvent from '@/components/CalendarEvent'
+import Portfolio from '@/components/Portfolio'
 export default {
   name: 'Home',
   components: {
@@ -22,10 +24,16 @@ export default {
     Instruction,
     Events,
     Courses,
-    CalendarEvent
+    CalendarEvent,
+    Portfolio
   },
   data() {
     return {
+      portfolio: {
+        title: 'освітнє портфоліо',
+        text: 'Навіщо потрібне освітнє портфоліо - офіційні документи МОЗ України, які повинен заповнювати кожен лікар для підготовки до атестації.',
+        btn: 'Відкрити анкету'
+      },
       calendarevent: {
         title: 'календар наукових заходів',
         subtitle: 'Найближчі події',
