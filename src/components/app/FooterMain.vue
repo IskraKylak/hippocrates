@@ -235,4 +235,123 @@ export default {
 
 }
 
+@media screen and (max-width: $tablet) {
+}
+@media screen and (max-width: $mobile) {
+  .footer {
+    &_content {
+      padding: mobile-vw(30) 0;
+    }
+    &_top {
+      grid-gap: 0;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &_bottom {
+      margin-top: mobile-vw(30);
+      flex-direction: column;
+    }
+
+    &_wrapSoc {
+      flex-direction: column-reverse;
+      margin-bottom: mobile-vw(20);
+    }
+
+    &_copirait,
+    &_develop {
+      font-size: mobile-vw(14);
+      text-align: center;
+    }
+
+    &_copirait {
+      margin-bottom: mobile-vw(20);
+    }
+
+    &_logo {
+      max-width:  mobile-vw(200);
+      margin-bottom: mobile-vw(30);
+    }
+
+    &_email {
+      font-size: mobile-vw(14);
+      grid-gap: mobile-vw(10);
+
+      &:before {
+        max-width: mobile-vw(20);
+        min-width: mobile-vw(20);
+        height: mobile-vw(14);
+      }
+    }
+
+    &_listSoc {
+      grid-gap: mobile-vw(20);
+      justify-content: center;
+      margin-bottom: mobile-vw(40);
+    }
+
+    &_fb {
+      &:before {
+        max-width: mobile-vw(30);
+        min-width: mobile-vw(30);
+        height: mobile-vw(30);
+      }
+    }
+
+    &_viber {
+      &:before {
+        max-width: mobile-vw(30);
+        min-width: mobile-vw(30);
+        height: mobile-vw(30);
+      }
+    }
+
+    &_tg {
+      &:before {
+        max-width: mobile-vw(30);
+        min-width: mobile-vw(30);
+        height: mobile-vw(30);
+      }
+    }
+
+    .footerLocation {
+      max-width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    &_location {
+      font-size: mobile-vw(14);
+      grid-gap: mobile-vw(10);
+
+      &:before {
+        max-width: mobile-vw(20);
+        min-width: mobile-vw(20);
+        height: mobile-vw(20);
+      }
+    }
+
+    &_listTel {
+      grid-gap: mobile-vw(5) mobile-vw(20);
+    }
+
+    &_linkTel {
+      font-size: mobile-vw(14);
+    }
+
+    .footerTelefon {
+      display: none;
+      grid-gap: mobile-vw(10);
+      max-width: mobile-vw(316);
+
+      &:before {
+        max-width: mobile-vw(20);
+        min-width: mobile-vw(20);
+        height: mobile-vw(20);
+      }
+    }
+
+  }
+}
+
 </style>

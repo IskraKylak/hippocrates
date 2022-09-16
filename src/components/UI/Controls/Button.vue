@@ -21,7 +21,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .btn {
   cursor: pointer;
   border: 0;
@@ -66,14 +66,42 @@ export default {
     width: 100%;
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
-    line-height: 22px;
+    font-size: desktop-vw(16);
     text-align: center;
     text-transform: uppercase;
     color: #FFFFFF;
     background: #1FAEEA;
     border: 1px solid #FFFFFF;
     border-radius: 5px;
+  }
+}
+
+@media screen and (max-width: $tablet) {
+}
+@media screen and (max-width: $mobile) {
+  .btn {
+    font-size: mobile-vw(16);
+    max-width: mobile-vw(134);
+    padding: 0 mobile-vw(25);
+    height: mobile-vw(40);
+
+    &_btnLink {
+      max-width: mobile-vw(279);
+      width: auto;
+      height: mobile-vw(48);
+    }
+
+    &_btnPoster {
+      height: mobile-vw(48);
+      max-width: mobile-vw(251);
+      width: auto;
+    }
+
+    &_btnFeedback {
+      max-width: 100%;
+      height: mobile-vw(50);
+      font-size: mobile-vw(16);
+    }
   }
 }
 

@@ -6,9 +6,22 @@
           <a href="#" class="nav_mail">
             {{ email }}
           </a>
-          <a href="#" class="nav_phone">
-            {{ phone }}
-          </a>
+          <div class="nav_wrapPhone"> 
+            <div class="nav_phone" @click="active = !active">
+              {{ phones[0] }}
+            </div>
+            <div class="nav_arrPhone" :class="{'active' : active}" @click="active = !active"></div>
+            <div class="nav_wrapListPhone">
+              <slide-up-down class="nav_listPhone" v-model="active" :duration="300">
+                <div class="nav_listPhone">
+                  <a :href="'tel' + item" class="nav_itemPhone" v-for="(item, idx) in phones" :key="idx">
+                    {{ item }}
+                  </a>
+                  <div class="pb"></div>
+                </div>
+              </slide-up-down>
+            </div>
+          </div>
           <div class="nav_time">
             {{ time }}
           </div>
@@ -19,11 +32,32 @@
           <a href="#" class="link_tg"></a>
         </div>
         <div class="nav_right">
-          <a href="#" class="nav_search"></a>
-          <a href="#" class="nav_lang">
-            {{ lang }}
-          </a>
+          <a href="#" class="nav_search" @click.prevent="activeSearch = !activeSearch" :class="{'close' : activeSearch}"></a>
+          <div class="nav_wrapLang">
+            <div class="nav_lang" @click="activeLang = !activeLang">
+                {{ lang[0] }}
+            </div>
+            <div class="nav_arrPhone" :class="{'active' : activeLang}" @click="activeLang = !activeLang"></div>
+            <div class="nav_wrapListLang">
+              <slide-up-down class="nav_listPhone" v-model="activeLang" :duration="300">
+                <div class="nav_listLang">
+                  <a href="#" class="nav_lang" v-for="(item, idx) in lang" :key="idx">
+                    {{ item }}
+                  </a>
+                </div>
+              </slide-up-down>
+            </div>
+          </div>
         </div>
+        <div class="nav_user">
+          <div class="nav_userName">{{ userName }}</div>
+          <div class="nav_arrPhone" :class="{'active' : active}" @click="active = !active"></div>
+        </div>
+      </div>
+    </div>
+    <div class="nav_searchInput" v-if="activeSearch">
+      <div class="container">
+        <input type="text" placeholder="Пошук курсу">
       </div>
     </div>
   </div>
@@ -31,23 +65,99 @@
 
 <script>
 // @ is an alias to /src
-
+import SlideUpDown from 'vue3-slide-up-down'
 export default {
+  components: {
+    SlideUpDown
+  },
   data() {
     return {
+      active: false,
+      activeLang: false,
+      activeSearch: false,
+      userName: 'Татьяна Мал',
       email: 'hippocrates@zdr.kiev.ua',
-      phone: '+38 (073) 838-34-34',
+      phones: [
+        '+38 (073) 838-34-34',
+        '+38 (073) 838-34-32',
+        '+38 (073) 838-34-33',
+        '+38 (073) 838-34-35',
+        '+38 (073) 838-34-36',
+        '+38 (073) 838-34-37'
+      ],
       time: 'з 10:00 до 18:00',
-      lang: 'UA'
+      lang: ['UA', 'RU', 'EN']
     }
   }
 }
 </script>
 
 <style lang="scss">
+.pb {
+  height: desktop-vw(5);
+  width: 100%;
+}
+
 .nav {
   background: #1FAEEA;
-  
+  position: relative;
+  z-index: 11;
+
+  &_user {
+    display: none;
+  }
+
+  & > .container {
+    position: relative;
+    z-index: 11;
+  }
+
+  &_searchInput {
+    position: absolute;
+    top: desktop-vw(50);
+    left: 0;
+    height: desktop-vw(50);
+    width: 100%;
+    background: #f8f8f8;
+    border-bottom: 2px solid #1FAEEA;
+    padding: desktop-vw(5) 0;
+    z-index: 10;
+
+    input {
+      display: block;
+      height: 100%;
+      width: 100%;
+      border: 0;
+      // padding: 0 desktop-vw(10);
+      background: #f8f8f8;
+      outline: none;
+      font-size: desktop-vw(16);
+
+      &::placeholder {
+        font-size: desktop-vw(16);
+        color: #d5ced0;
+      }
+    }
+  }
+
+  &_wrapLang {
+    padding-right: desktop-vw(15);
+    position: relative;
+  }
+
+  &_listLang {
+    display: flex;
+    flex-direction: column;
+    grid: desktop-vw(5);
+  }
+
+  &_wrapListLang {
+    position: absolute;
+    background: #1FAEEA;
+    left: desktop-vw(-4);
+    top: desktop-vw(22);
+    border-radius: 5px;
+  }
 
   &_content {
     padding: desktop-vw(5) 0;
@@ -78,16 +188,59 @@ export default {
     grid-gap: desktop-vw(20);
   }
 
+  &_wrapPhone {
+    position: relative;
+    padding-right: desktop-vw(20);
+  }
+
+  &_arrPhone {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5 6L0.669873 0.75L9.33013 0.750001L5 6Z' fill='white'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    width: desktop-vw(10);
+    height: desktop-vw(6);
+    position: absolute;
+    right: 0;
+    top: desktop-vw(7);
+    cursor: pointer;
+
+    &.active {
+      transform: rotate(180deg)
+    }
+    
+  }
+
+  &_wrapListPhone {
+    position: absolute;
+    right: desktop-vw(10);
+    top: desktop-vw(25);
+  }
+
+  &_listPhone {
+    display: flex;
+    flex-direction: column;
+    background: #1FAEEA;
+    padding: 0 desktop-vw(5);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    grid-gap: desktop-vw(5);
+  }
+
   &_mail,
   &_phone,
   &_time,
-  &_lang  {
+  &_lang,
+  &_itemPhone,
+  &_userName  {
     color: #fff;
     font-style: normal;
     font-weight: 700;
     font-size: desktop-vw(16);
     line-height: 130%;
     text-decoration: none;
+  }
+
+  &_lang {
+    cursor: pointer;
   }
 
   &_time {
@@ -114,6 +267,7 @@ export default {
     display: flex;
     align-items: center;
     grid-gap: desktop-vw(12);
+    cursor: pointer;
 
     &:before {
       content: "";
@@ -139,6 +293,18 @@ export default {
       height: desktop-vw(18);
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M17.8901 16.8296L12.6613 11.6007C13.653 10.3764 14.25 8.81977 14.25 7.12503C14.25 3.19631 11.0537 0 7.12499 0C3.19627 0 0 3.19631 0 7.12503C0 11.0537 3.19631 14.2501 7.12503 14.2501C8.81977 14.2501 10.3764 13.653 11.6007 12.6613L16.8296 17.8902C16.9761 18.0366 17.2135 18.0366 17.36 17.8902L17.8902 17.3599C18.0366 17.2135 18.0366 16.976 17.8901 16.8296ZM7.12503 12.75C4.02322 12.75 1.50001 10.2268 1.50001 7.12503C1.50001 4.02322 4.02322 1.50001 7.12503 1.50001C10.2268 1.50001 12.75 4.02322 12.75 7.12503C12.75 10.2268 10.2268 12.75 7.12503 12.75Z' fill='white'/%3e%3c/svg%3e");
       background-repeat: no-repeat;
+    }
+
+    &.close {
+      &:before {
+        content: "";
+        display: block;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M9.466 8.013l6.23-6.23A1.035 1.035 0 1014.23.317L8 6.547 1.77.317A1.036 1.036 0 10.304 1.783l6.23 6.23-6.23 6.23A1.035 1.035 0 101.77 15.71L8 9.48l6.23 6.23a1.034 1.034 0 001.466 0 1.035 1.035 0 000-1.466l-6.23-6.23z' fill='%23fff'%3e%3c/path%3e%3c/svg%3e");
+        width: desktop-vw(18);
+        height: desktop-vw(18);
+        background-repeat: no-repeat;
+      }
+      
     }
   }
 
@@ -178,5 +344,177 @@ export default {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+
+  .pb {
+    height: mobile-vw(5);
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    &_user {
+      position: relative;
+      padding: 0 mobile-vw(20) 0 0;
+      display: flex;
+
+      &:before {
+        content: '';
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M17.0711 12.9289C15.9819 11.8398 14.6855 11.0335 13.2711 10.5454C14.786 9.50199 15.7812 7.75578 15.7812 5.78125C15.7812 2.59348 13.1878 0 10 0C6.81223 0 4.21875 2.59348 4.21875 5.78125C4.21875 7.75578 5.21402 9.50199 6.72898 10.5454C5.31453 11.0335 4.01813 11.8398 2.92895 12.9289C1.0402 14.8177 0 17.3289 0 20H1.5625C1.5625 15.3475 5.34754 11.5625 10 11.5625C14.6525 11.5625 18.4375 15.3475 18.4375 20H20C20 17.3289 18.9598 14.8177 17.0711 12.9289ZM10 10C7.67379 10 5.78125 8.1075 5.78125 5.78125C5.78125 3.455 7.67379 1.5625 10 1.5625C12.3262 1.5625 14.2188 3.455 14.2188 5.78125C14.2188 8.1075 12.3262 10 10 10Z' fill='white'/%3e%3c/svg%3e");
+        display: block;
+        background-repeat: no-repeat;
+        max-width: mobile-vw(20);
+        min-width: mobile-vw(20);
+        height: mobile-vw(20);
+        margin-right: mobile-vw(5);
+      }
+    }
+
+    &_userName {
+      color: #fff;
+    }
+
+    &_searchInput {
+      top: mobile-vw(50);
+      left: 0;
+      height: mobile-vw(50);
+      padding: mobile-vw(5) 0;
+
+      input {
+        font-size: mobile-vw(16);
+
+        &::placeholder {
+          font-size: mobile-vw(16);
+        }
+      }
+    }
+
+    &_wrapLang {
+      padding-right: mobile-vw(15);
+    }
+
+    &_listLang {
+      grid: mobile-vw(5);
+    }
+
+    &_wrapListLang {
+      left: mobile-vw(-4);
+      top: mobile-vw(22);
+    }
+
+    &_content {
+      padding: mobile-vw(5) 0;
+      height: mobile-vw(50);
+      grid-gap: mobile-vw(20);
+    }
+
+    &_left {
+      grid-gap: mobile-vw(18);
+      display: none;
+    }
+
+    &_right {
+      grid-gap: mobile-vw(18);
+    }
+
+    &_soc {
+      grid-gap: mobile-vw(20);
+      display: none;
+    }
+
+    &_wrapPhone {
+      padding-right: mobile-vw(20);
+    }
+
+    &_arrPhone {
+      width: mobile-vw(10);
+      height: mobile-vw(6);
+      top: mobile-vw(7);    
+    }
+
+    &_wrapListPhone {
+      right: mobile-vw(10);
+      top: mobile-vw(25);
+    }
+
+    &_listPhone {
+      padding: 0 mobile-vw(5);
+      grid-gap: mobile-vw(5);
+    }
+
+    &_mail,
+    &_phone,
+    &_time,
+    &_lang,
+    &_itemPhone,
+    &_userName  {
+      font-size: mobile-vw(16);
+    }
+
+    &_time {
+      margin-left: mobile-vw(10);
+    }
+
+    &_mail {
+      grid-gap: mobile-vw(12);
+      
+
+      &:before {
+        width: mobile-vw(20);
+        height: mobile-vw(20);
+      }
+    }
+
+    &_phone {
+      grid-gap: mobile-vw(12);
+
+      &:before {
+        width: mobile-vw(20);
+        height: mobile-vw(20);
+      }
+    }
+
+    &_search {
+      padding-right: mobile-vw(20);
+
+      &:before {
+        content: "";
+        display: block;
+        width: mobile-vw(18);
+        height: mobile-vw(18);
+      }
+
+      &.close {
+        &:before {
+          width: mobile-vw(18);
+          height: mobile-vw(18);
+        }
+        
+      }
+    }
+
+  }
+
+  .link {
+    &_fb:before {
+      width: mobile-vw(20);
+      height: mobile-vw(20);
+    }
+
+    &_viber:before {
+      width: mobile-vw(20);
+      height: mobile-vw(20);
+    }
+
+    &_tg:before {
+      width: mobile-vw(20);
+      height: mobile-vw(20);
+    }
+
+
+  }
+
 }
 </style>

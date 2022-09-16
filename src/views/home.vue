@@ -155,3 +155,17 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.home {
+  padding-top: desktop-vw(150);
+}
+
+@media screen and (max-width: $tablet) {
+}
+@media screen and (max-width: $mobile) {
+  .home {
+    padding-top: 0;
+  }
+}
+
+</style>

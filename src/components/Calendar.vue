@@ -1,6 +1,6 @@
 <template>
   <div class="calendar">
-    <div class="header">
+    <div class="header-calendar">
       <button @click="prev">&#9668;</button>
       <span class="title">{{ title }}</span>
       <button @click="next">&#9658;</button>
@@ -140,7 +140,7 @@ export default {
 	width: desktop-vw(300);
 	height: max-content;
 
-	.header {
+	.header-calendar {
 		height: desktop-vw(33);
 		background: #1FAEEA;
 		display: flex;
@@ -317,7 +317,7 @@ export default {
 //   height: 35px;
 // }
 
-header.true {
+.header-calendar.true {
 }
 
 #datepicker .calendar .header {

@@ -54,6 +54,7 @@ export default {
 
     &_list {
         display: flex;
+        justify-content: space-between;
         grid-gap: desktop-vw(40);
         width: 100%;
         margin-bottom: desktop-vw(50);

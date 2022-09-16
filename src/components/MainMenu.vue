@@ -59,7 +59,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 
 .mainMenu {
     background: #fff;
@@ -102,5 +102,35 @@ export default {
     }
 }
 
+@media screen and (max-width: $tablet) {
+}
+@media screen and (max-width: $mobile) {
+    .mainMenu {
+
+        &_content {
+            padding: mobile-vw(20) 0;
+            grid-gap: mobile-vw(15);
+            justify-content: center;
+        }
+
+        &_logo {
+            max-width: mobile-vw(199);
+        }
+
+        &_list {
+            display: none;
+            grid-gap: mobile-vw(20);
+
+            &_item {
+                font-size: mobile-vw(16);
+            }
+        }
+
+        &_accPanel {
+            display: none;
+            grid-gap: mobile-vw(20);
+        }
+    }
+}
 
 </style>

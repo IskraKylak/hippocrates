@@ -55,5 +55,21 @@ export default {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+    .feedback {
+        padding: mobile-vw(30) mobile-vw(40);
+        max-width: calc(100% + mobile-vw(40));
+        width: calc(100% + mobile-vw(40));
+        border-radius: 0;
+
+        &__title {
+            font-size: mobile-vw(18);
+            margin-bottom: mobile-vw(32);
+        }
+
+        &__description {
+            font-size: mobile-vw(12);
+            margin-bottom: mobile-vw(32);
+        }
+    }
 }
 </style>
