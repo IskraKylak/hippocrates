@@ -5,20 +5,25 @@
                 <h2 class="instruction_title">
                     {{ content.title }}
                 </h2>
-                <div class="instruction_list">
-                    <div class="instruction_item" v-for="(item, idx) in content.list" :key="idx">
-                        <div class="instruction_video">
-                        </div>
-                        <div class="instruction_item_bottom">
-                            <div class="instruction_item_name">
-                                {{ item.title }}
+                <carousel class="events_carousel" :items-to-show="((width <= 767) ? 1 : 3)" snapAlign="start">
+                    <slide v-for="(item, idx) in content.list" :key="idx">
+                        <div class="instruction_item">
+                            <div class="instruction_video">
                             </div>
-                            <div class="instruction_item_text">
-                                {{ item.text }}
+                            <div class="instruction_item_bottom">
+                                <div class="instruction_item_name">
+                                    {{ item.title }}
+                                </div>
+                                <div class="instruction_item_text">
+                                    {{ item.text }}
+                                </div>
                             </div>
-                        </div>
-                    </div>  
-                </div>
+                        </div>  
+                    </slide>
+                    <template #addons v-if="(width <= 767)">
+                        <navigation />
+                    </template>
+                </carousel>
                 <Button :btnClass="'btnLink'"> Особистий кабінет </Button>
             </div>
         </div>
@@ -28,16 +33,29 @@
 <script>
 // @ is an alias to /src
 import Button from '@/components/UI/Controls/Button.vue'
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
 export default {
     props: ['content'],
     components: {
-        Button
+        Button,
+        Carousel,
+        Slide,
+        Navigation
     },
     data() {
         return {
-           
+           width: 0,
         }
-    }
+    },
+    methods: {
+        updateWidth() {
+            this.width = window.innerWidth;
+        },
+    },
+    created() {
+        this.width = window.innerWidth;
+        window.addEventListener('resize', this.updateWidth);
+    },
 }
 </script>
 
@@ -111,9 +129,58 @@ export default {
     &_text {
         font-style: normal;
         font-weight: 400;
-        font-size: 14px;
-        line-height: 19px;
+        font-size: desktop-vw(14);
+        line-height: 130%;
         color: #383838;
     }
 }
+@media screen and (max-width: $tablet) {
+}
+@media screen and (max-width: $mobile) {
+    .instruction {
+
+        &_content {
+            padding: mobile-vw(50) 0;
+        }
+
+        &_list {
+            display: flex;
+            justify-content: space-between;
+            grid-gap: mobile-vw(40);
+            width: 100%;
+            margin-bottom: mobile-vw(50);
+        }
+
+        &_item {
+            max-width: mobile-vw(340);
+
+            &_name {
+                font-size: mobile-vw(14);
+                margin-bottom: mobile-vw(16);
+            }
+
+            &_text {
+                font-size: mobile-vw(14);
+            }
+
+            &_bottom {
+                padding: mobile-vw(24) mobile-vw(15);
+            }
+        }
+
+        &_video {
+            height: mobile-vw(180);
+        }
+
+        &_title {
+            font-size: mobile-vw(24);
+            margin-bottom: mobile-vw(50);
+        }
+        
+        &_text {
+            font-size: mobile-vw(14);
+        }
+    }
+}
+
 </style>

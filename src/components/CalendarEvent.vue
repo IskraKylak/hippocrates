@@ -230,4 +230,100 @@ export default {
     }
 }
 
+@media screen and (max-width: $tablet) {
+}
+@media screen and (max-width: $mobile) {
+    .calendar {
+        &_content {
+            padding: mobile-vw(50) 0;
+            
+        }
+
+        &_wrapList {
+            display: flex;
+            flex-direction: column;
+            grid-gap: mobile-vw(77);
+        }
+
+        &_title {
+            font-size: mobile-vw(24);
+            margin-bottom: desktop-vw(70);
+        }
+
+        &_calendarList {
+            &_title {
+                font-size: mobile-vw(18);
+                margin-bottom: mobile-vw(17);
+                text-align: center;
+            }
+        }
+
+        &_list {
+            grid-gap: mobile-vw(30);
+        }
+
+        &_item {
+            flex-direction: column;
+
+            grid-gap: 0;
+            max-width: 100%;
+
+            &_wrapLocation {
+                grid-gap: mobile-vw(58);
+            }
+
+            &_time {
+                font-size: mobile-vw(14);
+                grid-gap: mobile-vw(8);
+
+                &:before {
+                    max-width: mobile-vw(14);
+                    min-width: mobile-vw(14);
+                    height: mobile-vw(14);
+                }
+            }
+
+            &_location {
+                font-size: mobile-vw(13);
+                grid-gap: mobile-vw(8);
+
+                &:before {
+                    max-width: mobile-vw(14);
+                    min-width: mobile-vw(14);
+                    height: mobile-vw(14);
+                }
+            }
+
+            &_name {
+                margin-top: mobile-vw(24);
+                font-size: mobile-vw(16);
+                text-transform: uppercase;
+                margin-bottom: mobile-vw(10);
+            }
+
+            &_text {
+                font-size: mobile-vw(16);
+                margin-bottom: mobile-vw(22);
+            }
+
+            &_img {
+                height: mobile-vw(200);
+                max-width: 100%;
+
+                &_data {
+                    height: mobile-vw(50);
+                    padding: 0 mobile-vw(14);
+                    grid-gap: mobile-vw(15);
+                    font-size: mobile-vw(18);
+
+                    &:before {
+                        max-width: mobile-vw(17);
+                        height: mobile-vw(18);
+                    }
+                }
+            }
+        }
+    }
+}
+
 </style>

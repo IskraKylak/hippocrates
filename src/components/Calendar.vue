@@ -326,4 +326,45 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
+@media screen and (max-width: $tablet) {
+}
+@media screen and (max-width: $mobile) {
+    .calendar {
+      width: 100%;
+
+      .header-calendar {
+        height: mobile-vw(35);
+        padding: 0 mobile-vw(18);
+
+        button:nth-child(1) {
+          width: mobile-vw(7);
+          height: mobile-vw(12);
+        }
+
+        button:nth-child(3) {
+          width: mobile-vw(7);
+          height: mobile-vw(12);      
+        }
+
+        span.title {
+          font-size: mobile-vw(18);
+        }
+      }
+
+      .week {
+        height: mobile-vw(45);
+
+        .day {
+          font-size: mobile-vw(18);
+        }
+      }
+    }
+
+    .week.days {
+      .day {
+        font-size: mobile-vw(14);
+      }
+    }
+}
 </style>

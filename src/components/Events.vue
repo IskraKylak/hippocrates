@@ -5,7 +5,7 @@
                 <h2 class="events_title">
                     {{ content.title }}
                 </h2>
-                <carousel class="events_carousel" :items-to-show="2" snapAlign="start">
+                <carousel class="events_carousel" :items-to-show="((width <= 767) ? 1 : 2)" snapAlign="start">
                     <slide v-for="(item, idx) in content.list" :key="idx">
                         <div class="events_item"> 
                             <div class="events_img">
@@ -54,9 +54,18 @@ export default {
     },
     data() {
         return {
-           
+           width: 0,
         }
-    }
+    },
+    methods: {
+        updateWidth() {
+            this.width = window.innerWidth;
+        },
+    },
+    created() {
+        this.width = window.innerWidth;
+        window.addEventListener('resize', this.updateWidth);
+    },
 }
 </script>
 
@@ -183,5 +192,70 @@ export default {
     }
 }
 
+@media screen and (max-width: $tablet) {
+}
+@media screen and (max-width: $mobile) {
+    .carousel__prev, .carousel__next {
+        background-color: #1FAEEA;
+        height: mobile-vw(26);
+        width: mobile-vw(26);
+    }
 
+    .carousel__prev {
+        left: mobile-vw(20);
+    }
+
+    .carousel__next {
+        right: mobile-vw(20);
+    }
+
+    .events {
+
+        &_carousel {
+            margin-bottom: mobile-vw(47);
+        }
+
+        &_content {
+            padding: mobile-vw(50) 0;
+        }
+
+        &_item {
+            max-width: mobile-vw(515);
+        }
+
+        &_bottom {
+            padding: mobile-vw(20) 0 0;
+        }
+
+        &_img {
+            height: mobile-vw(280);
+        }
+
+        &_title {
+            font-size: mobile-vw(24);
+            margin-bottom: mobile-vw(50);
+        }
+
+        &_name {
+            font-size: mobile-vw(14);
+            margin-bottom: mobile-vw(16);  
+        }
+
+        &_text {
+            font-size: mobile-vw(14);
+            margin-bottom: mobile-vw(23); 
+        }
+
+        &_data {
+            grid-gap: mobile-vw(20);
+            span {
+                font-size: mobile-vw(14);
+            }
+        }
+
+        &_more {
+            font-size: mobile-vw(14);
+        }
+    }
+}
 </style>

@@ -74,5 +74,22 @@ export default {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+    .portfolio {
+        &_content {
+            padding: mobile-vw(50) 0;
+        }
+
+        &_title {
+            font-size: mobile-vw(20);
+            margin-bottom: mobile-vw(28);
+        }
+
+        &_text {
+            font-size: mobile-vw(16);
+            margin-bottom: mobile-vw(28);
+            max-width: mobile-vw(500);
+
+        }
+    }
 }
 </style>

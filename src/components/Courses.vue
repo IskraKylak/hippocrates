@@ -5,7 +5,7 @@
                 <h2 class="courses_title">
                     {{ content.title }}
                 </h2>
-                <carousel class="courses_carousel" :items-to-show="4" snapAlign="start">
+                <carousel class="courses_carousel" :items-to-show="((width <= 767) ? 1 : 4)" snapAlign="start">
                     <slide v-for="(item, idx) in content.list" :key="idx">
                         <div class="courses_item"> 
                             <div class="courses_img">
@@ -40,34 +40,22 @@ export default {
     },
     data() {
         return {
-           
+           width: 0,
         }
-    }
+    },
+    methods: {
+        updateWidth() {
+            this.width = window.innerWidth;
+        },
+    },
+    created() {
+        this.width = window.innerWidth;
+        window.addEventListener('resize', this.updateWidth);
+    },
 }
 </script>
 
 <style lang="scss">
-
-
-
-.carousel__prev, .carousel__next {
-    background-color: #1FAEEA;
-    height: desktop-vw(50);
-    width: desktop-vw(50);
-    border-radius: 3px;
-    svg {
-        height: 60%;
-        width: 60%;
-    }
-}
-
-.carousel__prev {
-    left: desktop-vw(-20);
-}
-
-.carousel__next {
-    right: desktop-vw(-20);
-}
 
 .courses {
 
@@ -151,5 +139,34 @@ export default {
 
 }
 
+@media screen and (max-width: $tablet) {
+}
+@media screen and (max-width: $mobile) {
+    .courses {
+        &_carousel {
+            margin-bottom: mobile-vw(47);
+        }
+
+        &_content {
+            padding: mobile-vw(50) 0;
+        }
+
+        &_item {
+            max-width: mobile-vw(230);
+            height: mobile-vw(230);
+            padding: mobile-vw(25);
+        }
+
+        &_title {
+            font-size: mobile-vw(24);
+            margin-bottom: mobile-vw(50);
+        }
+
+        &_name {
+            font-size: mobile-vw(16);
+        }
+
+    }
+}
 
 </style>
