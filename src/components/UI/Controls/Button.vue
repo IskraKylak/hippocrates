@@ -40,6 +40,14 @@ export default {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  
+  &_mobMenu {
+    border: 2px solid #fff;
+    color: #fff;
+    background: #1FAEEA;
+    max-width: desktop-vw(220);
+    width: 100%;
+  }
 
   &_btnLink {
     max-width: desktop-vw(279);
@@ -101,6 +109,10 @@ export default {
       max-width: 100%;
       height: mobile-vw(50);
       font-size: mobile-vw(16);
+    }
+
+    &_mobMenu {
+      max-width: mobile-vw(220);
     }
   }
 }

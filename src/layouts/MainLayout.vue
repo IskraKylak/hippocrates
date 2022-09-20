@@ -1,16 +1,19 @@
 <template>
   <HeaderMain />
-  <router-view />
+  <router-view /> 
   <FooterMain />
+  <MobMenu />
 </template>
 
 <script>
 import HeaderMain from '@/components/app/HeaderMain'
 import FooterMain from '@/components/app/FooterMain'
+import MobMenu from '@/components/app/MobMenu'
 export default {
   components: {
     HeaderMain,
-    FooterMain
+    FooterMain,
+    MobMenu
   },
 }
 </script>
