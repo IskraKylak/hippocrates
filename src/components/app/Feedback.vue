@@ -20,13 +20,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .feedback {
     background: #1FAEEA;
     box-shadow: 0px 4px 4px rgba(36, 36, 36, 0.15);
     border-radius: 5px;
     padding: desktop-vw(54) desktop-vw(30);
     max-width: desktop-vw(339);
+    height: max-content;
 
     &__title {
         // font-family: 'Roboto Condensed';

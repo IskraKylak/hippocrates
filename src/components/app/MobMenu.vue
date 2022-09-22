@@ -1,12 +1,12 @@
 <template>
   <div class="mobMenu">
     <div class="mobMenu_content" v-if="mobMenu">
-        <div class="mobMenu_close" @click="mobMenu = !mobMenu"></div>
-        <router-link  to="/" class="mobMenu_logo">
+        <div class="mobMenu_close" @click="mobMenu = false"></div>
+        <router-link  to="/" class="mobMenu_logo" @click="mobMenu = false">
             <img src="@/assets/img/logoFooter.svg" alt="img">
         </router-link>
         <div class="mobMenu_list">
-            <router-link class="mobMenu_item" v-for="(item, idx) in menu" :key="idx" :to="item.link">
+            <router-link class="mobMenu_item" v-for="(item, idx) in menu" :key="idx" :to="item.link" @click="mobMenu = false">
                 {{ item.name }}
             </router-link>
         </div>
@@ -59,7 +59,7 @@ export default {
   data() {
     return {
         mobMenu: false,
-        active: true,
+        active: false,
         phones: [
         '+38 (073) 838-34-34',
         '+38 (073) 838-34-34',
@@ -87,11 +87,11 @@ export default {
             },
             {
                 name: 'Календар',
-                link: '/'
+                link: '/calendar'
             },
             {
                 name: 'Контакти',
-                link: '/'
+                link: '/contacts'
             }
         ]
     }

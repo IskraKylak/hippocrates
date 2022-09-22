@@ -47,11 +47,11 @@ export default {
                 },
                 {
                     name: 'Календар',
-                    link: '/'
+                    link: '/calendar'
                 },
                 {
                     name: 'Контакти',
-                    link: '/'
+                    link: '/contacts'
                 }
             ]
         }

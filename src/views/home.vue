@@ -4,7 +4,7 @@
     <Instruction :content="instruction" />
     <Events :content="events" />
     <Courses :content="courses" />
-    <CalendarEvent :content="calendarevent" />
+    <CalendarEvent :content="calendarEvent" />
     <Portfolio :content="portfolio" />
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
         text: 'Навіщо потрібне освітнє портфоліо - офіційні документи МОЗ України, які повинен заповнювати кожен лікар для підготовки до атестації.',
         btn: 'Відкрити анкету'
       },
-      calendarevent: {
+      calendarEvent: {
         title: 'календар наукових заходів',
         subtitle: 'Найближчі події',
         list: [
