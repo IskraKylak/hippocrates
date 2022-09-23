@@ -189,6 +189,11 @@ export default {
         text-align: right;
         color: #1FAEEA;
         cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: #25d1ff;
+        }
     }
 }
 

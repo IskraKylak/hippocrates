@@ -40,6 +40,11 @@ export default {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #93d922;
+  }
   
   &_mobMenu {
     border: 2px solid #fff;
@@ -47,6 +52,10 @@ export default {
     background: #1FAEEA;
     max-width: desktop-vw(220);
     width: 100%;
+
+    &:hover {
+      background: #25d1ff;
+    }
   }
 
   &_btnLink {
@@ -60,6 +69,11 @@ export default {
     border-radius: 3px;
     color: #1FAEEA;
     background: #fff;
+
+    &:hover {
+      background: #1FAEEA;
+      color: #fff
+    }
   }
 
   &_btnPoster {
@@ -81,6 +95,10 @@ export default {
     background: #1FAEEA;
     border: 1px solid #FFFFFF;
     border-radius: 5px;
+
+    &:hover {
+      background: #25d1ff;
+    }
   }
 }
 

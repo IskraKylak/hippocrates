@@ -93,6 +93,11 @@ export default {
             text-transform: uppercase;
             color: #383838;
             text-decoration: none;
+            transition: all 0.3s ease;
+
+            &:hover {
+                color: #1faeea;
+            }
         }
     }
 

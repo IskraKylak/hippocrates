@@ -269,7 +269,9 @@ export default {
             max-width: 100%;
 
             &_wrapLocation {
-                grid-gap: mobile-vw(58);
+                grid-gap: mobile-vw(10);
+                width: 100%;
+                justify-content: space-between;
             }
 
             &_time {
