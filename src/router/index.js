@@ -21,6 +21,12 @@ const routes = [
     component: () => import('../views/calendar.vue')
   },
   {
+    path: '/vebinars',
+    name: 'vebinars',
+    meta: { layout: 'main' },
+    component: () => import('../views/vebinars.vue')
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound

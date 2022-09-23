@@ -43,7 +43,7 @@ export default {
                 },
                 {
                     name: 'Вебінари',
-                    link: '/'
+                    link: '/vebinars'
                 },
                 {
                     name: 'Календар',
