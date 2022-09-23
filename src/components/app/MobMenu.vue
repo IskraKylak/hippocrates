@@ -141,7 +141,7 @@ export default {
         }
 
         &_burger {
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23fff' stroke-width='2' d='M23 15H0M23 8H0M23 1H0'%3e%3c/path%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 23 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cline x1='23' y1='1' y2='1' stroke='white' stroke-width='2'/%3e%3cline x1='23' y1='8' y2='8' stroke='white' stroke-width='2'/%3e%3cline x1='23' y1='15' y2='15' stroke='white' stroke-width='2'/%3e%3c/svg%3e");
             width: mobile-vw(23);
             height: mobile-vw(16);
             cursor: pointer;

@@ -64,6 +64,13 @@ export default {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+    .contactPoster {
+		padding: mobile-vw(104) 0;
+
+		&_title {
+			font-size: mobile-vw(18);
+		}
+	}
 }
 
 </style>

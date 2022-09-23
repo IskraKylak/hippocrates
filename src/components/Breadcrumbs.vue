@@ -56,6 +56,16 @@ export default {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+    .breadcrumbs {
+        margin: 0 0 mobile-vw(30);
+        padding: mobile-vw(14);
+        grid-gap: mobile-vw(5);
+
+        &_link,
+        &_title {
+            font-size: mobile-vw(14);
+        }
+    }
 }
 
 </style>

@@ -198,6 +198,107 @@ export default {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+    .infoContact {
+        padding: mobile-vw(50) 0 mobile-vw(20) 0;
+        grid-gap: mobile-vw(50);
+        flex-direction: column;
+
+        .feedback {
+            margin-left: mobile-vw(-20);
+        }
+
+        &_title {
+            font-size: mobile-vw(24);
+            margin-bottom: mobile-vw(20);
+        }
+
+        &_text {
+            font-size: mobile-vw(16);
+            margin-bottom: mobile-vw(50);
+        }
+
+        &_telList {
+            grid-gap: mobile-vw(10) mobile-vw(30);
+            padding: 0 0 0 mobile-vw(38);
+            margin-bottom: mobile-vw(50);
+            display: flex;
+            flex-wrap: wrap;
+            grid-template-columns: none;
+            width: auto;
+
+            &:before {
+                max-width: mobile-vw(20);
+                min-width: mobile-vw(20);
+                height: mobile-vw(20);
+            }
+        }
+
+        &_tel {
+            font-size: mobile-vw(16);
+        }
+
+        &_wrapLocation {
+            grid-gap: mobile-vw(24);
+            margin-bottom: mobile-vw(29);
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: max-content;
+            margin: 0 auto mobile-vw(29) auto;
+        }
+
+        &_email,
+        &_location {
+            font-size: mobile-vw(16);
+            grid-gap: mobile-vw(18);
+        }
+
+        &_email {
+            &:before {
+                max-width: mobile-vw(20);
+                min-width: mobile-vw(20);
+                height: mobile-vw(20);
+            }
+        }
+
+        &_location {
+            max-width: mobile-vw(260);
+
+            &:before {
+                max-width: mobile-vw(20);
+                min-width: mobile-vw(20);
+                height: mobile-vw(20);
+            }
+        }
+
+        &_wrapSoc_title {
+            font-size: mobile-vw(16);
+            margin-bottom: mobile-vw(20);
+            text-align: center;
+        }
+
+        &_listSoc {
+            grid-gap: mobile-vw(26);
+            justify-content: center;
+        }
+
+        &_fb {
+            max-width: mobile-vw(27);
+            min-width: mobile-vw(27);
+            height: mobile-vw(27);
+        }
+
+        &_vb {
+            max-width: mobile-vw(27);
+            min-width: mobile-vw(27);
+            height: mobile-vw(27);
+        }
+
+        &_tg {
+            max-width: mobile-vw(27);
+            min-width: mobile-vw(27);
+            height: mobile-vw(27);
+        }
+    }
 }
 
 </style>
