@@ -166,7 +166,7 @@ export default {
   &_tg {
     &:before {
       content: "";
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 20 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23clip0_817_1233)'%3e%3cpath d='M18.8949 0.791992H1.10383C0.494616 0.791992 0 1.28562 0 1.89582V19.6868C0 20.297 0.494616 20.7913 1.10383 20.7913H10.682V13.0464H8.07587V10.0277H10.682V7.80157C10.682 5.21884 12.259 3.81172 14.5635 3.81172C15.6683 3.81172 16.6157 3.89437 16.892 3.93027V6.62991L15.2936 6.63057C14.0406 6.63057 13.7989 7.22628 13.7989 8.09993V10.0267H16.7883L16.3974 13.0451H13.7985V20.7903H18.8945C19.5044 20.7903 19.9993 20.2954 19.9993 19.6868V1.89516C19.999 1.28562 19.5047 0.791992 18.8949 0.791992Z' fill='white'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='clip0_817_1233'%3e%3crect width='20' height='19.9997' fill='white' transform='translate(0 0.791016)'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23clip0_859_351)'%3e%3cpath d='M11.7712 18.9761L11.275 25.9561C11.985 25.9561 12.2925 25.6511 12.6612 25.2849L15.99 22.1036L22.8875 27.1549C24.1525 27.8599 25.0437 27.4886 25.385 25.9911L29.9125 4.77615L29.9137 4.7749C30.315 2.9049 29.2375 2.17365 28.005 2.6324L1.39249 12.8211C-0.423756 13.5261 -0.396256 14.5386 1.08374 14.9974L7.88749 17.1136L23.6912 7.2249C24.435 6.7324 25.1112 7.0049 24.555 7.4974L11.7712 18.9761Z' fill='white'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='clip0_859_351'%3e%3crect width='30' height='30' fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e ");
       background-repeat: no-repeat;
       display: block;
       max-width: desktop-vw(20);
