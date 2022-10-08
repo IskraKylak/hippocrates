@@ -10,7 +10,7 @@
             <div id="stream-container">
                 <!-- stream -->
                 <div id="stream-embed-wrapper">
-                    <iframe id="stream-embed-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/52ToE-riiIE" frameborder="0" allowfullscreen></iframe>
+                    <iframe id="stream-embed-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/dAv0Tyxu8-M" frameborder="0" allowfullscreen></iframe>
                 </div>
                 
                 <!-- chat -->
@@ -141,7 +141,7 @@ export default {
     }
   },
   mounted() {
-    const VIDEO_ID = "52ToE-riiIE"; // for live chat
+    const VIDEO_ID = "dAv0Tyxu8-M"; // for live chat
     /*
     code from:
     https://stackoverflow.com/questions/52468303/how-to-embed-youtube-livestream-chat
