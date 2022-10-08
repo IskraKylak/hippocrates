@@ -7,7 +7,8 @@
             <ItemVebinar 
                 v-for="(item, idx) in content.list" 
                 :key="idx" 
-                :content="item" 
+                :content="item"
+                :idx="idx" 
             />
         </div>
     </div>

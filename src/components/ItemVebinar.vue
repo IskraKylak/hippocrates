@@ -1,5 +1,5 @@
 <template>
-    <div class="vebinarItem">
+    <div class="vebinarItem" @click="goToVebinar(content.title)">
         <div class="vebinarItem_wrapImage">
             <img :src="content.img" alt="img">
         </div>
@@ -34,10 +34,18 @@
 // @ is an alias to /src
 
 export default {
-    props: ['content'],
+    props: ['content', 'idx'],
     data() {
         return {
         }
+    },
+    methods: {
+        goToVebinar(prodId) {
+            this.$router.push({
+                name: 'vebinarPage',
+                params: { Pid: prodId }
+            })
+        },
     }
 }
 </script>
