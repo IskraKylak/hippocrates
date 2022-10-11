@@ -10,7 +10,7 @@
             <div id="stream-container">
                 <!-- stream -->
                 <div id="stream-embed-wrapper">
-                    <iframe id="stream-embed-iframe" width="100%" height="100%" src="https://www.youtube.com/embed/dAv0Tyxu8-M" frameborder="0" allowfullscreen></iframe>
+                    <iframe id="stream-embed-iframe" height="100%" width="100%" src="https://www.youtube.com/embed/dAv0Tyxu8-M" frameborder="0" allowfullscreen></iframe>
                 </div>
                 
                 <!-- chat -->
@@ -322,20 +322,108 @@ export default {
 
 #stream-embed-wrapper {
     flex: 1 1 auto;
+
+    iframe {
+        width: 100%;
+    }
+}
+
+#chat-embed-wrapper {
+    width: desktop-vw(267);
 }
 
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+    #chat-embed-wrapper {
+        width: mobile-vw(167);
+    }
+
     .vebinarPage {
         padding-top: mobile-vw(30);
-        padding-bottom: mobile-vw(100);
+        padding-bottom: 0;
+        max-width: 100%;
+        padding-left: mobile-vw(20);
+        padding-right: mobile-vw(20);
 
         &_title {
             font-style: normal;
-            font-size: mobile-vw(32);
+            font-size: mobile-vw(20);
             margin-bottom: mobile-vw(37);
         }
+
+        &_textVideo {
+            margin-bottom: mobile-vw(22);
+        }
+
+        &_spicers {
+            padding: mobile-vw(62) 0 mobile-vw(40) 0;
+        }
+
+        &_content {
+
+            p {
+                font-size: mobile-vw(16);
+                margin-bottom: mobile-vw(22);
+            }
+        }
+
+        &_surpriseWrap {
+            padding: mobile-vw(27) 0 mobile-vw(67) 0;
+        }
+
+        &_surprise {
+            max-width: 100%;
+            padding: 0 mobile-vw(20);
+        }
+
+        &_wrapImg {
+            height: mobile-vw(231);
+            max-width: mobile-vw(440);
+        }
+
+        &_surpriseTop {
+            flex-direction: column;
+        }
+
+        &_surpriseBottom {
+            flex-direction: column;
+        }
+        
+        &_surpriseLeft,
+        &_surpriseRight {
+            max-width: 100%;
+        }
+
+
+        &_surpriseText1 {
+            font-size: mobile-vw(18);
+            margin-bottom: mobile-vw(20);
+        }
+
+        &_surpriseText {
+            font-size: mobile-vw(16);
+            margin-bottom: mobile-vw(16);
+        }
+
+        &_surpriseText2 {
+            font-size:  mobile-vw(20);
+        }
+
+        &_surpriseText3 {
+            font-size: mobile-vw(18);
+            margin-bottom: mobile-vw(20);
+        }
+    }
+
+
+    #stream-container {
+        height: mobile-vw(135);
+        margin-bottom: mobile-vw(33);
+    }
+
+    #stream-embed-wrapper {
+        flex: 1 1 auto;
     }
 }
 

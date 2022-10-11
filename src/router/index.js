@@ -27,6 +27,12 @@ const routes = [
     component: () => import('../views/vebinars.vue')
   },
   {
+    path: '/courses',
+    name: 'courses',
+    meta: { layout: 'main' },
+    component: () => import('../views/courses.vue')
+  },
+  {
     path: '/vebinars/:Pid',
     name: 'vebinarPage',
     meta: { layout: 'main' },
