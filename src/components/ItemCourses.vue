@@ -42,6 +42,7 @@ export default {
     border-radius: 3px;
     overflow: hidden;
     padding: desktop-vw(25);
+    cursor: pointer;
 }
 
 .courses_img {
