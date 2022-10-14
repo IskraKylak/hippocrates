@@ -7,11 +7,10 @@
         <div class="poster_content">
             <div class="poster_info">
                 <h1 class="poster_title">
-                    Hippocrates
+                    {{ content.title }}
                 </h1>
                 <h2 class="poster_subtitle">
-                    БЕЗПЕРЕРВНА МЕДИЧНА ОСВІТА
-                    ЛІКАРІВ І ФАРМАЦЕВТІВ
+                    {{ content.text }}
                 </h2>
                 <Button :btnClass="'btnPoster'">Зареєструватися</Button>
             </div>
@@ -26,6 +25,7 @@
 import Button from '@/components/UI/Controls/Button.vue'
 import Feedback from '@/components/app/Feedback.vue'
 export default {
+    props: ['content'],
     components: {
         Button,
         Feedback

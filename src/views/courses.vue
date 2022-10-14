@@ -129,6 +129,40 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.carousel__prev, .carousel__next {
+    background-color: #1FAEEA;
+    height: desktop-vw(50);
+    width: desktop-vw(50);
+    border-radius: 3px;
+    svg {
+        height: 60%;
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: $mobile) {
+    .carousel__prev, .carousel__next {
+        background-color: #1FAEEA;
+        height: mobile-vw(50);
+        width: mobile-vw(50);
+        border-radius: 3px;
+        svg {
+            height: 60%;
+            width: 60%;
+        }
+    }
+
+    .carousel__prev {
+        left: mobile-vw(20);
+    }
+
+    .carousel__next {
+        right: mobile-vw(20);
+    }
+}
+</style>
+
 <style lang="scss" scoped>
 
 .mt {
@@ -223,17 +257,6 @@ export default {
                 }
             }
         }
-    }
-}
-
-.carousel__prev, .carousel__next {
-    background-color: #1FAEEA;
-    height: desktop-vw(50);
-    width: desktop-vw(50);
-    border-radius: 3px;
-    svg {
-        height: 60%;
-        width: 60%;
     }
 }
 

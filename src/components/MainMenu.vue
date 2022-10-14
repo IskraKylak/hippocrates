@@ -31,15 +31,15 @@ export default {
             menu: [
                 {
                     name: 'Проект',
-                    link: '/'
+                    link: '/about'
                 },
                 {
                     name: 'Користувачу',
-                    link: '/'
+                    link: '/how-to'
                 },
                 {
                     name: 'Курси',
-                    link: '/courses/'
+                    link: '/courses'
                 },
                 {
                     name: 'Вебінари',

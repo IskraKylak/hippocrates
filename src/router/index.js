@@ -39,6 +39,18 @@ const routes = [
     component: () => import('../views/vebinarPage.vue')
   },
   {
+    path: '/about',
+    name: 'about',
+    meta: { layout: 'main' },
+    component: () => import('../views/about.vue')
+  },
+  {
+    path: '/how-to',
+    name: 'how-to',
+    meta: { layout: 'main' },
+    component: () => import('../views/how-to.vue')
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound

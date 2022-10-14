@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Poster/> 
+    <Poster :content="poster" /> 
     <Instruction :content="instruction" />
     <Events :content="events" />
     <Courses :content="courses" />
@@ -29,6 +29,10 @@ export default {
   },
   data() {
     return {
+      poster: {
+        title: 'Hippocrates',
+        text: 'БЕЗПЕРЕРВНА МЕДИЧНА ОСВІТА ЛІКАРІВ І ФАРМАЦЕВТІВ'
+      },
       portfolio: {
         title: 'освітнє портфоліо',
         text: 'Навіщо потрібне освітнє портфоліо - офіційні документи МОЗ України, які повинен заповнювати кожен лікар для підготовки до атестації.',
