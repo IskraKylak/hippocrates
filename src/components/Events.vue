@@ -71,8 +71,6 @@ export default {
 
 <style lang="scss">
 
-
-
 .carousel__prev, .carousel__next {
     background-color: #1FAEEA;
     height: desktop-vw(50);

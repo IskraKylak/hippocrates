@@ -39,7 +39,7 @@ export default {
                 },
                 {
                     name: 'Курси',
-                    link: '/'
+                    link: '/courses/'
                 },
                 {
                     name: 'Вебінари',

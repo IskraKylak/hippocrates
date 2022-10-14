@@ -70,6 +70,27 @@ export default {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+    .wrapCustomCheckBox {
+        grid-gap: mobile-vw(11);
+
+        .customCheckBox {
+            max-width: mobile-vw(22);
+            min-width: mobile-vw(22);
+            height: mobile-vw(22);
+        }
+
+        .customCheckBoxText {
+            font-size: mobile-vw(16);
+        }
+
+        input:checked ~ .customCheckBox {
+            &:before {
+                max-width: mobile-vw(9);
+                min-width: mobile-vw(9);
+                height: mobile-vw(9);
+            }
+        }
+    }
 }
 
 </style>
