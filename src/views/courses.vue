@@ -17,12 +17,12 @@
                 </slide-up-down>
             </div>
             <div class="courses_list">
-                <ItemCourses v-for="(item, idx) in courses.list" :key="idx" :content="item" />
+                <ItemCatCourses v-for="(item, idx) in courses.list" :key="idx" :content="item" />
             </div>
             <div class="courses_wrapCarusel">
                 <carousel class="courses_carousel" :items-to-show="1" snapAlign="start">
                     <slide v-for="(item, idx) in courses.list" :key="idx">
-                        <ItemCourses :content="item" />
+                        <ItemCatCourses :content="item" />
                     </slide>
                     <template #addons>
                         <navigation />
@@ -39,7 +39,7 @@
 import 'vue3-carousel/dist/carousel.css';
 import Breadcrumbs from '@/components/Breadcrumbs'
 import CheckBox from '@/components/UI/Controls/CheckBox.vue'
-import ItemCourses from '@/components/ItemCourses.vue'
+import ItemCatCourses from '@/components/ItemCatCourses.vue'
 import SlideUpDown from 'vue3-slide-up-down'
 import Button from '@/components/UI/Controls/Button.vue'
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
@@ -48,7 +48,7 @@ export default {
   components: {
     Breadcrumbs,
     CheckBox,
-    ItemCourses,
+    ItemCatCourses,
     SlideUpDown,
     Button,
     Carousel,

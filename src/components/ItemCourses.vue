@@ -3,8 +3,13 @@
         <div class="courses_img">
             <img :src="content.img" alt="img">
         </div>
-        <div class="courses_name">
-            {{ content.name }}
+        <div class="courses_content">
+            <div class="courses_title">
+                {{ content.title }}
+            </div>
+            <div class="courses_text">
+                {{ content.text }}
+            </div>
         </div>
     </div>
 </template>
@@ -29,61 +34,47 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
-.courses_item {
-    max-width: desktop-vw(230);
-    width: 100%;
-    height: desktop-vw(230);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    border-radius: 3px;
-    overflow: hidden;
-    padding: desktop-vw(25);
-    cursor: pointer;
-}
-
-.courses_img {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    overflow: hidden;
-
-    &:before {
-        content: "";
-        background: linear-gradient(180deg, rgba(31, 174, 234, 0.2) 0%, rgba(36, 36, 36, 0.8) 100%);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 3;
+.courses {
+    &_item {
+        max-width: desktop-vw(370);
+        min-width: desktop-vw(370);
+        box-shadow: 0 0 5px 0 rgb(0 0 0 / 20%);
+        border-radius: 2px;
+        overflow: hidden;
+        cursor: pointer;
     }
 
-    img {
-        position: absolute;
-        object-fit: cover;
+    &_img {
         width: 100%;
-        height: 100%;
-        z-index: 2;
-    }
-}
+        height: desktop-vw(200);
+        position: relative;
+        overflow: hidden;
 
-.courses_name {
-    font-style: normal;
-    font-weight: 700;
-    font-size: desktop-vw(16);
-    line-height: 130%;
-    text-align: center;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    position: relative;
-    z-index: 4;
+        img {
+            position: absolute;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &_title {
+        font-size: desktop-vw(16);
+        font-weight: 500;
+        line-height: 130%;
+        margin-bottom: desktop-vw(20);
+        color: #1FAEEA;
+    }
+
+    &_text {
+        font-size: desktop-vw(14);
+        font-weight: 400;
+        line-height: 130%;
+    }
+
+    &_content {
+        padding: desktop-vw(20);
+    }
 }
 
 @media screen and (max-width: $tablet) {
@@ -91,17 +82,28 @@ export default {
 }
 @media screen and (max-width: $mobile) {
     .courses {
-
         &_item {
-            max-width: mobile-vw(230);
-            height: mobile-vw(230);
-            padding: mobile-vw(25);
+            max-width: mobile-vw(370);
+            min-width: 0;
+            width: 100%;
         }
 
-        &_name {
+        &_img {
+            height: mobile-vw(200);
+        }
+
+        &_title {
             font-size: mobile-vw(16);
+            margin-bottom: mobile-vw(20);
         }
 
+        &_text {
+            font-size: mobile-vw(14);
+        }
+
+        &_content {
+            padding: mobile-vw(20);
+        }
     }
 }
 

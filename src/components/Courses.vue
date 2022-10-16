@@ -7,7 +7,7 @@
                 </h2>
                 <carousel class="courses_carousel" :items-to-show="((width <= 767) ? 1 : 4)" snapAlign="start">
                     <slide v-for="(item, idx) in content.list" :key="idx">
-                        <ItemCourses :content="item" />
+                        <ItemCatCourses :content="item" />
                     </slide>
                     <template #addons>
                         <navigation />
@@ -23,7 +23,7 @@
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import Button from '@/components/UI/Controls/Button.vue'
-import ItemCourses from '@/components/ItemCourses.vue'
+import ItemCatCourses from '@/components/ItemCatCourses.vue'
 export default {
     props: ['content'],
     components: {
@@ -31,7 +31,7 @@ export default {
         Carousel,
         Slide,
         Navigation,
-        ItemCourses
+        ItemCatCourses
     },
     data() {
         return {
