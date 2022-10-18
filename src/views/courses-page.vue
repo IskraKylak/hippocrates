@@ -77,6 +77,7 @@ export default {
             current: 1,
             length: 6,
         },
+        nameCat: this.$route.params.Pid1,
         active: 1,
         pag1: [],
         pag2: [],
@@ -146,7 +147,11 @@ export default {
                 link: '/'
             },
             {
-                name: 'курсы'
+                name: 'курсы',
+                link: '/courses'
+            },
+            {
+                name: this.$route.params.Pid1
             }
         ],
     }
@@ -277,7 +282,7 @@ export default {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         width: 100%;
-        grid-gap: desktop-vw(30) desktop-vw(60);
+        grid-gap: desktop-vw(30) desktop-vw(30);
         justify-content: space-between;
     }
 }

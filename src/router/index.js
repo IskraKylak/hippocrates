@@ -51,10 +51,16 @@ const routes = [
     component: () => import('../views/how-to.vue')
   },
   {
-    path: '/courses-page',
-    name: 'courses-page',
+    path: '/courses/:Pid1',
+    name: 'coursesCatPage',
     meta: { layout: 'main' },
     component: () => import('../views/courses-page.vue')
+  },
+  {
+    path: '/courses/:Pid2',
+    name: 'courseSingle',
+    meta: { layout: 'main' },
+    component: () => import('../views/course-single.vue')
   },
   {
     path: '/:catchAll(.*)',

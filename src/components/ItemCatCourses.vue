@@ -1,5 +1,5 @@
 <template>
-    <div class="coursesCat_item"> 
+    <div class="coursesCat_item" @click="goToCoursesCat(content.name)"> 
         <div class="coursesCat_img">
             <img :src="content.img" alt="img">
         </div>
@@ -19,10 +19,10 @@ export default {
         }
     },
     methods: {
-        goToCourse(prodId) {
+        goToCoursesCat(prodId) {
             this.$router.push({
-                name: 'vebinarPage',
-                params: { Pid: prodId }
+                name: 'coursesCatPage',
+                params: { Pid1: prodId }
             })
         },
     }

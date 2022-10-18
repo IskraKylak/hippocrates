@@ -1,5 +1,5 @@
 <template>
-    <div class="courses_item"> 
+    <div class="courses_item" @click="goToCourse(content.title)"> 
         <div class="courses_img">
             <img :src="content.img" alt="img">
         </div>
@@ -26,8 +26,8 @@ export default {
     methods: {
         goToCourse(prodId) {
             this.$router.push({
-                name: 'vebinarPage',
-                params: { Pid: prodId }
+                name: 'courseSingle',
+                params: { Pid2: prodId }
             })
         },
     }
@@ -36,8 +36,8 @@ export default {
 <style lang="scss" scoped>
 .courses {
     &_item {
-        max-width: desktop-vw(370);
-        min-width: desktop-vw(370);
+        max-width: desktop-vw(360);
+        width: 100%;
         box-shadow: 0 0 5px 0 rgb(0 0 0 / 20%);
         border-radius: 2px;
         overflow: hidden;
