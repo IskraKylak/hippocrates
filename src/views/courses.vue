@@ -170,15 +170,15 @@ export default {
     width: 100%;
 }
 
-.coursesCat_item {
-    max-width: desktop-vw(177);
-    width: 100%;
-    height: desktop-vw(177);
-}
-
 .courses {
     padding-top: desktop-vw(150);
     padding-bottom: desktop-vw(70);
+
+    .coursesCat_item {
+        max-width: desktop-vw(177);
+        width: 100%;
+        height: desktop-vw(177);
+    }
 
     &_wrapCarusel {
         display: none;
@@ -281,15 +281,15 @@ export default {
         }
     }
 
-    .coursesCat_item {
-        max-width: mobile-vw(230);
-        width: 100%;
-        height: mobile-vw(230);
-    }
-
     .courses {
         padding-top: mobile-vw(35);
         padding-bottom: mobile-vw(60);
+
+        .coursesCat_item {
+            max-width: mobile-vw(230);
+            width: 100%;
+            height: mobile-vw(230);
+        }
 
         &_wrapCarusel {
             display: block;
