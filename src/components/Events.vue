@@ -7,7 +7,7 @@
                 </h2>
                 <carousel class="events_carousel" :items-to-show="((width <= 767) ? 1 : 2)" snapAlign="start">
                     <slide v-for="(item, idx) in content.list" :key="idx">
-                        <div class="events_item"> 
+                        <div class="events_item"  @click="goToVebinar(item.name)"> 
                             <div class="events_img">
                                 <img :src="item.img" alt="img">
                             </div>
@@ -61,6 +61,12 @@ export default {
         updateWidth() {
             this.width = window.innerWidth;
         },
+        goToVebinar(prodId) {
+            this.$router.push({
+                name: 'vebinarPage',
+                params: { Pid: prodId }
+            })
+        },
     },
     created() {
         this.width = window.innerWidth;
@@ -109,6 +115,12 @@ export default {
         width: 100%;
         display: flex;
         flex-direction: column;
+        cursor: pointer;
+        transition: all 0.5s ease;
+
+        &:hover {
+            box-shadow: 0px 2px 16px rgb(0 0 0 / 25%);
+        }
     }
 
     &_bottom {

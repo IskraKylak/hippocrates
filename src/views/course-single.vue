@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="courseSingle_row">
-                        <Button class="btn btn_btnFeedback">Авторизуйтесь</Button>
+                        <Button class="btn btn_btnFeedback" @click="openLog()">Авторизуйтесь</Button>
                     </div>
                 </div>
                 <div class="courseSingle_text mob">
@@ -137,6 +137,9 @@ export default {
   computed: {
   },
   methods: {
+    openLog() {
+        this.$router.push('/login')
+    }
   }
 }
 </script>

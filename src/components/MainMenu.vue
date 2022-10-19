@@ -11,8 +11,8 @@
                     </router-link>
                 </div>
                 <div class="mainMenu_accPanel">
-                    <Button :btnClass="'btnBorder'">Вхід</Button>
-                    <Button>Реєстрація</Button>
+                    <Button :btnClass="'btnBorder'" @click="openLogin()">Вхід</Button>
+                    <Button @click="openReg()">Реєстрація</Button>
                 </div>
             </div>
         </div>
@@ -54,6 +54,14 @@ export default {
                     link: '/contacts'
                 }
             ]
+        }
+    },
+    methods: {
+        openLogin() {
+            this.$router.push('/login')
+        },
+        openReg() {
+            this.$router.push('/register')
         }
     }
 }

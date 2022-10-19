@@ -56,6 +56,7 @@ export default {
     width: 100%;
     background: rgba(248, 248, 248, 0.85);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 
     &_wrapImage {
         height: desktop-vw(168);

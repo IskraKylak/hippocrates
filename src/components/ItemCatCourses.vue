@@ -43,6 +43,14 @@ export default {
     overflow: hidden;
     padding: desktop-vw(25);
     cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        img {
+            transition: all 0.5s ease;
+            transform: scale(1.2);
+        }
+    }
 }
 
 .coursesCat_img {
@@ -53,6 +61,7 @@ export default {
     left: 0;
     display: flex;
     overflow: hidden;
+    transition: all 0.5s ease;
 
     &:before {
         content: "";
@@ -66,11 +75,13 @@ export default {
     }
 
     img {
+        transition: all 0.5s ease;
         position: absolute;
         object-fit: cover;
         width: 100%;
         height: 100%;
         z-index: 2;
+        transform: scale(1);
     }
 }
 

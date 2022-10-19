@@ -21,7 +21,7 @@
             <p class="vebinarPage_textVideo">
                 {{ textVideo }}
             </p>
-            <Button :btnClass="'btnLink'"> Аторизуйтесь </Button>
+            <Button :btnClass="'btnLink'" @click="openLog()"> Аторизуйтесь </Button>
         </div>
         <div class="vebinarPage_spicers">
             <h2 class="vebinarPage_title">
@@ -138,6 +138,11 @@ export default {
                 name: 'Вебінари'
             }
         ] 
+    }
+  },
+  methods: {
+    openLog() {
+        this.$router.push('/login')
     }
   },
   mounted() {

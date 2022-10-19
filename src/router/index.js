@@ -57,6 +57,18 @@ const routes = [
     component: () => import('../views/courses-page.vue')
   },
   {
+    path: '/login',
+    name: 'login',
+    meta: { layout: 'main' },
+    component: () => import('../views/login.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    meta: { layout: 'main' },
+    component: () => import('../views/register.vue')
+  },
+  {
     path: '/courses/:Pid2',
     name: 'courseSingle',
     meta: { layout: 'main' },

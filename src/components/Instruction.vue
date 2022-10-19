@@ -24,7 +24,7 @@
                         <navigation />
                     </template>
                 </carousel>
-                <Button :btnClass="'btnLink'"> Особистий кабінет </Button>
+                <Button :btnClass="'btnLink'" @click="openLogin()"> Особистий кабінет </Button>
             </div>
         </div>
     </div>
@@ -50,6 +50,9 @@ export default {
     methods: {
         updateWidth() {
             this.width = window.innerWidth;
+        },
+        openLogin() {
+            this.$router.push('/login')
         },
     },
     created() {

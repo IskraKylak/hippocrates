@@ -13,7 +13,7 @@
                         <navigation />
                     </template>
                 </carousel>
-                <Button :btnClass="'btnLink'"> Переглянути усі </Button>
+                <Button :btnClass="'btnLink'" @click="openCourses()"> Переглянути усі </Button>
             </div>
         </div>
     </div>
@@ -42,6 +42,9 @@ export default {
         updateWidth() {
             this.width = window.innerWidth;
         },
+        openCourses() {
+            this.$router.push('/courses')
+        }
     },
     created() {
         this.width = window.innerWidth;

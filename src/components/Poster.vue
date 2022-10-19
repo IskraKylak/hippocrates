@@ -12,7 +12,7 @@
                 <h2 class="poster_subtitle">
                     {{ content.text }}
                 </h2>
-                <Button :btnClass="'btnPoster'">Зареєструватися</Button>
+                <Button :btnClass="'btnPoster'" @click="openReg()">Зареєструватися</Button>
             </div>
             <Feedback />
         </div>
@@ -32,6 +32,11 @@ export default {
     },
     data() {
         return {
+        }
+    },
+    methods: {
+        openReg() {
+            this.$router.push('/register')
         }
     }
 }
