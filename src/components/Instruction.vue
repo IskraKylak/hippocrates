@@ -8,7 +8,8 @@
                 <carousel class="events_carousel" :items-to-show="((width <= 767) ? 1 : 3)" snapAlign="start">
                     <slide v-for="(item, idx) in content.list" :key="idx">
                         <div class="instruction_item">
-                            <div class="instruction_video">
+                            <div class="instruction_video" v-if="item.video">
+                                <video :src="item.video" preload="auto" autoplay="false" controls="" loop=""></video>
                             </div>
                             <div class="instruction_item_bottom">
                                 <div class="instruction_item_name">
@@ -116,6 +117,12 @@ export default {
     &_video {
         height: desktop-vw(180);
         background: #C4C4C4;
+        position: relative;
+        
+        video {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     &_title {

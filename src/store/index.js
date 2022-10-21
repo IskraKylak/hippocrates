@@ -1,4 +1,6 @@
 import { createStore } from 'vuex'
+import home from './home'
+import specializations from './specializations'
 
 export default createStore({
   state: {
@@ -10,5 +12,7 @@ export default createStore({
   actions: {
   },
   modules: {
+    home,
+    specializations
   }
 })

@@ -1,7 +1,7 @@
 <template>
   <div class="poster">
     <div class="poster_bg">
-        <img src="@/assets/img/image-bg.png" alt="img">
+        <img :src="content.img" alt="img">
     </div>
     <div class="container">
         <div class="poster_content">
