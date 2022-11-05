@@ -1,29 +1,30 @@
 <template>
-    <div class="vebinarItem" @click="goToVebinar(content.title)">
+    <div class="vebinarItem" @click="goToVebinar()">
         <div class="vebinarItem_wrapImage">
-            <img :src="content.img" alt="img">
+            <img :src="content.image" alt="img">
         </div>
         <div class="vebinarItem_wrapCalendar">
             <div class="vebinarItem_calendar">
-                {{ content.date }}
+                {{ getDateStart }}.{{ getMonthStart }} - {{ getDateEnd }}.{{ getMonthEnd}}
             </div>
             <div class="vebinarItem_status" :class="(content.statusClass ? content.statusClass : '')">
-                {{ content.status }}
+                <!-- {{ content.status }} -->
             </div>
         </div>
         <div class="vebinarItem_content">
             <div class="vebinarItem_title">
-                {{ content.title }}
+                {{ content.name }}
             </div>
             <div class="vebinarItem_text">
-                {{ content.text }}
+                {{ content.description }}
             </div>
             <div class="vebinarItem_wrapTime">
                 <div class="vebinarItem_time">
-                    {{ content.time }}
+                    {{getHoursStart}}:{{ getMinutesStart}} - {{getHoursEnd}}:{{getMinutesEnd}}
                 </div>
                 <div class="vebinarItem_location">
-                    {{ content.location }}
+                    <!-- {{ content.location }} -->
+                    {{ content.place }}
                 </div>
             </div>
         </div>
@@ -32,7 +33,7 @@
 
 <script>
 // @ is an alias to /src
-
+import {mapActions, mapGetters} from 'vuex'
 export default {
     props: ['content', 'idx'],
     data() {
@@ -40,12 +41,58 @@ export default {
         }
     },
     methods: {
-        goToVebinar(prodId) {
+        ...mapActions([
+            'SET_VEBINARSINGLE',
+        ]),
+        goToVebinar() {
+            this.SET_VEBINARSINGLE(this.content)
             this.$router.push({
                 name: 'vebinarPage',
-                params: { Pid: prodId }
+                params: { Pid: this.content.id }
             })
         },
+    },
+    computed: {
+        getDateStart() {
+            return new Date(this.content.start_date).getDate()
+        },
+        getMonthStart() {
+            let month = new Date(this.content.start_date).getMonth() + 1
+            if(month < 10)
+                return '0' + month
+            else
+                return month
+        },
+        getDateEnd() {
+            return new Date(this.content.testing_end_date).getDate()
+        },
+        getMonthEnd() {
+            let month = new Date(this.content.testing_end_date).getMonth() + 1
+            if(month < 10)
+                return '0' + month
+            else
+                return month
+        },
+        getHoursStart() {
+            return new Date(this.content.start_date).getHours()
+        },
+        getMinutesStart() {
+            let minutes = new Date(this.content.start_date).getMinutes()
+            if(minutes < 10)
+                return '0' + minutes
+            else
+                return minutes
+        },
+        getHoursEnd() {
+            return new Date(this.content.end_date).getHours()
+        },
+        getMinutesEnd() {
+            let minutes = new Date(this.content.end_date).getMinutes()
+            if(minutes < 10)
+                return '0' + minutes
+            else
+                return minutes
+        }
     }
 }
 </script>

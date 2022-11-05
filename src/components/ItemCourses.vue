@@ -1,14 +1,14 @@
 <template>
-    <div class="courses_item" @click="goToCourse(content.title)"> 
+    <div class="courses_item" @click="goToCourse(content.id)"> 
         <div class="courses_img">
-            <img :src="content.img" alt="img">
+            <img :src="content.course_image" alt="img">
         </div>
         <div class="courses_content">
             <div class="courses_title">
-                {{ content.title }}
+                {{ content.name }}
             </div>
             <div class="courses_text">
-                {{ content.text }}
+                {{ content.description }}
             </div>
         </div>
     </div>

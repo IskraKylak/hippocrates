@@ -22,7 +22,7 @@ export default {
         goToCoursesCat(prodId) {
             this.$router.push({
                 name: 'coursesCatPage',
-                params: { Pid1: prodId }
+                params: { Pid1: this.content.id }
             })
         },
     }

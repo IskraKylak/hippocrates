@@ -9,8 +9,7 @@
                 {{ title }}
             </h2>
             <VebinarList :content="vebinars1" />
-            <VebinarList :content="vebinars2" />
-            <VebinarList :content="vebinars3" />
+            <Pagination v-if="pagination > 1" :content="pagination" :activePag="activePag" @openPage="openPage"/>
         </div>
     </div>
   </div>
@@ -20,15 +19,51 @@
 // @ is an alias to /src
 import Breadcrumbs from '@/components/Breadcrumbs'
 import VebinarList from '@/components/VebinarList'
+import Pagination from '@/components/Pagination'
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
   name: 'Vebinars',
   components: {
     Breadcrumbs,
-    VebinarList
+    VebinarList,
+    Pagination
+  },
+  methods: {
+    ...mapActions([
+        'GET_VEBINAR_FROM_API',
+        'GET_VEBINAR_FROM_API_PAGE'
+    ]),
+    openPage(idx) {
+        this.activePag = idx
+        this.vebinars1.list = []
+        this.GET_VEBINAR_FROM_API_PAGE(idx).then((response) => {
+            // console.log(response)
+            if(response) {
+                this.countItem = response.count
+                for(let i = 0; i < response.results.length; i++) {
+                    this.vebinars1.list.push( response.results[i])
+                }
+            }
+        })
+    }
+  },
+  mounted() {
+    this.GET_VEBINAR_FROM_API().then((response) => {
+      // console.log(response)
+      if(response) {
+        this.countItem = response.count
+        for(let i = 0; i < response.results.length; i++) {
+            this.vebinars1.list.push( response.results[i])
+        }
+      }
+    })
   },
   data() {
     return {
         title: 'Вебінари',
+        countItem: 0,
+        activePag: 1,
         breadcrumbs: [
             {
                 name: 'Головна',
@@ -41,108 +76,47 @@ export default {
         vebinars1: {
             title: 'Обрані вебінари',
             list: [
-                {
-                    img: require('../assets/img/imageEvents.png'),
-                    date: '9.07 - 10.07',
-                    statusClass: 'elect',
-                    status: 'Обраний',
-                    title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                    text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                    time: '17:00 - 19:00',
-                    location: 'Київ - Черкаси - Житомир'
-                },
-                {
-                    img: require('../assets/img/imageEvents.png'),
-                    date: '9.07 - 10.07',
-                    statusClass: 'elect',
-                    status: 'Обраний',
-                    title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                    text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                    time: '17:00 - 19:00',
-                    location: 'Київ - Черкаси - Житомир'
-                },
-                {
-                    img: require('../assets/img/imageEvents.png'),
-                    date: '9.07 - 10.07',
-                    statusClass: 'elect',
-                    status: 'Обраний',
-                    title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                    text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                    time: '17:00 - 19:00',
-                    location: 'Київ - Черкаси - Житомир'
-                }
+                // {
+                //     img: require('../assets/img/imageEvents.png'),
+                //     date: '9.07 - 10.07',
+                //     statusClass: 'elect',
+                //     status: 'Обраний',
+                //     title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
+                //     text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
+                //     time: '17:00 - 19:00',
+                //     location: 'Київ - Черкаси - Житомир'
+                // },
+                // {
+                //     img: require('../assets/img/imageEvents.png'),
+                //     date: '9.07 - 10.07',
+                //     statusClass: 'elect',
+                //     status: 'Обраний',
+                //     title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
+                //     text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
+                //     time: '17:00 - 19:00',
+                //     location: 'Київ - Черкаси - Житомир'
+                // },
+                // {
+                //     img: require('../assets/img/imageEvents.png'),
+                //     date: '9.07 - 10.07',
+                //     statusClass: 'elect',
+                //     status: 'Обраний',
+                //     title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
+                //     text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
+                //     time: '17:00 - 19:00',
+                //     location: 'Київ - Черкаси - Житомир'
+                // }
             ]
         },
-        vebinars2: {
-            title: 'Майбутні вебінари',
-            list: [
-                {
-                    img: require('../assets/img/imageEvents.png'),
-                    date: '9.07 - 10.07',
-                    statusClass: 'expected',
-                    status: 'Очікується',
-                    title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                    text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                    time: '17:00 - 19:00',
-                    location: 'Київ - Черкаси - Житомир'
-                },
-                {
-                    img: require('../assets/img/imageEvents.png'),
-                    date: '9.07 - 10.07',
-                    statusClass: 'expected',
-                    status: 'Очікується',
-                    title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                    text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                    time: '17:00 - 19:00',
-                    location: 'Київ - Черкаси - Житомир'
-                },
-                {
-                    img: require('../assets/img/imageEvents.png'),
-                    date: '9.07 - 10.07',
-                    statusClass: 'expected',
-                    status: 'Очікується',
-                    title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                    text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                    time: '17:00 - 19:00',
-                    location: 'Київ - Черкаси - Житомир'
-                }
-            ]
-        },
-        vebinars3: {
-            title: 'Минулі вебінари',
-            list: [
-                {
-                    img: require('../assets/img/imageEvents.png'),
-                    date: '9.07 - 10.07',
-                    statusClass: 'completed',
-                    status: 'завершено',
-                    title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                    text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                    time: '17:00 - 19:00',
-                    location: 'Київ - Черкаси - Житомир'
-                },
-                {
-                    img: require('../assets/img/imageEvents.png'),
-                    date: '9.07 - 10.07',
-                    statusClass: 'completed',
-                    status: 'завершено',
-                    title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                    text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                    time: '17:00 - 19:00',
-                    location: 'Київ - Черкаси - Житомир'
-                },
-                {
-                    img: require('../assets/img/imageEvents.png'),
-                    date: '9.07 - 10.07',
-                    statusClass: 'completed',
-                    status: 'завершено',
-                    title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                    text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                    time: '17:00 - 19:00',
-                    location: 'Київ - Черкаси - Житомир'
-                }
-            ]
-        }  
+    }
+  },
+  computed: {
+    pagination() {
+        let pag = 0
+        for( let i = 0; i < this.countItem; i+=6) {
+            pag+=1
+        }
+        return pag
     }
   }
 }

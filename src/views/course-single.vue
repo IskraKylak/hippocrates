@@ -5,12 +5,12 @@
     </div>
     <div class="container">
         <h2 class="courseSingle_title">
-            {{ title }}
+            {{ coursesContent.name }}
         </h2>
         <div class="courseSingle_content">
             <div class="courseSingle_left">
-                <div class="courseSingle_wrapImg mob">
-                    <img :src="coursesContent.img" alt="img">
+                <div class="courseSingle_wrapImg mob" v-if="coursesContent.course_image">
+                    <img :src="coursesContent.course_image" alt="img">
                 </div>
                 <div class="courseSingle_table">
                     <div class="courseSingle_row bg">
@@ -22,8 +22,8 @@
                         <div class="courseSingle_user">
                             {{ table.user }}
                         </div>
-                        <div class="courseSingle_value user">
-                            {{ courseInfo.work }}
+                        <div class="courseSingle_value user" v-for="(item, idx) in specializationCourse" :key="idx">
+                            {{ item }}
                         </div>
                     </div>
                     <div class="courseSingle_row">
@@ -39,7 +39,7 @@
                             {{ table.availableIn }}
                         </div>
                         <div class="courseSingle_value">
-                            {{ courseInfo.dataStart }}
+                            {{ getDateStart }}.{{ getMonthStart }}.{{ getFullYearStart }}
                         </div>
                     </div>
                     <div class="courseSingle_row">
@@ -47,7 +47,7 @@
                             {{ table.availableUpTo }}
                         </div>
                         <div class="courseSingle_value">
-                            {{ courseInfo.dataEnd }}
+                            {{ getDateEnd }}.{{ getMonthEnd }}.{{ getFullYearEnd }}
                         </div>
                     </div>
                     <div class="courseSingle_row">
@@ -68,7 +68,7 @@
             </div>
             <div class="courseSingle_right">
                 <div class="courseSingle_wrapImg">
-                    <img :src="coursesContent.img" alt="img">
+                    <img :src="coursesContent.course_image" alt="img">
                 </div>
                 <div class="courseSingle_text">
                     {{ coursesContent.text }}
@@ -85,6 +85,8 @@
 import Breadcrumbs from '@/components/Breadcrumbs'
 import ItemCourses from '@/components/ItemCourses'
 import Button from '@/components/UI/Controls/Button.vue'
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
   name: 'Vebinars',
   components: {
@@ -94,10 +96,9 @@ export default {
   },
   data() {
     return {
-        coursesContent: {
-            img: require('../assets/img/hpv.jpg'),
-            text: 'Найпоширенішим вірусом, що вражає статеву сферу, є ВПЛ – вірус папіломи людини. Віруси цього сімейства вражають шкіру та слизові оболонки інфікованого, викликаючи появу на них бородавок, папілом, кондилом, дисплазію і рак шийки матки. Щоб уникнути виникнення захворювання, важливо знати, як передається ВПЛ, щоб звести до мінімуму можливість прояву патології. Персистенция папіломавірусної інфекції у жінок репродуктивного віку позначається на здатності до зачаття, виношування вагітності та народження здорової дитини. ВПЛ у поєднанні з гіперестрогенемією може ініціювати розвиток раку шийки матки. Існує значний ризик зараження ВПЛ плода, що призводить до негативних наслідків. Проведення вакцинопрофілактики, прегравідарної підготовки жінки, обстеження на наявність ВПЛ, лікування даного захворювання, правильне ведення вагітності та пологів допомагають в кілька разів знизити поширення папіломавірусної інфекції.'
-        },
+        coursesContent: {},
+        specialization: '',
+        allSpecialization: [],
         courseInfo: {
             work: 'Акушер-гінеколог',
             cer: '0 бал',
@@ -116,30 +117,120 @@ export default {
         author: {
             name: 'Автор курсу',
             img: require('../assets/img/courses.jpg'),
-        },
-        breadcrumbs: [
-            {
-                name: 'Головна',
-                link: '/'
-            },
-            {
-                name: 'курсы',
-                link: '/courses'
-            },
-            {
-                name: this.$route.params.Pid2
-            }
-        ],
+        }
     }
   },
   created () {
   },
   computed: {
+    breadcrumbs() {
+        let breadcrumbs = [
+            {
+                name: 'Головна',
+                link: '/'
+            },
+            {
+                name: 'Курсы',
+                link: '/courses'
+            },
+        ]
+        if(this.specialization != '')
+            breadcrumbs.push({name: this.specialization.name, link:`/courses/${this.specialization.id}`}) 
+        if(this.coursesContent.name != '')
+            breadcrumbs.push({name: this.coursesContent.name})
+        return breadcrumbs;
+    },
+    getDateStart() {
+        return new Date(this.coursesContent.start_date).getDate()
+    },
+    getMonthStart() {
+        let month = new Date(this.coursesContent.start_date).getMonth() + 1
+        if(month < 10)
+            return '0' + month
+        else
+            return month
+    },
+    getFullYearStart() {
+        let year = new Date(this.coursesContent.start_date).getFullYear() + 1
+        return year
+    },
+    getDateEnd() {
+        return new Date(this.coursesContent.end_date).getDate()
+    },
+    getMonthEnd() {
+        let month = new Date(this.coursesContent.end_date).getMonth() + 1
+        if(month < 10)
+            return '0' + month
+        else
+            return month
+    },
+    getFullYearEnd() {
+        let year = new Date(this.coursesContent.end_date).getFullYear() + 1
+        return year
+    },
+    getHoursStart() {
+        return new Date(this.coursesContent.start_date).getHours()
+    },
+    getMinutesStart() {
+        let minutes = new Date(this.coursesContent.start_date).getMinutes()
+        if(minutes < 10)
+            return '0' + minutes
+        else
+            return minutes
+    },
+    getHoursEnd() {
+        return new Date(this.coursesContent.end_date).getHours()
+    },
+    getMinutesEnd() {
+        let minutes = new Date(this.coursesContent.end_date).getMinutes()
+        if(minutes < 10)
+            return '0' + minutes
+        else
+            return minutes
+    },
+    specializationCourse () {
+        let tmpSpecialization = []
+        if(this.coursesContent.specializations){
+            for( let i = 0; i < this.coursesContent.specializations.length; i++) {
+                if(this.allSpecialization) {
+                    for( let n = 0; n < this.allSpecialization.length; n++) {
+                        if(this.coursesContent.specializations[i] == this.allSpecialization[n].id)
+                            tmpSpecialization.push(this.allSpecialization[n].name)
+   
+                    }
+                }
+                
+            }
+        }
+        return tmpSpecialization
+    }
   },
   methods: {
     openLog() {
         this.$router.push('/login')
-    }
+    },
+    ...mapActions([
+        'GET_COURSESITEM_FROM_API',
+        'GET_SPECIALIZATIONS_ITEM_FROM_API',
+        'GET_SPECIALIZATIONS_FROM_API'
+    ]),
+  },
+  mounted() {
+    this.GET_COURSESITEM_FROM_API(this.$route.params.Pid2).then((response) => {
+      if(response) {
+        this.coursesContent = response
+      }
+    })
+    this.GET_SPECIALIZATIONS_ITEM_FROM_API(this.$route.params.Pid1).then((response) => {
+      if(response) {
+        this.specialization = response
+      }
+    })
+    this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+      if(response) {
+        this.allSpecialization = response
+      }
+    })
   }
 }
 </script>

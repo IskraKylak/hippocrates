@@ -118,9 +118,9 @@ export default {
         cursor: pointer;
         transition: all 0.5s ease;
 
-        &:hover {
-            box-shadow: 0px 2px 16px rgb(0 0 0 / 25%);
-        }
+        // &:hover {
+        //     box-shadow: 0px 2px 16px rgb(0 0 0 / 25%);
+        // }
     }
 
     &_bottom {

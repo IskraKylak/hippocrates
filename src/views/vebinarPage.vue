@@ -3,14 +3,14 @@
         <Breadcrumbs :content="breadcrumbs" /> 
         <div class="vebinarPage_content">
             <h2 class="vebinarPage_title">
-                {{ title }}
+                {{ vebinar.name }}
             </h2>
         </div>
         <div class="vebinarPage_wrapVideo">
             <div id="stream-container">
                 <!-- stream -->
                 <div id="stream-embed-wrapper">
-                    <iframe id="stream-embed-iframe" height="100%" width="100%" src="https://www.youtube.com/embed/dAv0Tyxu8-M" frameborder="0" allowfullscreen></iframe>
+                    <iframe id="stream-embed-iframe" height="100%" width="100%" :src="'https://www.youtube.com/embed/'+this.vebinar.youtube_id" frameborder="0" allowfullscreen></iframe>
                 </div>
                 
                 <!-- chat -->
@@ -27,8 +27,8 @@
             <h2 class="vebinarPage_title">
                 {{ titleSpikers }}
             </h2>
-            <div class="vebinarPage_content">
-                <p style='font-size:20px; color: #383838; font-weight: 700;'>Селюк Мар'яна Миколаївна</p>
+            <div class="vebinarPage_content" v-html="vebinar.text"></div>
+                <!-- <p style='font-size:20px; color: #383838; font-weight: 700;'>Селюк Мар'яна Миколаївна</p>
                 <p>кандидат медичних наук, професор кафедри терапії УВМА</p> 
                 <p style='text-transform: uppercase; color: #1FAEEA; font-weight: 700;'>
                     «Силіконові гелі в профілактиці і лікуванні рубців. Практичне застосування в сімейній медицині»
@@ -46,8 +46,8 @@
                 <p>доктор медичних наук, професор, завідувач кафедри фтизіатрії, пульмонології та сімейної медицини ХМАПО</p> 
                 <p style='text-transform: uppercase; color: #1FAEEA; font-weight: 700;'>
                     «Раціональний вибір терапевта для симптоматичної терапії захворювань верхніх дихальних шляхів»
-                </p>
-            </div>
+                </p> -->
+            
         </div>
     </div>
     <div class="vebinarPage_surpriseWrap">
@@ -99,6 +99,7 @@
 import Button from '@/components/UI/Controls/Button.vue'
 // @ is an alias to /src
 import Breadcrumbs from '@/components/Breadcrumbs'
+import {mapActions, mapGetters} from 'vuex'
 export default {
   name: 'Vebinars',
   components: {
@@ -108,6 +109,7 @@ export default {
   data() {
     return {
         title: this.$route.params.Pid,
+        vebinar: {},
         textVideo: 'Шановлі лікарі! Щоб мати змогу подивитися вебінар, ви маєте аторизуватися або зареєструватися на даному сайті',
         titleSpikers: 'Спікери',
         textSpikers: "",
@@ -129,56 +131,89 @@ export default {
                 text: 'Повідомлення про перемогу прийде на пошту лікарю, та додатково буде опубліковано список переможців в соціальній мережі ФБ, на сторінці <a href="#" style="font-weight: 700; color: #1FAEEA; text-decoration: none;"  >https://www.facebook.com/hippocrates.org.ua</a>'
             }
         },
-        breadcrumbs: [
-            {
-                name: 'Головна',
-                link: '/'
-            },
-            {
-                name: 'Вебінари'
-            }
-        ] 
+        // breadcrumbs: [
+        //     {
+        //         name: 'Головна',
+        //         link: '/'
+        //     },
+        //     {
+        //         name: 'Вебінари'
+        //     }
+        // ] 
     }
   },
   methods: {
     openLog() {
         this.$router.push('/login')
+    },
+    ...mapActions([
+        'GET_VEBINARSINGLE_FROM_API',
+    ]),
+  },
+  computed: {
+    ...mapGetters([
+      'VEBINARSINGLE',
+    ]),
+    breadcrumbs() {
+        let breadcrumbs = [
+            {
+                name: 'Головна',
+                link: '/'
+            },
+            {
+                name: 'Вебінари',
+                link: '/vebinars'
+            }
+        ] 
+        if(this.vebinar.name)
+            breadcrumbs.push({name: this.vebinar.name})
+        return breadcrumbs;
     }
   },
   mounted() {
-    const VIDEO_ID = "dAv0Tyxu8-M"; // for live chat
-    /*
-    code from:
-    https://stackoverflow.com/questions/52468303/how-to-embed-youtube-livestream-chat
-    */
-    let chat_embed_wrapper = document.getElementById("chat-embed-wrapper");  
-    let chat_embed_iframe = document.createElement("iframe");  
-    chat_embed_iframe.referrerPolicy = "origin";  
-    chat_embed_iframe.src = `https://www.youtube.com/live_chat?v=${VIDEO_ID}&embed_domain=${window.location.hostname}&dark_theme=1`;  
-    chat_embed_iframe.frameBorder = "0";  
-    chat_embed_iframe.id = "chat-embed-iframe";  
-    chat_embed_iframe.style.height = "100%";
-    chat_embed_iframe.style.width = "100%";
-    chat_embed_wrapper.appendChild(chat_embed_iframe);
+    this.GET_VEBINARSINGLE_FROM_API(this.$route.params.Pid).then((response) => {
+      if(response) {
+        console.log('this.vebinar')
+        this.vebinar = response
 
-    let change_stream_embed_iframe_size = function(){
-    let stream_container = document.getElementById("stream-container");
-    let stream_embed_wrapper = document.getElementById("stream-embed-wrapper");
-    let stream_embed_iframe = document.getElementById("stream-embed-iframe");
+        const VIDEO_ID = "dAv0Tyxu8-M"; // for live chat
+        if(this.vebinar)
+            VIDEO_ID = this.vebinar.youtube_id
+        
+        /*
+        code from:
+        https://stackoverflow.com/questions/52468303/how-to-embed-youtube-livestream-chat
+        */
+        let chat_embed_wrapper = document.getElementById("chat-embed-wrapper");  
+        let chat_embed_iframe = document.createElement("iframe");  
+        chat_embed_iframe.referrerPolicy = "origin";  
+        chat_embed_iframe.src = `https://www.youtube.com/live_chat?v=${VIDEO_ID}&embed_domain=${window.location.hostname}&dark_theme=1`;  
+        chat_embed_iframe.frameBorder = "0";  
+        chat_embed_iframe.id = "chat-embed-iframe";  
+        chat_embed_iframe.style.height = "100%";
+        chat_embed_iframe.style.width = "100%";
+        chat_embed_wrapper.appendChild(chat_embed_iframe);
 
-        if(typeof window.orientation !== 'undefined'){ //on phone
-            chat_embed_wrapper.style.display = 'none';
-            stream_embed_iframe.width = stream_container.clientWidth;
-        }else{ // on pc (desktop browsers == 'undefined')
-            stream_embed_iframe.width = stream_embed_wrapper.clientWidth;
-        }
-    };
-    change_stream_embed_iframe_size();
+        let change_stream_embed_iframe_size = function(){
+        let stream_container = document.getElementById("stream-container");
+        let stream_embed_wrapper = document.getElementById("stream-embed-wrapper");
+        let stream_embed_iframe = document.getElementById("stream-embed-iframe");
 
-    window.onresize = function(event) {
-        //console.log("[window.onresize]");
+            if(typeof window.orientation !== 'undefined'){ //on phone
+                chat_embed_wrapper.style.display = 'none';
+                stream_embed_iframe.width = stream_container.clientWidth;
+            }else{ // on pc (desktop browsers == 'undefined')
+                stream_embed_iframe.width = stream_embed_wrapper.clientWidth;
+            }
+        };
         change_stream_embed_iframe_size();
-    };
+
+        window.onresize = function(event) {
+            //console.log("[window.onresize]");
+            change_stream_embed_iframe_size();
+        };
+      }
+    })
   }
 }
 </script>

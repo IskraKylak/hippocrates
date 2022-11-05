@@ -1,6 +1,12 @@
 import { createStore } from 'vuex'
 import home from './home'
 import specializations from './specializations'
+import events from './events'
+import vebinar from './vebinar'
+import vebinarSingle from './vebinarSingle'
+import courses from './courses'
+import coursesItem from './coursesItem'
+
 
 export default createStore({
   state: {
@@ -13,6 +19,11 @@ export default createStore({
   },
   modules: {
     home,
-    specializations
+    specializations,
+    events,
+    vebinar,
+    vebinarSingle,
+    courses,
+    coursesItem
   }
 })

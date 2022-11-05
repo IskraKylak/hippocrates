@@ -11,6 +11,7 @@
 // @ is an alias to /src
 import Breadcrumbs from '@/components/Breadcrumbs'
 import CalendarEvent from '@/components/CalendarEvent'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'Calendar',
@@ -60,7 +61,19 @@ export default {
             ]
         }
     }
-  }
+  },
+  methods: {
+    ...mapActions([
+        'GET_EVENT_FROM_API'
+    ]),
+  },
+  mounted() {
+    this.GET_EVENT_FROM_API().then((response) => {
+      if(response) {
+        this.calendarEvent.list = response.results
+      }
+    })
+  },
 }
 </script>
 <style lang="scss" scoped>

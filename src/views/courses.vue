@@ -16,10 +16,10 @@
                     <Button :btnClass="'btnLink'">Показати</Button>
                 </slide-up-down>
             </div>
-            <div class="courses_list">
+            <div class="courses_list" v-if="courses.list.length !== 0">
                 <ItemCatCourses v-for="(item, idx) in courses.list" :key="idx" :content="item" />
             </div>
-            <div class="courses_wrapCarusel">
+            <div class="courses_wrapCarusel" v-if="courses.list.length !== 0">
                 <carousel class="courses_carousel" :items-to-show="1" snapAlign="start">
                     <slide v-for="(item, idx) in courses.list" :key="idx">
                         <ItemCatCourses :content="item" />
@@ -43,6 +43,8 @@ import ItemCatCourses from '@/components/ItemCatCourses.vue'
 import SlideUpDown from 'vue3-slide-up-down'
 import Button from '@/components/UI/Controls/Button.vue'
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
   name: 'Vebinars',
   components: {
@@ -55,46 +57,30 @@ export default {
     Slide,
     Navigation
   },
+    methods: {
+    ...mapActions([
+        'GET_HOME_FROM_API',
+        'GET_SPECIALIZATIONS_FROM_API',
+        'GET_EVENT_FROM_API'
+    ]),
+  },
+  mounted() {
+    this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+      if(response) {
+        for(let i = 0; i < response.length; i++) {
+          this.courses.list.push(response[i])
+          this.courses.list[i].img = response[i].photo
+        }
+      }
+    })
+  },
   data() {
     return {
         activeFilter: true,
         title: 'Курси',
         filterTitle: 'Курси по спеціальностям',
         courses: {
-            list: [
-                {
-                    img: require('../assets/img/courses/1.png'),
-                    name: 'хірургія'
-                },
-                {
-                    img: require('../assets/img/courses/2.png'),
-                    name: 'сімейна медицина'
-                },
-                {
-                    img: require('../assets/img/courses/3.png'),
-                    name: 'кардіологія'
-                },
-                {
-                    img: require('../assets/img/courses/4.png'),
-                    name: 'неврологія'
-                },
-                {
-                    img: require('../assets/img/courses/1.png'),
-                    name: 'хірургія'
-                },
-                {
-                    img: require('../assets/img/courses/2.png'),
-                    name: 'сімейна медицина'
-                },
-                {
-                    img: require('../assets/img/courses/3.png'),
-                    name: 'кардіологія'
-                },
-                {
-                    img: require('../assets/img/courses/4.png'),
-                    name: 'неврологія'
-                }
-            ]
+            list: []
         },
         CheckBox: [
             'Акушер-гінеколог',

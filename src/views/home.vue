@@ -3,7 +3,7 @@
     <Poster :content="poster" /> 
     <Instruction :content="instruction" />
     <Events :content="events" />
-    <Courses :content="courses" />
+    <Courses v-if="courses.list.length !== 0" :content="courses" />
     <CalendarEvent :content="calendarEvent" />
     <Portfolio :content="portfolio" />
   </div>
@@ -30,10 +30,12 @@ export default {
     CalendarEvent,
     Portfolio
   },
-  computed: {
-      ...mapGetters([
-          'HOME',
-      ]),
+  methods: {
+    ...mapActions([
+        'GET_HOME_FROM_API',
+        'GET_SPECIALIZATIONS_FROM_API',
+        'GET_EVENT_FROM_API'
+    ]),
   },
   mounted() {
     this.GET_HOME_FROM_API().then((response) => {
@@ -54,16 +56,15 @@ export default {
       if(response) {
         for(let i = 0; i < response.length; i++) {
           this.courses.list.push(response[i])
-          this.courses.list[i].img = require('../assets/img/courses/1.png')
+          this.courses.list[i].img = response[i].photo
         }
       }
     })
-  },
-  methods: {
-    ...mapActions([
-        'GET_HOME_FROM_API',
-        'GET_SPECIALIZATIONS_FROM_API'
-    ]),
+    this.GET_EVENT_FROM_API().then((response) => {
+      if(response) {
+        this.calendarEvent.list = response.results
+      }
+    })
   },
   data() {
     return {
@@ -81,30 +82,30 @@ export default {
         title: '',
         subtitle: 'Найближчі події',
         list: [
-          {
-            img: require('../assets/img/calendarImg.png'),
-            data: '9.07 - 10.07',
-            time: '17:00 - 19:00',
-            location: 'Київ - Черкаси - Житомир',
-            name: 'Кардіо-Метаболічна Академія, частина четверта.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
-          },
-          {
-            img: require('../assets/img/calendarImg.png'),
-            data: '9.07 - 10.07',
-            time: '17:00 - 19:00',
-            location: 'Київ - Черкаси - Житомир',
-            name: 'Кардіо-Метаболічна Академія, частина четверта.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
-          },
-          {
-            img: require('../assets/img/calendarImg.png'),
-            data: '9.07 - 10.07',
-            time: '17:00 - 19:00',
-            location: 'Київ - Черкаси - Житомир',
-            name: 'Кардіо-Метаболічна Академія, частина четверта.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
-          }
+          // {
+          //   img: require('../assets/img/calendarImg.png'),
+          //   data: '9.07 - 10.07',
+          //   time: '17:00 - 19:00',
+          //   location: 'Київ - Черкаси - Житомир',
+          //   name: 'Кардіо-Метаболічна Академія, частина четверта.',
+          //   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
+          // },
+          // {
+          //   img: require('../assets/img/calendarImg.png'),
+          //   data: '9.07 - 10.07',
+          //   time: '17:00 - 19:00',
+          //   location: 'Київ - Черкаси - Житомир',
+          //   name: 'Кардіо-Метаболічна Академія, частина четверта.',
+          //   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
+          // },
+          // {
+          //   img: require('../assets/img/calendarImg.png'),
+          //   data: '9.07 - 10.07',
+          //   time: '17:00 - 19:00',
+          //   location: 'Київ - Черкаси - Житомир',
+          //   name: 'Кардіо-Метаболічна Академія, частина четверта.',
+          //   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
+          // }
         ]
       },
       courses: {

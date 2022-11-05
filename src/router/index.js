@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import NotFound from '@/views/404.vue'
 
 const routes = [
@@ -69,7 +69,7 @@ const routes = [
     component: () => import('../views/register.vue')
   },
   {
-    path: '/courses/:Pid2',
+    path: '/courses/:Pid1/:Pid2',
     name: 'courseSingle',
     meta: { layout: 'main' },
     component: () => import('../views/course-single.vue')
@@ -82,7 +82,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 })
 

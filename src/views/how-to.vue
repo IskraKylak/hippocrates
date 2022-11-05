@@ -1,18 +1,9 @@
 <template>
   <div class="home">
     <Poster :content="poster" /> 
-    <div class="container">
-        <div class="howTo">
-            <h2 class="howTo_title">
-                ЯК КОРИСТУВАТИСЯ ПЛАТФОРМОЮ ГІППОКРАТ
-            </h2>
-            <div class="howTo_video">
-                <video src="@/assets/howtogetcertificate.mp4" preload="auto" autoplay="" controls="" loop=""></video>
-            </div>
-        </div>
-    </div>
+    <Instruction :content="instruction" />
     <Events :content="events" />
-    <Courses :content="courses" />
+    <Courses v-if="courses.list.length !== 0" :content="courses" />
     <CalendarEvent :content="calendarEvent" />
   </div>
 </template>
@@ -23,6 +14,8 @@ import Poster from '@/components/Poster'
 import Events from '@/components/Events'
 import Courses from '@/components/Courses'
 import CalendarEvent from '@/components/CalendarEvent'
+import Instruction from '@/components/Instruction'
+import {mapActions, mapGetters} from 'vuex'
 export default {
   name: 'Home',
   components: {
@@ -30,9 +23,57 @@ export default {
     Events,
     Courses,
     CalendarEvent,
+    Instruction
+  },
+  methods: {
+    ...mapActions([
+        'GET_HOME_FROM_API',
+        'GET_SPECIALIZATIONS_FROM_API',
+        'GET_EVENT_FROM_API'
+    ]),
+  },
+  mounted() {
+    this.GET_HOME_FROM_API().then((response) => {
+      // console.log(response)
+      if(response) {
+        this.poster.img = response.banner
+        this.poster.text = response.banner_text
+        this.poster.title = 'Hippocrates'
+        this.instruction.title = response.text_over_video
+        this.instruction.list[0].video = response.help_video
+        this.instruction.list[0].text = ''
+        this.instruction.list[0].title = response.text_under_video
+        this.events.title = response.events_block_title
+        this.calendarEvent.title = response.calendar_block_title
+      }
+    })
+    this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+      if(response) {
+        for(let i = 0; i < response.length; i++) {
+          this.courses.list.push(response[i])
+          this.courses.list[i].img = response[i].photo
+        }
+      }
+    })
+    this.GET_EVENT_FROM_API().then((response) => {
+      if(response) {
+        this.calendarEvent.list = response.results
+      }
+    })
   },
   data() {
     return {
+      instruction: {
+        title: 'як користуватися платформою гіппократ',
+        btn: 'Особистий кабінет',
+        list: [
+          {
+            video: '',
+            title: 'підвищуйте свою професійну кваліфікацію',
+            text: ''
+          }
+        ]
+      },
       poster: {
         text: 'БЕЗПЕРЕРВНА МЕДИЧНА ОСВІТА ЛІКАРІВ І ФАРМАЦЕВТІВ'
       },
@@ -75,38 +116,38 @@ export default {
         title: 'Основні курси',
         btn: 'Переглянути усі',
         list: [
-          {
-            img: require('../assets/img/courses/1.png'),
-            name: 'хірургія'
-          },
-          {
-            img: require('../assets/img/courses/2.png'),
-            name: 'сімейна медицина'
-          },
-          {
-            img: require('../assets/img/courses/3.png'),
-            name: 'кардіологія'
-          },
-          {
-            img: require('../assets/img/courses/4.png'),
-            name: 'неврологія'
-          },
-          {
-            img: require('../assets/img/courses/1.png'),
-            name: 'хірургія'
-          },
-          {
-            img: require('../assets/img/courses/2.png'),
-            name: 'сімейна медицина'
-          },
-          {
-            img: require('../assets/img/courses/3.png'),
-            name: 'кардіологія'
-          },
-          {
-            img: require('../assets/img/courses/4.png'),
-            name: 'неврологія'
-          }
+          // {
+          //   img: require('../assets/img/courses/1.png'),
+          //   name: 'хірургія'
+          // },
+          // {
+          //   img: require('../assets/img/courses/2.png'),
+          //   name: 'сімейна медицина'
+          // },
+          // {
+          //   img: require('../assets/img/courses/3.png'),
+          //   name: 'кардіологія'
+          // },
+          // {
+          //   img: require('../assets/img/courses/4.png'),
+          //   name: 'неврологія'
+          // },
+          // {
+          //   img: require('../assets/img/courses/1.png'),
+          //   name: 'хірургія'
+          // },
+          // {
+          //   img: require('../assets/img/courses/2.png'),
+          //   name: 'сімейна медицина'
+          // },
+          // {
+          //   img: require('../assets/img/courses/3.png'),
+          //   name: 'кардіологія'
+          // },
+          // {
+          //   img: require('../assets/img/courses/4.png'),
+          //   name: 'неврологія'
+          // }
         ]
       },
       events: {
@@ -135,28 +176,6 @@ export default {
             time: '16:00'
           }
         ]
-      },
-      instruction: {
-        title: 'як користуватися платформою гіппократ',
-        btn: 'Особистий кабінет',
-        list: [
-          {
-            video: '',
-            title: 'підвищуйте свою професійну кваліфікацію',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque.'
-          },
-          {
-            video: '',
-            title: 'як зареєструватися на обраний курс?',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris.'
-          },
-          {
-            video: '',
-            title: 'освітнє портфоліо - що це?',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris.'
-          }
-        ]
-        
       }
     }
   }

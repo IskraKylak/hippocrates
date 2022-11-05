@@ -30,14 +30,15 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
 const DATE = new Date()
 const DAYS = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
 const MONTHS = ['Cічень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень']
 const daysInYearMonth = (y, m) => new Date(y, m, 0).getDate()
 export default {
+  props: ['content'],
   data () {
     return {
+      title: '',
       eventTrue: [],
       month: 0,
       year: 0,
@@ -53,15 +54,17 @@ export default {
   },
   methods: {
     dayTrue (day, month, year) {
-      let calendarStr = day + "." + month + "." + year
-      for (let index = 0; index < this.eventTrue.length; ++index) {
-        let date = new Date(this.eventTrue[index].start_date)
-        let dataItem = date.getDate() + "." + date.getMonth() + "." + date.getFullYear()
-        // console.log('dataItem ' + dataItem)
-        if(dataItem == calendarStr) {
-            return true
+      if(this.content) {
+        let calendarStr = day + "." + month + "." + year
+        for (let index = 0; index < this.content.length; ++index) {
+          let date = new Date(this.content[index].start_date)
+          let dataItem = date.getDate() + "." + date.getMonth() + "." + date.getFullYear()
+          // console.log('dataItem ' + dataItem)
+          if(dataItem == calendarStr) {
+              return true
+          }
+            
         }
-          
       }
       return false
     },
