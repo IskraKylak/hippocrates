@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
+// import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import NotFound from '@/views/404.vue'
 
 const routes = [
@@ -82,9 +83,14 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
+
+// const router = createRouter({
+//   history: createWebHistory(),
+//   routes
+// })
 
 router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0)
