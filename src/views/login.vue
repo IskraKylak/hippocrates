@@ -87,10 +87,10 @@ export default {
     }
   },
   methods: {
-	openReg() {
-		this.$router.push('/register')
-	},
-    onSubmit () {
+    openReg() {
+      this.$router.push('/register')
+    },
+    async onSubmit () {
       this.v$.$touch()
       if (!this.v$.$invalid) {
         const user = {
@@ -98,9 +98,10 @@ export default {
           password: this.password
         }
         try {
-
+          await this.$store.dispatch('login', user)
+          this.$router.push('/')
         } catch (e) {
-          console.log('inLogin')
+          this.$message('Невірний логін або пароль')
           throw e
         }
       }

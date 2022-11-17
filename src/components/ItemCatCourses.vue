@@ -19,10 +19,12 @@ export default {
         }
     },
     methods: {
-        goToCoursesCat(prodId) {
+        goToCoursesCat() {
+            let str = ''
+            str += `&specializations=${this.content.id}`
             this.$router.push({
                 name: 'coursesCatPage',
-                params: { Pid1: this.content.id }
+                params: { Pid1: str }
             })
         },
     }

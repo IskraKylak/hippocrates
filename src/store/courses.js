@@ -27,7 +27,7 @@ export default {
             })
         },
         GET_COURSES_SPECIAL_FROM_API({commit}, id) {
-            return axios(`https://asprof-test.azurewebsites.net/api/courses/?ordering=-start_date&page_size=6&specializations=${id}`, {
+            return axios(`https://asprof-test.azurewebsites.net/api/courses/?ordering=-start_date&page_size=6${id}`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_COURSES', products.data)
@@ -38,15 +38,27 @@ export default {
             })
         },
         GET_COURSES_FROM_API_PAGE({commit}, payload) {
-            return axios(`https://asprof-test.azurewebsites.net/api/courses/?ordering=-start_date&page=${payload.page}&page_size=6&specializations=${payload.spec}`, {
-                method: "GET"
-            }).then((products) => {
-                commit('SET_VEBINAR', products.data)
-                return products.data
-            }).catch((error) => {
-                console.log(error)
-                return error
-            })
+            if(payload.oneSpec) {
+                return axios(`https://asprof-test.azurewebsites.net/api/courses/?ordering=-start_date&page=${payload.page}&page_size=6&specializations=${payload.spec}`, {
+                    method: "GET"
+                }).then((products) => {
+                    commit('SET_VEBINAR', products.data)
+                    return products.data
+                }).catch((error) => {
+                    console.log(error)
+                    return error
+                })
+            } else {
+                return axios(`https://asprof-test.azurewebsites.net/api/courses/?ordering=-start_date&page=${payload.page}&page_size=6${payload.spec}`, {
+                    method: "GET"
+                }).then((products) => {
+                    commit('SET_VEBINAR', products.data)
+                    return products.data
+                }).catch((error) => {
+                    console.log(error)
+                    return error
+                })
+            }
         }
     },
     getters: {

@@ -10,9 +10,12 @@
                         {{ item.name }}
                     </router-link>
                 </div>
-                <div class="mainMenu_accPanel">
+                <div class="mainMenu_accPanel" v-if="tokkent === ''">
                     <Button :btnClass="'btnBorder'" @click="openLogin()">Вхід</Button>
                     <Button @click="openReg()">Реєстрація</Button>
+                </div>
+                <div class="mainMenu_accPanel" v-else>
+                    <Button @click.prevent="logout">Вихід</Button>
                 </div>
             </div>
         </div>
@@ -56,12 +59,23 @@ export default {
             ]
         }
     },
+    computed: {
+        tokkent() {
+            return this.$store.getters.getToken
+        }
+    },
     methods: {
         openLogin() {
             this.$router.push('/login')
         },
         openReg() {
             this.$router.push('/register')
+        },
+        async logout () {
+            this.$store.dispatch('logout')
+                .then(() => {
+                    this.$router.push('/')
+                })
         }
     }
 }

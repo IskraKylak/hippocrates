@@ -7,8 +7,10 @@
             <div class="vebinarItem_calendar">
                 {{ getDateStart }}.{{ getMonthStart }} - {{ getDateEnd }}.{{ getMonthEnd}}
             </div>
-            <div class="vebinarItem_status" :class="(content.statusClass ? content.statusClass : '')">
-                <!-- {{ content.status }} -->
+            <div class="vebinarItem_status" :class="(content.statusClass ? content.statusClass : '')" v-if="content.add_to_favourites">
+                {{ content.add_to_favourites }}
+            </div>
+            <div class="vebinarItem_status" v-else>
             </div>
         </div>
         <div class="vebinarItem_content">

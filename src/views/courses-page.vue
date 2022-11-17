@@ -76,6 +76,7 @@ export default {
     Pagination
   },
   mounted() {
+    let mas = this.$route.params.Pid1.split('&');
     this.GET_COURSES_SPECIAL_FROM_API(this.$route.params.Pid1).then((response) => {
       if(response) {
         this.countItem = response.count
@@ -84,13 +85,17 @@ export default {
         }
       }
     })
-    this.GET_SPECIALIZATIONS_ITEM_FROM_API(this.$route.params.Pid1).then((response) => {
-      if(response) {
-        this.nameCat = response.name
-        this.idCat = response.id
-        
-      }
-    })
+    if(mas.length == 2) {
+        let numEl = parseInt(this.$route.params.Pid1.match(/\d+/));
+        this.GET_SPECIALIZATIONS_ITEM_FROM_API(numEl).then((response) => {
+            if(response) {
+                this.nameCat = response.name
+                this.idCat = response.id
+                
+            }
+        })
+    }
+    
     if(this.coursesType2.courses.length !== 0) {
         this.pag2 = Math.ceil(this.coursesType2.courses.length / this.page.length)
     }
@@ -200,11 +205,22 @@ export default {
             },
             {
                 name: 'Курсы',
-                link: '/courses'
             },
         ] 
-        if(this.nameCat != '')
+        if(this.nameCat != '') {
+            breadcrumbs = [
+                {
+                    name: 'Головна',
+                    link: '/'
+                },
+                {
+                    name: 'Курсы',
+                    link: '/courses'
+                },
+            ] 
             breadcrumbs.push({name: this.nameCat})
+        }
+            
         return breadcrumbs;
     },
     // coursesType2Sort () {
@@ -228,9 +244,17 @@ export default {
     openPage(idx) {
         this.activePag = idx
         this.coursesType2.courses = []
+        if(this.SPECIALIZATIONSITEM.length) {
+            let obj = {
+                page: this.activePag,
+                oneSpec: true,
+                spec: this.SPECIALIZATIONSITEM.id
+            }
+        }
         let obj = {
             page: this.activePag,
-            spec: this.SPECIALIZATIONSITEM.id
+            oneSpec: false,
+            spec: this.$route.params.Pid1
         }
         console.log(this.SPECIALIZATIONSITEM.id)
         this.GET_COURSES_FROM_API_PAGE(obj).then((response) => {

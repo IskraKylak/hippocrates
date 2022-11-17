@@ -216,16 +216,21 @@ export default {
     ]),
   },
   mounted() {
+    let mas = this.$route.params.Pid1.split('&');
     this.GET_COURSESITEM_FROM_API(this.$route.params.Pid2).then((response) => {
       if(response) {
         this.coursesContent = response
       }
     })
-    this.GET_SPECIALIZATIONS_ITEM_FROM_API(this.$route.params.Pid1).then((response) => {
-      if(response) {
-        this.specialization = response
-      }
-    })
+    if(mas.length == 2) {
+        let numEl = parseInt(this.$route.params.Pid1.match(/\d+/));
+        this.GET_SPECIALIZATIONS_ITEM_FROM_API(numEl).then((response) => {
+            if(response) {
+                this.specialization = response
+            }
+        })
+    }
+    
     this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
       if(response) {
         this.allSpecialization = response

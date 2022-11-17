@@ -6,6 +6,7 @@ import vebinar from './vebinar'
 import vebinarSingle from './vebinarSingle'
 import courses from './courses'
 import coursesItem from './coursesItem'
+import auth from './auth'
 
 
 export default createStore({
@@ -24,6 +25,7 @@ export default createStore({
     vebinar,
     vebinarSingle,
     courses,
-    coursesItem
+    coursesItem,
+    auth
   }
 })

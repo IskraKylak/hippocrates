@@ -37,7 +37,11 @@ export default {
     openPage(idx) {
         this.activePag = idx
         this.vebinars1.list = []
-        this.GET_VEBINAR_FROM_API_PAGE(idx).then((response) => {
+        let obj = {
+            token: this.$store.getters.getToken,
+            content: idx
+        }
+        this.GET_VEBINAR_FROM_API_PAGE(obj).then((response) => {
             // console.log(response)
             if(response) {
                 this.countItem = response.count
@@ -49,7 +53,10 @@ export default {
     }
   },
   mounted() {
-    this.GET_VEBINAR_FROM_API().then((response) => {
+    let obj = {
+        token: this.$store.getters.getToken,
+    }
+    this.GET_VEBINAR_FROM_API(obj).then((response) => {
       // console.log(response)
       if(response) {
         this.countItem = response.count

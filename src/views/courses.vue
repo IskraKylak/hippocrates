@@ -6,14 +6,14 @@
     <div class="container">
         <h1 class="courses_title">{{ title }}</h1>
         <div class="courses_content">
-            <div class="courses_filter">
+            <div class="courses_filter" v-if="courses.list.length !== 0">
                 <div class="courses_filter_title" :class="{'active' : activeFilter}" @click="activeFilter = !activeFilter">
                     {{ filterTitle }}
                 </div>
                 <slide-up-down class="courses_filter_list" v-model="activeFilter" :duration="300">
-                    <CheckBox v-for="(item, idx) in CheckBox" :key="idx" :idx="idx" :content="item" />
+                    <CheckBox v-for="(item, idx) in courses.list" :key="idx" :idx="idx" :content="item" @addSpec="addSpec" @removeSpec="removeSpec"/>
                     <div class="mt"></div>
-                    <Button :btnClass="'btnLink'">Показати</Button>
+                    <Button :btnClass="'btnLink'" @click="filterEnter">Показати</Button>
                 </slide-up-down>
             </div>
             <div class="courses_list" v-if="courses.list.length !== 0">
@@ -63,6 +63,27 @@ export default {
         'GET_SPECIALIZATIONS_FROM_API',
         'GET_EVENT_FROM_API'
     ]),
+    addSpec(data) {
+        this.filter.push(`&specializations=${data}`)
+    },
+    removeSpec (data) {
+        let myIndex = this.filter.indexOf(`&specializations=${data}`);
+        if (myIndex !== -1) {
+            this.filter.splice(myIndex, 1);
+        }
+    },
+    filterEnter() {
+        let str = ''
+        for(let i = 0; i < this.filter.length; i++ ) {
+            str = str + this.filter[i]
+        }
+        if(str !== '') {
+            this.$router.push({
+                name: 'coursesCatPage',
+                params: { Pid1: str }
+            })
+        }
+    }
   },
   mounted() {
     this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
@@ -76,6 +97,7 @@ export default {
   },
   data() {
     return {
+        filter: [],
         activeFilter: true,
         title: 'Курси',
         filterTitle: 'Курси по спеціальностям',
@@ -83,24 +105,6 @@ export default {
             list: []
         },
         CheckBox: [
-            'Акушер-гінеколог',
-            'Алерголог-імунолог',
-            'Анестезіолог',
-            'Біолог',
-            'Гастроентеролог',
-            'Гематолог',
-            'Дерматолог',
-            'Ендокринолог',
-            'Епідеміолог',
-            'Акушер-гінеколог',
-            'Алерголог-імунолог',
-            'Анестезіолог',
-            'Біолог',
-            'Гастроентеролог',
-            'Гематолог',
-            'Дерматолог',
-            'Ендокринолог',
-            'Епідеміолог',
         ],
         breadcrumbs: [
             {

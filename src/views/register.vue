@@ -240,6 +240,7 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, email, numeric, sameAs } from '@vuelidate/validators'
 import Button from '@/components/UI/Controls/Button.vue'
+import {mapActions, mapGetters} from 'vuex'
 export default {
 	name: 'Rigester',
 	components: {
@@ -357,7 +358,7 @@ export default {
 		}
 	},
 	methods: {
-		onSubmit () {
+		async onSubmit () {
 			this.v$.$touch()
 			if (!this.v$.$invalid) {
 				const user1 = {
@@ -378,8 +379,25 @@ export default {
 					job_name: this.selectedSpeciality,
 					specialization: null
 				}
+				try {
+					await this.$store.dispatch('register', user1)
+					this.$router.push('/')
+				} catch (e) {
+					this.$message('Помилка')
+					throw e
+				}
 			}
-		}
+		},
+		...mapActions([
+			'GET_SPECIALIZATIONS_FROM_API'
+		]),
+	},
+	mounted() {
+		this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+			if(response) {
+				this.speciality = response
+			}
+		})
 	}
 }
 </script>

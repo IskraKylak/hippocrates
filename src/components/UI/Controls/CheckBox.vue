@@ -1,16 +1,35 @@
 <template>
     <div class="wrapCustomCheckBox">
-        <input type="checkbox" :id="'input'+idx">
+        <input type="checkbox" :id="'input'+idx" :name="content.id" v-model="checked">
         <label :for="'input'+idx" class="customCheckBox"></label>
         <label :for="'input'+idx" class="customCheckBoxText">
-            {{ content }}
+            {{ content.name }}
         </label>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['idx', 'content']
+    props: ['idx', 'content'],
+    data() {
+        return {
+            checked: false
+        }
+    },
+    methods: {
+    },
+    watch: {
+        checked: {
+            handler(val, oldVal) {
+                if(val) {
+                    this.$emit('addSpec', this.content.id)
+                } else {
+                    this.$emit('removeSpec', this.content.id)
+                }
+                
+            },
+        },
+    }
 }
 </script>
 
