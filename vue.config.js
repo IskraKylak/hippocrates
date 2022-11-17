@@ -16,5 +16,6 @@ module.exports = {
             additionalData: `@import "@/assets/css/style.scss";`
          }
       }
-   }
+   },
+   publicPath: '/hippocrates/'
 }
