@@ -7,7 +7,8 @@ import vebinarSingle from './vebinarSingle'
 import courses from './courses'
 import coursesItem from './coursesItem'
 import auth from './auth'
-
+import contact from './contact'
+import project from './project'
 
 export default createStore({
   state: {
@@ -26,6 +27,8 @@ export default createStore({
     vebinarSingle,
     courses,
     coursesItem,
-    auth
+    auth,
+    contact,
+    project
   }
 })

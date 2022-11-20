@@ -27,6 +27,7 @@
 import Breadcrumbs from '@/components/Breadcrumbs'
 import PosterContacts from '@/components/contacts/PosterContacts'
 import InfoContact from '@/components/contacts/InfoContact'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'About',
@@ -47,17 +48,34 @@ export default {
             }
         ],
         poster: {
-            img: require('../assets/img/about/project.png'),
+            img: '',
         },
         aboutContent: {
-            title: 'МЕДИЧНА ОСВІТНЯ ПЛАТФОРМА',
-            text: '«ГІППОКРАТ» – сучасна електронна платформа післядипломної медичної освіти для лікарів, яка заснована ГО «Всеукраїнська асоціація безперервної професійної освіти лікарів і фармацевтів» та Національним університетом охорони здоров‘я України імені П.Л. Шупика. <br> Головна мета «Гіппократа» – підготовка фахівців у рамках безперервної післядипломної освіти лікарів і фармацевтів. <br> Багаторічний досвід співробітників Національного університету охорони здоров‘я України імені П.Л. Шупика та інших відомих викладачів медицини України, а також іноземних спеціалістів, знання новітніх технологій допоможе кожному лікарю шляхом активного самонавчання і самоосвіти досягти необхідного успіху і професійного рівня володіння знаннями і навичками, а отже – покращити якість надання медичної допомоги пацієнту. <br> Усі онлайн курси підготовлені на основі курсів тематичного удосконалення лікарів і передатестаційних циклів Національного університету охорони здоров‘я України імені П.Л. Шупика. <br> Наприкінці кожного курсу після успішного проходження тестування (не менше 80% правильних відповідей) будуть надіслані сертифікати Національного університету охорони здоров‘я України імені П.Л. Шупика та ГО «Всеукраїнська асоціація безперервної професійної освіти лікарів і фармацевтів» – від 1 до 2 балів.',
+            title: '',
+            text: '',
             bernds: {
-                img1: require('../assets/img/about/logo1.png'),
-                img2: require('../assets/img/about/logo2.png')
+                img1: '',
+                img2: ''
             }
         }
     }
+  },
+  methods: {
+    ...mapActions([
+        'GET_PROJECT_FROM_API'
+    ]),
+  },
+  mounted() {
+      this.GET_PROJECT_FROM_API().then((response) => {
+        if(response) {
+            this.poster.img = response.banner
+            this.aboutContent.title = response.title
+            this.aboutContent.text = response.text
+            this.aboutContent.text = response.text
+            this.aboutContent.bernds.img1 = response.first_logo
+            this.aboutContent.bernds.img2 = response.second_logo
+        }
+      })
   }
 }
 </script>

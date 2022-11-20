@@ -13,6 +13,8 @@
 import Breadcrumbs from '@/components/Breadcrumbs'
 import PosterContacts from '@/components/contacts/PosterContacts'
 import InfoContact from '@/components/contacts/InfoContact'
+import {mapActions, mapGetters} from 'vuex'
+
 
 export default {
   name: 'Contacts',
@@ -33,25 +35,41 @@ export default {
             }
         ],
         poster: {
-            title: 'Якщо виникли питання чи пропозиції щодо нашої освітньої програми, ми з радістю Вам допоможемо!',
-            img: require('../assets/img/contacts/posterContact.png'),
+            title: '',
+            img: '',
         },
         infoContact: {
-            title: 'Залишилися питання?',
-            text: 'Скористайтеся формою зворотнього зв’язку, щоб наші спеціалісти Вам зателефонували, або зв’яжіться з нами одним із способів, що наведені нижче:',
-            tel: [
-                '+38 (073) 838-34-34',
-                '+38 (073) 838-34-34',
-                '+38 (073) 838-34-34',
-                '+38 (073) 838-34-34',
-                '+38 (073) 838-34-34',
-                '+38 (073) 838-34-34'
-            ],
-            email: 'hippocrates@zdr.kiev.ua',
+            title: '',
+            text: '',
+            tel: [],
+            email: '',
             location: 'вул. Деміївська, 13, м. Київ',
             socTitle: 'Зв’язатися через соціальні мережі:',
+            facebook_link: '',
+            viber_link: '',
+            telegram_link: ''
         }
     }
+  },
+  methods: {
+    ...mapActions([
+        'GET_CONTACT_FROM_API'
+    ]),
+  },
+  mounted() {
+      this.GET_CONTACT_FROM_API().then((response) => {
+        if(response) {
+          this.poster.title = response.banner_title
+          this.poster.img = response.banner
+          this.infoContact.title = response.title
+          this.infoContact.text = response.text
+          this.infoContact.email = response.email
+          this.infoContact.tel = response.phones.split('\r\n')
+          this.infoContact.facebook_link = response.facebook_link
+          this.infoContact.viber_link = response.viber_link
+          this.infoContact.telegram_link = response.telegram_link
+        }
+      })
   }
 }
 </script>

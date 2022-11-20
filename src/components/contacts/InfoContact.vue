@@ -14,7 +14,7 @@
                     </a>
                 </div>
                 <div class="infoContact_wrapLocation">
-                    <a href="" class="infoContact_email"> {{ content.email }}</a>
+                    <a :href="'mailto:'+content.email" class="infoContact_email"> {{ content.email }}</a>
                     <a href="" class="infoContact_location"> {{ content.location }}</a>
                 </div>
                 <div class="infoContact_wrapSoc">
@@ -22,9 +22,9 @@
                         {{ content.socTitle }}
                     </div>
                     <div class="infoContact_listSoc">
-                        <a href="#" class="infoContact_fb"></a>
-                        <a href="#" class="infoContact_vb"></a>
-                        <a href="#" class="infoContact_tg"></a>
+                        <a :href="content.facebook_link" class="infoContact_fb"></a>
+                        <a :href="content.viber_link" class="infoContact_vb"></a>
+                        <a :href="content.telegram_link" class="infoContact_tg"></a>
                     </div>
                 </div>
             </div>
