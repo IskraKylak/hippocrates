@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="courseSingle_row">
-                        <Button class="btn btn_btnFeedback" @click="openLog()">Авторизуйтесь</Button>
+                        <Button v-if="tokkent === ''" class="btn btn_btnFeedback" @click="openLog()">Авторизуйтесь</Button>
                     </div>
                 </div>
                 <div class="courseSingle_text mob">
@@ -96,7 +96,7 @@ export default {
   },
   data() {
     return {
-        coursesContent: {},
+        coursesContent: false,
         specialization: '',
         allSpecialization: [],
         courseInfo: {
@@ -141,68 +141,104 @@ export default {
         return breadcrumbs;
     },
     getDateStart() {
-        return new Date(this.coursesContent.start_date).getDate()
+        if(this.coursesContent) {
+            return new Date(this.coursesContent.start_date).getDate()
+        }
+        return ''
     },
     getMonthStart() {
-        let month = new Date(this.coursesContent.start_date).getMonth() + 1
-        if(month < 10)
-            return '0' + month
-        else
-            return month
+        if(this.coursesContent) {
+            let month = new Date(this.coursesContent.start_date).getMonth() + 1
+            if(month < 10)
+                return '0' + month
+            else
+                return month
+        }
+        return ''
     },
     getFullYearStart() {
-        let year = new Date(this.coursesContent.start_date).getFullYear() + 1
-        return year
+        if(this.coursesContent) {
+            let year = new Date(this.coursesContent.start_date).getFullYear() + 1
+            return year
+        }
+        return ''
     },
     getDateEnd() {
-        return new Date(this.coursesContent.end_date).getDate()
+        if(this.coursesContent) {
+            return new Date(this.coursesContent.end_date).getDate()
+        }
+        return ''
     },
     getMonthEnd() {
-        let month = new Date(this.coursesContent.end_date).getMonth() + 1
-        if(month < 10)
-            return '0' + month
-        else
-            return month
+        if(this.coursesContent) {
+            let month = new Date(this.coursesContent.end_date).getMonth() + 1
+            if(month < 10)
+                return '0' + month
+            else
+                return month
+        }
+        return ''
     },
     getFullYearEnd() {
-        let year = new Date(this.coursesContent.end_date).getFullYear() + 1
-        return year
+        if(this.coursesContent) {
+            let year = new Date(this.coursesContent.end_date).getFullYear() + 1
+            return year
+        }
+        return ''
     },
     getHoursStart() {
-        return new Date(this.coursesContent.start_date).getHours()
+        if(this.coursesContent) {
+            return new Date(this.coursesContent.start_date).getHours()
+        }
+        return ''
     },
     getMinutesStart() {
-        let minutes = new Date(this.coursesContent.start_date).getMinutes()
-        if(minutes < 10)
-            return '0' + minutes
-        else
-            return minutes
+        if(this.coursesContent) {
+            let minutes = new Date(this.coursesContent.start_date).getMinutes()
+            if(minutes < 10)
+                return '0' + minutes
+            else
+                return minutes
+        }
+        return ''
     },
     getHoursEnd() {
-        return new Date(this.coursesContent.end_date).getHours()
+        if(this.coursesContent) {
+            return new Date(this.coursesContent.end_date).getHours()
+        }
+        return ''
     },
     getMinutesEnd() {
-        let minutes = new Date(this.coursesContent.end_date).getMinutes()
-        if(minutes < 10)
-            return '0' + minutes
-        else
-            return minutes
+        if(this.coursesContent) {
+            let minutes = new Date(this.coursesContent.end_date).getMinutes()
+            if(minutes < 10)
+                return '0' + minutes
+            else
+                return minutes
+        }
+        return ''
+    },
+    tokkent() {
+        return this.$store.getters.getToken
     },
     specializationCourse () {
-        let tmpSpecialization = []
-        if(this.coursesContent.specializations){
-            for( let i = 0; i < this.coursesContent.specializations.length; i++) {
-                if(this.allSpecialization) {
-                    for( let n = 0; n < this.allSpecialization.length; n++) {
-                        if(this.coursesContent.specializations[i] == this.allSpecialization[n].id)
-                            tmpSpecialization.push(this.allSpecialization[n].name)
-   
+        if(this.coursesContent) {
+            let tmpSpecialization = []
+            if(this.coursesContent.specializations){
+                for( let i = 0; i < this.coursesContent.specializations.length; i++) {
+                    if(this.allSpecialization) {
+                        for( let n = 0; n < this.allSpecialization.length; n++) {
+                            if(this.coursesContent.specializations[i] == this.allSpecialization[n].id)
+                                tmpSpecialization.push(this.allSpecialization[n].name)
+    
+                        }
                     }
+                    
                 }
-                
             }
+            return tmpSpecialization
         }
-        return tmpSpecialization
+        return ''
     }
   },
   methods: {
@@ -212,23 +248,40 @@ export default {
     ...mapActions([
         'GET_COURSESITEM_FROM_API',
         'GET_SPECIALIZATIONS_ITEM_FROM_API',
-        'GET_SPECIALIZATIONS_FROM_API'
+        'GET_SPECIALIZATIONS_FROM_API',
+        'GET_COURSESITEM_FROM_API_TOKKEN'
     ]),
   },
   mounted() {
-    let mas = this.$route.params.Pid1.split('&');
-    this.GET_COURSESITEM_FROM_API(this.$route.params.Pid2).then((response) => {
-      if(response) {
-        this.coursesContent = response
-      }
-    })
-    if(mas.length == 2) {
-        let numEl = parseInt(this.$route.params.Pid1.match(/\d+/));
-        this.GET_SPECIALIZATIONS_ITEM_FROM_API(numEl).then((response) => {
+    if(this.$route.params.Pid1) {
+        let mas = this.$route.params.Pid1.split('&');
+        if(mas.length == 2) {
+            let numEl = parseInt(this.$route.params.Pid1.match(/\d+/));
+            this.GET_SPECIALIZATIONS_ITEM_FROM_API(numEl).then((response) => {
+                if(response) {
+                    this.specialization = response
+                }
+            })
+        }
+    }
+    let obj = {
+        id: this.$route.params.Pid2,
+        tokken: this.tokkent
+    }
+    if(this.tokkent === '') {
+        this.GET_COURSESITEM_FROM_API(obj).then((response) => {
             if(response) {
-                this.specialization = response
+                this.coursesContent = response
             }
         })
+        
+    } else {
+        this.GET_COURSESITEM_FROM_API_TOKKEN(obj).then((response) => {
+            if(response) {
+                this.coursesContent = response
+            }
+        })
+        console.log(this.coursesContent)
     }
     
     this.GET_SPECIALIZATIONS_FROM_API().then((response) => {

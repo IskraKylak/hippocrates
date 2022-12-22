@@ -62,6 +62,13 @@ export default {
     max-width: desktop-vw(279);
     width: 100%;
     height: desktop-vw(48);
+
+    &.reg {
+      background: #1FAEEA;
+      &:hover {
+        background: #25d1ff;
+      }
+    }
   }
 
   &_btnBorder {

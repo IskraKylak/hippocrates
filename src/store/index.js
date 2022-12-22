@@ -9,6 +9,8 @@ import coursesItem from './coursesItem'
 import auth from './auth'
 import contact from './contact'
 import project from './project'
+import search from './search'
+import acc from './acc'
 
 export default createStore({
   state: {
@@ -29,6 +31,8 @@ export default createStore({
     coursesItem,
     auth,
     contact,
-    project
+    project,
+    search,
+    acc
   }
 })

@@ -34,7 +34,7 @@
                         <navigation />
                     </template>
                 </carousel>
-                <Button :btnClass="'btnLink'"> Особистий кабінет </Button>
+                <Button :btnClass="'btnLink'" @click="openLogin()"> Особистий кабінет </Button>
             </div>
         </div>
     </div>
@@ -67,6 +67,17 @@ export default {
                 params: { Pid: prodId }
             })
         },
+        openLogin() {
+            if(this.tokkent === '')
+                this.$router.push('/login')
+            else
+                window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
+        }
+    },
+    computed: {
+      tokkent() {
+          return this.$store.getters.getToken
+      }
     },
     created() {
         this.width = window.innerWidth;

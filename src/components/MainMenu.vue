@@ -15,7 +15,15 @@
                     <Button @click="openReg()">Реєстрація</Button>
                 </div>
                 <div class="mainMenu_accPanel" v-else>
-                    <Button @click.prevent="logout">Вихід</Button>
+                    <div class="nameAcc" @click.prevent="openMenu, lcMenu = !lcMenu" :class="[lcMenu ? 'active' : '']">{{ acc.first_name }} {{ acc.last_name }}</div>
+                    <div class="accPanel_menu" :class="[lcMenu ? 'active' : '']">
+                        <div @click="redirect()" class="accPanel_item">
+                            Особистий кабінет
+                        </div>
+                        <div class="accPanel_item"  @click.prevent="logout">
+                            Вихід
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,12 +33,19 @@
 <script>
 // @ is an alias to /src
 import Button from '@/components/UI/Controls/Button.vue'
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
     components: {
         Button
     },
     data() {
         return {
+            lcMenu: false,
+            acc: {
+                first_name: '',
+                last_name: '',
+            },
             menu: [
                 {
                     name: 'Проект',
@@ -65,6 +80,12 @@ export default {
         }
     },
     methods: {
+        redirect() {
+            window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
+        },
+        ...mapActions([
+            'GET_ACC_FROM_API'
+        ]),
         openLogin() {
             this.$router.push('/login')
         },
@@ -72,16 +93,82 @@ export default {
             this.$router.push('/register')
         },
         async logout () {
+            this.lcMenu = false
             this.$store.dispatch('logout')
                 .then(() => {
                     this.$router.push('/')
                 })
+        }
+    },
+    mounted() {
+        if(this.tokkent != '') {
+            this.GET_ACC_FROM_API(this.tokkent).then((response) => {
+                if(response) {
+                    this.acc = response
+                }
+            })
         }
     }
 }
 </script>
 
 <style lang="scss" >
+.accPanel_menu {
+    display: none;
+    position: absolute;
+    top: desktop-vw(25);
+    right: 0;
+    background: #1FAEEA;
+    
+    box-shadow: 0px 4px 4px rgb(36 36 36 / 15%);
+    border-radius: 5px;
+    color: #fff;
+    min-width: desktop-vw(180);
+    padding: desktop-vw(10);
+    flex-direction: column;
+    grid-gap: desktop-vw(10);
+
+    &.active {
+        display: flex;
+    }
+
+    .accPanel_item {
+        cursor: pointer;
+        font-size: desktop-vw(16);
+    }
+}
+
+
+.nameAcc {
+    font-style: normal;
+    font-weight: 400;
+    font-size: desktop-vw(16);
+    line-height: 130%;
+    color: #1faeea;
+    cursor: pointer;
+    display: flex;
+    position: relative;
+    padding-right: desktop-vw(16);
+
+    &:after {
+        content: "";
+        display: block;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5 6L0.669873 0.75L9.33013 0.750001L5 6Z' fill='%231faeea'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        width: desktop-vw(10);
+        height: desktop-vw(6);
+        position: absolute;
+        right: 0;
+        top: desktop-vw(7);
+        cursor: pointer;
+    }
+
+    &.active {
+        &:after {
+            transform: rotate(180deg)
+        }
+    }
+}
 
 .mainMenu {
     background: #fff;
@@ -92,6 +179,7 @@ export default {
         align-items: center;
         justify-content: space-between;
         grid-gap: desktop-vw(15);
+        max-width: 100%;
         width: 100%;
     }
 
@@ -126,12 +214,29 @@ export default {
     &_accPanel {
         display: flex;
         grid-gap: desktop-vw(20);
+        position: relative;
     }
 }
 
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+    .nameAcc {
+        font-size: mobile-vw(16);
+    }
+
+    .accPanel_menu {
+        top: mobile-vw(35);
+        min-width: mobile-vw(180);
+        padding: mobile-vw(10);
+        grid-gap: mobile-vw(10);
+        
+        .accPanel_item {
+            cursor: pointer;
+            font-size: mobile-vw(16);
+        }
+    }
+
     .mainMenu {
 
         &_content {

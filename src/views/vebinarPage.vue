@@ -21,13 +21,20 @@
             <p class="vebinarPage_textVideo">
                 {{ textVideo }}
             </p>
-            <Button :btnClass="'btnLink'" @click="openLog()"> Аторизуйтесь </Button>
+            <Button :btnClass="'btnLink'" v-if="tokkent === ''" @click="openLog()"> Аторизуйтесь </Button>
         </div>
         <div class="vebinarPage_spicers">
             <h2 class="vebinarPage_title">
                 {{ titleSpikers }}
             </h2>
             <div class="vebinarPage_content" v-html="vebinar.text"></div>
+            <div v-if="tokkent != ''" class="wrapBtn">
+                <Button :btnClass="'btnLink'" v-if="!vebinar.registered" class="reg" @click.prevent="registerSeminar()"> Реєстрація на семінар </Button>
+                <div v-else>
+                    Ви зареєстровані!
+                </div>
+                <Button :btnClass="'btnLink'"> Пройти опитування </Button>
+            </div>
                 <!-- <p style='font-size:20px; color: #383838; font-weight: 700;'>Селюк Мар'яна Миколаївна</p>
                 <p>кандидат медичних наук, професор кафедри терапії УВМА</p> 
                 <p style='text-transform: uppercase; color: #1FAEEA; font-weight: 700;'>
@@ -100,6 +107,8 @@ import Button from '@/components/UI/Controls/Button.vue'
 // @ is an alias to /src
 import Breadcrumbs from '@/components/Breadcrumbs'
 import {mapActions, mapGetters} from 'vuex'
+import axios from 'axios'
+
 export default {
   name: 'Vebinars',
   components: {
@@ -149,11 +158,37 @@ export default {
     ...mapActions([
         'GET_VEBINARSINGLE_FROM_API',
     ]),
+    async registerSeminar () {
+      if (this.$store.getters.getToken) {
+        await axios({
+          url: `https://asprof-test.azurewebsites.net/api/events/${this.$route.params.Pid}/register/`,
+          method: 'Post',
+          headers: {
+            Authorization: 'Bearer ' + this.tokkent
+          }
+        })
+          .then(respons => {
+            this.$message('Вы зареєстровані!')
+            this.getNotify()
+          })
+          .catch(error => {
+            console.log(error)
+            this.$message('Помилка')
+          })
+      } else {
+        this.$router.push({
+          name: 'inLogin'
+        })
+      }
+    },
   },
   computed: {
     ...mapGetters([
       'VEBINARSINGLE',
     ]),
+    tokkent() {
+        return this.$store.getters.getToken
+    },
     breadcrumbs() {
         let breadcrumbs = [
             {
@@ -218,6 +253,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
+.wrapBtn {
+    margin: desktop-vw(20) 0;
+    display: flex;
+    flex-direction: column;
+    grid-gap: desktop-vw(15);
+}
 
 .vebinarPage {
     padding-top: desktop-vw(150);

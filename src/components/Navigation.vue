@@ -14,7 +14,7 @@
             <div class="nav_wrapListPhone">
               <slide-up-down class="nav_listPhone" v-model="active" :duration="300">
                 <div class="nav_listPhone">
-                  <a :href="'tel' + item" class="nav_itemPhone" v-for="(item, idx) in phones" :key="idx">
+                  <a :href="'tel:' + item" class="nav_itemPhone" v-for="(item, idx) in phones" :key="idx">
                     {{ item }}
                   </a>
                   <div class="pb"></div>
@@ -27,9 +27,9 @@
           </div>
         </div>
         <div class="nav_soc">
-          <a href="#" class="link_fb"></a>
-          <a href="#" class="link_viber"></a>
-          <a href="#" class="link_tg"></a>
+          <a :href="soc.facebook_link" class="link_fb"></a>
+          <a :href="soc.viber_link" class="link_viber"></a>
+          <a :href="soc.telegram_link" class="link_tg"></a>
         </div>
         <div class="nav_right">
           <a href="#" class="nav_search" @click.prevent="activeSearch = !activeSearch" :class="{'close' : activeSearch}"></a>
@@ -49,15 +49,36 @@
             </div>
           </div>
         </div>
-        <div class="nav_user">
-          <div class="nav_userName">{{ userName }}</div>
-          <div class="nav_arrPhone" :class="{'active' : active}" @click="active = !active"></div>
+        <div v-if="tokkent === ''" class="loginMb" @click="openLogin()">
+          Вхід
+        </div>
+        <div class="wrap_user" v-else>
+          <div class="nav_user">
+            <div class="nav_userName" @click.prevent="openMenu, lcMenu = !lcMenu" :class="[lcMenu ? 'active' : '']">{{ acc.first_name }} {{ acc.last_name }}</div>
+          </div>
+          <div class="accPanel_menu" :class="[lcMenu ? 'active' : '']">
+              <div class="accPanel_item" @click="redirect()">
+                  Особистий кабінет
+              </div>
+              <div class="accPanel_item" @click="logout()">
+                  Вихід
+              </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="nav_searchInput" v-if="activeSearch">
       <div class="container">
-        <input type="text" placeholder="Пошук курсу">
+        <input type="text" v-model="search"  placeholder="Пошук курсу">
+      </div>
+    </div>
+    <div class="nav_result" v-if="activeSearch && result.length > 0">
+      <div class="container">
+        <div class="nav_itemResult" v-for="(item, idx) in result" :key="idx">
+          <div @click="goToCourse(item.id)">
+            {{ item.name }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -66,33 +87,145 @@
 <script>
 // @ is an alias to /src
 import SlideUpDown from 'vue3-slide-up-down'
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
   components: {
     SlideUpDown
   },
   data() {
     return {
+      lcMenu: false,
+      acc: {},
+      search: '',
+      result: [],
       active: false,
       activeLang: false,
       activeSearch: false,
       userName: 'Татьяна Мал',
-      email: 'hippocrates@zdr.kiev.ua',
-      phones: [
-        '+38 (073) 838-34-34',
-        '+38 (073) 838-34-32',
-        '+38 (073) 838-34-33',
-        '+38 (073) 838-34-35',
-        '+38 (073) 838-34-36',
-        '+38 (073) 838-34-37'
-      ],
+      email: '',
+      phones: [],
+      soc: {
+        facebook_link: '',
+        viber_link: '',
+        telegram_link: '',
+      },
       time: 'з 10:00 до 18:00',
       lang: ['UA', 'RU', 'EN']
+    }
+  },
+  methods: {
+    redirect() {
+        window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
+    },
+    openLogin() {
+        this.$router.push('/login')
+    },
+    async logout () {
+        this.$store.dispatch('logout')
+            .then(() => {
+                this.$router.push('/')
+            })
+    },
+    goToCourse(prodId) {
+        this.activeSearch = false
+        this.search = ''
+        this.$router.push({
+            name: 'courseSingle',
+            params: { Pid2: prodId}
+        })
+    },
+    ...mapActions([
+        'GET_ACC_FROM_API',
+        'GET_CONTACT_FROM_API',
+        'GET_SEARCH_FROM_API'
+    ]),
+  },
+  computed: {
+      tokkent() {
+          return this.$store.getters.getToken
+      }
+  },
+  mounted() {
+      if(this.tokkent) {
+          this.GET_ACC_FROM_API(this.tokkent).then((response) => {
+              if(response) {
+                  this.acc = response
+              }
+          })
+      }
+      this.GET_CONTACT_FROM_API().then((response) => {
+        if(response) {
+          this.email = response.email
+          this.phones = response.phones.split('\r\n')
+          this.soc.facebook_link = response.facebook_link
+          this.soc.viber_link = response.viber_link
+          this.soc.telegram_link = response.telegram_link
+        }
+      })
+  },
+  watch: {
+    // whenever question changes, this function will run
+    search(newSearch, oldSearch) {
+      if (newSearch.length > 0 ) {
+        this.result = []
+        this.GET_SEARCH_FROM_API(newSearch).then((response) => {
+            if(response.count != 0) {
+              console.log(response.results)
+              for(let i = 0; i < response.results.length; i++) {
+                  this.result.push(response.results[i])
+              }
+            } else {
+              this.result = []
+            }
+        })
+      } else {
+        this.result = []
+      }
     }
   }
 }
 </script>
 
 <style lang="scss">
+.loginMb {
+  color: #fff;
+  font-style: normal;
+  font-weight: 700;
+  font-size: desktop-vw(16);
+  line-height: 130%;
+  text-decoration: none;
+  display: none;
+}
+
+.wrap_user {
+  display: none;
+  position: relative;
+}
+
+.accPanel_menu {
+    display: none;
+    position: absolute;
+    top: desktop-vw(25);
+    right: 0;
+    background: #1FAEEA;
+    box-shadow: 0px 4px 4px rgb(36 36 36 / 15%);
+    border-radius: 5px;
+    color: #fff;
+    min-width: desktop-vw(180);
+    padding: desktop-vw(10);
+    flex-direction: column;
+    grid-gap: desktop-vw(10);
+
+    &.active {
+        display: flex;
+    }
+
+    .accPanel_item {
+        cursor: pointer;
+    }
+}
+
 .pb {
   height: desktop-vw(5);
   width: 100%;
@@ -103,13 +236,38 @@ export default {
   position: relative;
   z-index: 11;
 
-  &_user {
-    display: none;
-  }
+  // &_user {
+  //   display: none;
+  //   position: relative;
+  // }
 
   & > .container {
     position: relative;
     z-index: 11;
+  }
+
+  &_result {
+    position: absolute;
+    top: desktop-vw(100);
+    left: 0;
+    width: 100%;
+    background: #f8f8f8;
+    border-bottom: 2px solid #1FAEEA;
+    padding: desktop-vw(5) 0;
+    z-index: 10;
+    max-height: 60vh;
+    overflow: auto;
+  }
+
+  &_itemResult {
+    border-bottom: 1px solid #DCDCDC;
+    cursor: pointer;
+    padding: desktop-vw(5);
+
+
+    &:last-child {
+      border-bottom: 0;
+    }
   }
 
   &_searchInput {
@@ -166,6 +324,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     grid-gap: desktop-vw(20);
+    width: 100%;
   }
 
   &_left {
@@ -345,8 +504,31 @@ export default {
 }
 @media screen and (max-width: $mobile) {
 
+  .loginMb {
+    font-size: mobile-vw(16);
+    display: block;
+  }
+
+  .accPanel_menu {
+    top: mobile-vw(25);
+    min-width: mobile-vw(180);
+    padding: mobile-vw(10);
+    grid-gap: mobile-vw(10);
+    font-size: mobile-vw(16);
+
+    .accPanel_item {
+        cursor: pointer;
+        font-size: mobile-vw(16);
+    }
+  }
+
   .pb {
     height: mobile-vw(5);
+  }
+
+  .wrap_user {
+    display: block;
+    position: relative;
   }
 
   .nav {
@@ -374,6 +556,39 @@ export default {
 
     &_userName {
       color: #fff;
+    }
+
+    &_userName {
+      position: relative;
+      padding-right: mobile-vw(16);
+
+      &:after {
+          content: "";
+          display: block;
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5 6L0.669873 0.75L9.33013 0.750001L5 6Z' fill='white'/%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          width: mobile-vw(10);
+          height: mobile-vw(6);
+          position: absolute;
+          right: 0;
+          top: mobile-vw(7);
+          cursor: pointer;
+      }
+
+      &.active {
+          &:after {
+              transform: rotate(180deg)
+          }
+      }
+    }
+
+    &_itemResult {
+      padding: mobile-vw(5);
+    }
+
+    &_result {
+      top: mobile-vw(100);
+      padding: mobile-vw(5) 0;
     }
 
     &_searchInput {

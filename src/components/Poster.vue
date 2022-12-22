@@ -12,7 +12,7 @@
                 <h2 class="poster_subtitle">
                     {{ content.text }}
                 </h2>
-                <Button :btnClass="'btnPoster'" @click="openReg()">Зареєструватися</Button>
+                <Button v-if="tokkent === ''" :btnClass="'btnPoster'" @click="openReg()">Зареєструватися</Button>
             </div>
             <Feedback />
         </div>
@@ -33,6 +33,11 @@ export default {
     data() {
         return {
         }
+    },
+    computed: {
+      tokkent() {
+          return this.$store.getters.getToken
+      }
     },
     methods: {
         openReg() {

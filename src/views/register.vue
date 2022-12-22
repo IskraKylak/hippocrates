@@ -4,7 +4,7 @@
         <Breadcrumbs :content="breadcrumbs" /> 
     </div>
     <div class="container">
-        <div class="register_content">
+        <div class="register_content" v-if="tokkent === ''">
 			<h2 class="register_title">
 				РЕЄСТРАЦІЯ
 			</h2>
@@ -230,6 +230,9 @@
 				<Button class="btnReg">Реєстрація</Button>
 			</form>
         </div>
+		<div v-else class="registred">
+          <h2 class="registred_title">Ви вже зареєстровані!</h2>
+        </div>
     </div>
   </div>
 </template>
@@ -392,6 +395,11 @@ export default {
 			'GET_SPECIALIZATIONS_FROM_API'
 		]),
 	},
+	computed: {
+		tokkent() {
+			return this.$store.getters.getToken
+		},
+	},
 	mounted() {
 		this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
 			if(response) {
@@ -402,6 +410,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
+.registred {
+   padding: desktop-vw(50) 0 desktop-vw(200) 0;
+
+   &_title {
+      color: #1FAEEA;
+   }
+}
 
 .UserAgreement_link {
 	color: #1FAEEA;
@@ -563,6 +579,15 @@ select::-ms-expand {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+
+	.registred {
+		padding: mobile-vw(50) 0 mobile-vw(200) 0;
+
+		&_title {
+			color: #1FAEEA;
+		}
+	}
+
   	.UserAgreement_link {
 		color: #1FAEEA;
 		text-decoration: none;

@@ -13,9 +13,9 @@
               {{ email }}
             </a>
             <div class="footer_listSoc">
-              <a href="#" class="footer_fb"></a>
-              <a href="#" class="footer_viber"></a>
-              <a href="#" class="footer_tg"></a>
+              <a :href="soc.facebook_link" class="footer_fb"></a>
+              <a :href="soc.viber_link" class="footer_viber"></a>
+              <a :href="soc.telegram_link" class="footer_tg"></a>
             </div>
           </div>
           <div class="footerLocation">
@@ -46,23 +46,38 @@
 
 <script>
 // @ is an alias to /src
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   data() {
     return {
-      email: 'hippocrates@zdr.kiev.ua',
+      email: '',
       location: 'вул. Деміївська, 13 м. Київ',
-      listTel: [
-        '+38 (073) 838-34-34',
-        '+38 (073) 838-34-34',
-        '+38 (073) 838-34-34',
-        '+38 (073) 838-34-34',
-        '+38 (073) 838-34-34',
-        '+38 (073) 838-34-34'
-      ],
+      listTel: [],
+      soc: {
+        facebook_link:'',
+        viber_link:'',
+        telegram_link:'',
+      },
       copirait: '© ГО “Всеукраїнська асоціація безперервної професійної освіти лікарів і фармацевтів”. All Rights Reserved',
       develop: 'Розробка сайту Codexe'
     }
+  },
+  methods: {
+    ...mapActions([
+        'GET_CONTACT_FROM_API'
+    ]),
+  },
+  mounted() {
+      this.GET_CONTACT_FROM_API().then((response) => {
+        if(response) {
+          this.email = response.email
+          this.listTel = response.phones.split('\r\n')
+          this.soc.facebook_link = response.facebook_link
+          this.soc.viber_link = response.viber_link
+          this.soc.telegram_link = response.telegram_link
+        }
+      })
   }
 }
 </script>

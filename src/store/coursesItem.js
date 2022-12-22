@@ -15,8 +15,8 @@ export default {
             // обратимся к нашему комиту и візовем мутацию setNotify в кторую передадим payload
             commit('SET_COURSESITEM', payload)
         },
-        GET_COURSESITEM_FROM_API({commit}, id) {
-            return axios(`https://asprof-test.azurewebsites.net/api/courses/${id}`, {
+        GET_COURSESITEM_FROM_API({commit}, obj) {
+            return axios(`https://asprof-test.azurewebsites.net/api/courses/${obj.id}`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_COURSESITEM', products.data)
@@ -25,7 +25,21 @@ export default {
                 console.log(error)
                 return error
             })
-        }
+        },
+        GET_COURSESITEM_FROM_API_TOKKEN({commit}, obj) {
+            return axios(`https://asprof-test.azurewebsites.net/api/courses/${obj.id}`, {
+                method: "GET",
+                headers: {
+                    'Authorization': 'Bearer ' + obj.tokken
+                }
+            }).then((products) => {
+                commit('SET_COURSESITEM', products.data)
+                return products.data
+            }).catch((error) => {
+                console.log(error)
+                return error
+            })
+        },
     },
     getters: {
         COURSESITEM (state) {

@@ -58,6 +58,12 @@ const routes = [
     component: () => import('../views/courses-page.vue')
   },
   {
+    path: '/courses/:Pid2',
+    name: 'courseSingle',
+    meta: { layout: 'main' },
+    component: () => import('../views/course-single.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     meta: { layout: 'main' },
@@ -70,10 +76,10 @@ const routes = [
     component: () => import('../views/register.vue')
   },
   {
-    path: '/courses/:Pid1/:Pid2',
-    name: 'courseSingle',
+    path: '/search',
+    name: 'search',
     meta: { layout: 'main' },
-    component: () => import('../views/course-single.vue')
+    component: () => import('../views/search.vue')
   },
   {
     path: '/:catchAll(.*)',

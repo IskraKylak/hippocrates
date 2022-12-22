@@ -3,8 +3,8 @@
     <div class="container">
         <Breadcrumbs :content="breadcrumbs" /> 
     </div>
-    <div class="container">
-        <div class="login_content">
+    <div class="container" >
+        <div class="login_content" v-if="tokkent === ''">
             <h2 class="login_title">
                 АВТОРИЗАЦІЯ
             </h2>
@@ -39,6 +39,9 @@
 				<Button class="btnLogin">Вхід</Button>
                 <Button :btnClass="'btnBorder'" @click.prevent="openReg()" class="btnReg">Реєстрація</Button>
             </form>
+        </div>
+        <div v-else class="registred">
+          <h2 class="registred_title">Ви вже зареєстровані!</h2>
         </div>
     </div>
   </div>
@@ -106,11 +109,24 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    tokkent() {
+        return this.$store.getters.getToken
+    },
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
+.registred {
+   padding: desktop-vw(50) 0 desktop-vw(200) 0;
+
+   &_title {
+      color: #1FAEEA;
+   }
+}
 
 .form-item .errorText {
   display: none;
@@ -191,6 +207,14 @@ export default {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+  .registred {
+    padding: mobile-vw(50) 0 mobile-vw(200) 0;
+
+    &_title {
+        color: #1FAEEA;
+    }
+  }
+
   .form-item .errorText {
     display: none;
     margin-top: 5px;

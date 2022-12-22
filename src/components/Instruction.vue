@@ -49,12 +49,23 @@ export default {
         }
     },
     methods: {
+        redirect() {
+            window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
+        },
         updateWidth() {
             this.width = window.innerWidth;
         },
         openLogin() {
-            this.$router.push('/login')
+            if(this.tokkent === '')
+                this.$router.push('/login')
+            else
+                window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
         },
+    },
+    computed: {
+      tokkent() {
+          return this.$store.getters.getToken
+      }
     },
     created() {
         this.width = window.innerWidth;

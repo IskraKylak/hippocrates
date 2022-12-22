@@ -8,10 +8,12 @@
                 {{ getDateStart }}.{{ getMonthStart }} - {{ getDateEnd }}.{{ getMonthEnd}}
             </div>
             <div class="vebinarItem_status" :class="(content.statusClass ? content.statusClass : '')" v-if="content.add_to_favourites">
-                {{ content.add_to_favourites }}
+                ОБРАНИЙ
             </div>
-            <div class="vebinarItem_status" v-else>
+            <div class="vebinarItem_status expected" v-else-if="content.add_to_favourites === false">
+                ОЧІКУЄТЬСЯ
             </div>
+            <div class="vebinarItem_status" v-else></div>
         </div>
         <div class="vebinarItem_content">
             <div class="vebinarItem_title">

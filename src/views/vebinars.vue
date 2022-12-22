@@ -8,8 +8,21 @@
             <h2 class="vebinar_title">
                 {{ title }}
             </h2>
-            <VebinarList :content="vebinars1" />
-            <Pagination v-if="pagination > 1" :content="pagination" :activePag="activePag" @openPage="openPage"/>
+            <div v-if="tokkent === ''"> 
+                <VebinarList :content="vebinars1" />
+                <Pagination v-if="pagination1 > 1" :content="pagination1" :activePag="pag1.activePag" @openPage="openPage"/>
+            </div>
+            <div v-else>
+                 <div class="vebinatStatus">
+                    <VebinarList :content="vebinars2" />
+                    <Pagination v-if="pagination2 > 1" :content="pagination2" :activePag="pag2.activePag" @openPage="openPage1"/>
+                </div>
+                <div class="vebinatStatus">
+                    <VebinarList :content="vebinars3" />
+                    <Pagination v-if="pagination3 > 1" :content="pagination3" :activePag="pag3.activePag" @openPage="openPage2"/>
+                </div>
+            </div>
+            
         </div>
     </div>
   </div>
@@ -32,10 +45,14 @@ export default {
   methods: {
     ...mapActions([
         'GET_VEBINAR_FROM_API',
-        'GET_VEBINAR_FROM_API_PAGE'
+        'GET_VEBINAR_FROM_API_FAVORITE',
+        'GET_VEBINAR_FROM_API_NOTFAVORITE',
+        'GET_VEBINAR_FROM_API_PAGE',
+        'GET_VEBINAR_FROM_API_PAGE_FAVORITE',
+        'GET_VEBINAR_FROM_API_PAGE_NOT_FAVORITE'
     ]),
     openPage(idx) {
-        this.activePag = idx
+        this.pag1.activePag = idx
         this.vebinars1.list = []
         let obj = {
             token: this.$store.getters.getToken,
@@ -44,9 +61,43 @@ export default {
         this.GET_VEBINAR_FROM_API_PAGE(obj).then((response) => {
             // console.log(response)
             if(response) {
-                this.countItem = response.count
+                this.pag1.countItem = response.count
                 for(let i = 0; i < response.results.length; i++) {
                     this.vebinars1.list.push( response.results[i])
+                }
+            }
+        })
+    },
+    openPage1(idx) {
+        this.pag2.activePag = idx
+        this.vebinars2.list = []
+        let obj = {
+            token: this.$store.getters.getToken,
+            content: idx
+        }
+        this.GET_VEBINAR_FROM_API_PAGE_FAVORITE(obj).then((response) => {
+            // console.log(response)
+            if(response) {
+                this.pag2.countItem = response.count
+                for(let i = 0; i < response.results.length; i++) {
+                    this.vebinars2.list.push( response.results[i])
+                }
+            }
+        })
+    },
+    openPage2(idx) {
+        this.pag3.activePag = idx
+        this.vebinars3.list = []
+        let obj = {
+            token: this.$store.getters.getToken,
+            content: idx
+        }
+        this.GET_VEBINAR_FROM_API_PAGE_NOT_FAVORITE(obj).then((response) => {
+            // console.log(response)
+            if(response) {
+                this.pag3.countItem = response.count
+                for(let i = 0; i < response.results.length; i++) {
+                    this.vebinars3.list.push( response.results[i])
                 }
             }
         })
@@ -59,9 +110,27 @@ export default {
     this.GET_VEBINAR_FROM_API(obj).then((response) => {
       // console.log(response)
       if(response) {
-        this.countItem = response.count
+        this.pag1.countItem = response.count
         for(let i = 0; i < response.results.length; i++) {
             this.vebinars1.list.push( response.results[i])
+        }
+      }
+    })
+    this.GET_VEBINAR_FROM_API_FAVORITE(obj).then((response) => {
+      // console.log(response)
+      if(response) {
+        this.pag2.countItem = response.count
+        for(let i = 0; i < response.results.length; i++) {
+            this.vebinars2.list.push( response.results[i])
+        }
+      }
+    })
+    this.GET_VEBINAR_FROM_API_NOTFAVORITE(obj).then((response) => {
+      // console.log(response)
+      if(response) {
+        this.pag3.countItem = response.count
+        for(let i = 0; i < response.results.length; i++) {
+            this.vebinars3.list.push( response.results[i])
         }
       }
     })
@@ -69,8 +138,18 @@ export default {
   data() {
     return {
         title: 'Вебінари',
-        countItem: 0,
-        activePag: 1,
+        pag1: {
+            countItem: 0,
+            activePag: 1,
+        },
+        pag2: {
+            countItem: 0,
+            activePag: 1,
+        },
+        pag3: {
+            countItem: 0,
+            activePag: 1,
+        },
         breadcrumbs: [
             {
                 name: 'Головна',
@@ -81,46 +160,43 @@ export default {
             }
         ],
         vebinars1: {
+            title: 'Всі вебінари',
+            list: [
+            ]
+        },
+        vebinars2: {
             title: 'Обрані вебінари',
             list: [
-                // {
-                //     img: require('../assets/img/imageEvents.png'),
-                //     date: '9.07 - 10.07',
-                //     statusClass: 'elect',
-                //     status: 'Обраний',
-                //     title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                //     text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                //     time: '17:00 - 19:00',
-                //     location: 'Київ - Черкаси - Житомир'
-                // },
-                // {
-                //     img: require('../assets/img/imageEvents.png'),
-                //     date: '9.07 - 10.07',
-                //     statusClass: 'elect',
-                //     status: 'Обраний',
-                //     title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                //     text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                //     time: '17:00 - 19:00',
-                //     location: 'Київ - Черкаси - Житомир'
-                // },
-                // {
-                //     img: require('../assets/img/imageEvents.png'),
-                //     date: '9.07 - 10.07',
-                //     statusClass: 'elect',
-                //     status: 'Обраний',
-                //     title: "СЕКРЕТИ ЖІНОЧОГО ЗДОРОВ'Я 2 АБО МІКРОНУТРІЄНТИ В ДІЄТІ ДЛЯ ЖІНОК ПІД ЧАС ВАГІТНОСТІ",
-                //     text: "БЕЗДІТКО НАТАЛІЯ ВОЛОДИМИРІВНА КВАШЕНКО ВАЛЕНТИНА ПАВЛІВНА",
-                //     time: '17:00 - 19:00',
-                //     location: 'Київ - Черкаси - Житомир'
-                // }
+            ]
+        },
+        vebinars3: {
+            title: 'Вебінари',
+            list: [
             ]
         },
     }
   },
   computed: {
-    pagination() {
+    tokkent() {
+        return this.$store.getters.getToken
+    },
+    pagination1() {
         let pag = 0
-        for( let i = 0; i < this.countItem; i+=6) {
+        for( let i = 0; i < this.pag1.countItem; i+=6) {
+            pag+=1
+        }
+        return pag
+    },
+    pagination2() {
+        let pag = 0
+        for( let i = 0; i < this.pag2.countItem; i+=6) {
+            pag+=1
+        }
+        return pag
+    },
+    pagination3() {
+        let pag = 0
+        for( let i = 0; i < this.pag3.countItem; i+=6) {
             pag+=1
         }
         return pag
@@ -129,6 +205,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
+.vebinatStatus {
+   margin-bottom: desktop-vw(40); 
+   &:last-child {
+     margin-bottom: 0;
+   }
+}
 
 .vebinar {
     padding-top: desktop-vw(150);
@@ -150,6 +233,13 @@ export default {
 @media screen and (max-width: $tablet) {
 }
 @media screen and (max-width: $mobile) {
+    .vebinatStatus {
+        margin-bottom: mobile-vw(40); 
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
     .vebinar {
         padding-top: mobile-vw(30);
         padding-bottom: mobile-vw(100);
