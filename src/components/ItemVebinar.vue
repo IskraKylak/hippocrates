@@ -19,8 +19,7 @@
             <div class="vebinarItem_title">
                 {{ content.name }}
             </div>
-            <div class="vebinarItem_text">
-                {{ content.description }}
+            <div class="vebinarItem_text" v-html="content.description">
             </div>
             <div class="vebinarItem_wrapTime">
                 <div class="vebinarItem_time">

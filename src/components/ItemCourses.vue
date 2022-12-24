@@ -7,8 +7,7 @@
             <div class="courses_title">
                 {{ content.name }}
             </div>
-            <div class="courses_text">
-                {{ content.description }}
+            <div class="courses_text" v-html="content.description">
             </div>
         </div>
     </div>

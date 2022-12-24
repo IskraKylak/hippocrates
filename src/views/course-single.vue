@@ -54,8 +54,7 @@
                         <Button v-if="tokkent === ''" class="btn btn_btnFeedback" @click="openLog()">Авторизуйтесь</Button>
                     </div>
                 </div>
-                <div class="courseSingle_text mob">
-                    {{ coursesContent.text }}
+                <div class="courseSingle_text mob" v-html="coursesContent.text">
                 </div>
                 <div class="courseSingle_wrapAuthor">
                     <div class="courseSingle_authorTitle">
@@ -70,8 +69,7 @@
                 <div class="courseSingle_wrapImg">
                     <img :src="coursesContent.course_image" alt="img">
                 </div>
-                <div class="courseSingle_text">
-                    {{ coursesContent.text }}
+                <div class="courseSingle_text" v-html="coursesContent.text">
                 </div>
                 <div class="courseSingle_promotion"></div>
             </div>
