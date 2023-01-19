@@ -82,6 +82,12 @@ const routes = [
     component: () => import('../views/search.vue')
   },
   {
+    path: '/vebinars/:Pid4/test/',
+    name: 'testVebinar',
+    meta: { layout: 'main' },
+    component: () => import('../views/testVebinar.vue')
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound

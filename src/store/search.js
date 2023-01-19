@@ -16,7 +16,7 @@ export default {
             commit('SET_SEARCH', payload)
         },
         GET_SEARCH_FROM_API({commit}, content) {
-            return axios(`https://asprof-test.azurewebsites.net/api/courses/?name__contains=${content}`, {
+            return axios(`https://asprof-test.azurewebsites.net/api/courses/?name__icontains=${content}`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_SEARCH', products.data)

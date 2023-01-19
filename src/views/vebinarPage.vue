@@ -1,6 +1,7 @@
 <template>
     <div class="vebinarPage">
         <Breadcrumbs :content="breadcrumbs" /> 
+        {{ vebinar }}
         <div class="vebinarPage_content">
             <h2 class="vebinarPage_title">
                 {{ vebinar.name }}
@@ -33,7 +34,7 @@
                 <div v-else>
                     Ви зареєстровані!
                 </div>
-                <Button :btnClass="'btnLink'"> Пройти опитування </Button>
+                <Button v-if="vebinar.test && vebinar.registered" :btnClass="'btnLink'" @click="goToTest()"> Пройти опитування </Button>
             </div>
                 <!-- <p style='font-size:20px; color: #383838; font-weight: 700;'>Селюк Мар'яна Миколаївна</p>
                 <p>кандидат медичних наук, професор кафедри терапії УВМА</p> 
@@ -152,6 +153,13 @@ export default {
     }
   },
   methods: {
+    goToTest () {
+      // alert(proId)
+      this.$router.push({
+        name: 'testVebinar',
+        params: { Pid4: this.title }
+      })
+    },
     openLog() {
         this.$router.push('/login')
     },
