@@ -15,15 +15,31 @@ export default {
             commit('SET_VEBINARSINGLE', payload)
         },
         GET_VEBINARSINGLE_FROM_API({commit}, payload) {
-            return axios(`https://asprof-test.azurewebsites.net/api/webinars/${payload}`, {
-                method: "GET"
-            }).then((products) => {
-                commit('SET_VEBINARSINGLE', products.data)
-                return products.data
-            }).catch((error) => {
-                console.log(error)
-                return error
-            })
+            if(payload.tokken !== '') {
+                return axios(`https://asprof-test.azurewebsites.net/api/webinars/${payload.id}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: 'Bearer ' + payload.tokken
+                    }
+                }).then((products) => {
+                    commit('SET_VEBINARSINGLE', products.data)
+                    return products.data
+                }).catch((error) => {
+                    console.log(error)
+                    return error
+                })
+            } else {
+                return axios(`https://asprof-test.azurewebsites.net/api/webinars/${payload.id}`, {
+                    method: "GET"
+                }).then((products) => {
+                    commit('SET_VEBINARSINGLE', products.data)
+                    return products.data
+                }).catch((error) => {
+                    console.log(error)
+                    return error
+                })
+            }
+            
         }
     },
     getters: {

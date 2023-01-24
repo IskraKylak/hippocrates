@@ -1,18 +1,4 @@
 <template>
-  <div class="container content_vebinar ">
-<!--  {{ testVebinar }}-->
-<!--    <br>-->
-<!--    <br>-->
-<!--    {{ infoTest  }}-->
-<!--    <br>-->
-<!--    <br>-->
-<!-- <div>userTest: {{ userTest }}</div> -->
-<!--    <br>-->
-<!--    <br>-->
-   <!-- <div>resultInfo: {{ resultInfo }}</div> -->
-    <h1 class="title_test">
-      Тестовий вебінар
-    </h1>
     <div v-if="infoTest.user_statistics">
       <div v-if="infoTest.user_statistics.test_available && resultInfo === ''">
           <div class="list_question" v-for="(quest, idx) in testVebinar" :key="idx">
@@ -82,7 +68,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -105,8 +90,8 @@ export default {
   },
   methods: {
     async getSertificat(id) {
-      console.log(`https://asprof-test.azurewebsites.net/api/${this.type}/${id}/test/results/certificate/`)
-      console.log(this.$store.getters.getToken)
+      // console.log(`https://asprof-test.azurewebsites.net/api/${this.type}/${id}/test/results/certificate/`)
+      // console.log(this.$store.getters.getToken)
       this.$message('Очікуйте зараз іде підготовка сертифіката')
       await axios({
         url: `https://asprof-test.azurewebsites.net/api/${this.type}/${id}/test/results/certificate/`,
@@ -158,8 +143,15 @@ export default {
       //   '47': '50',
       //   '48': '52'
       // }
+      let api = ""
+      if(this.type === 'webinars') {
+        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/test/results/`
+      } else if(this.type === 'courses') {
+        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/testing/results/`
+      }
+
       await axios({
-        url: `https://asprof-test.azurewebsites.net/api/${this.type}/${this.proId}/test/results/`,
+        url: api,
         data: this.userTest,
         method: 'POST',
         headers: {
@@ -177,8 +169,17 @@ export default {
       this.getNotify()
     },
     async getNotify () {
+
+      let api = ""
+      if(this.type === 'webinars') {
+        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/test/`
+      } else if(this.type === 'courses') {
+        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/testing/`
+        console.log(`https://asprof-test.azurewebsites.net/api/${this.proId}/testing/`)
+      }
+      
       await axios({
-        url: `https://asprof-test.azurewebsites.net/api/${this.type}/${this.proId}/test/`,
+        url: api,
         method: 'GET',
         headers: {
           Authorization: 'Bearer ' + this.$store.getters.getToken
@@ -194,8 +195,14 @@ export default {
         .finally(() => (this.loading = false))
       // если тест доступен, получить тест
       if (this.infoTest.user_statistics.test_available) {
+
+        if(this.type === 'webinars') {
+          api = `https://asprof-test.azurewebsites.net/api/${this.proId}/test/`
+        } else if(this.type === 'courses') {
+          api = `https://asprof-test.azurewebsites.net/api/${this.proId}/testing/`
+        }
         await axios({
-          url: `https://asprof-test.azurewebsites.net/api/${this.type}/${this.proId}/test/`,
+          url: api,
           method: 'GET',
           headers: {
             Authorization: 'Bearer ' + this.$store.getters.getToken
@@ -220,8 +227,15 @@ export default {
           })
           .finally(() => (this.loading = false))
       } else {
+
+        if(this.type === 'webinars') {
+          api = `https://asprof-test.azurewebsites.net/api/${this.proId}/test/results/`
+        } else if(this.type === 'courses') {
+          api = `https://asprof-test.azurewebsites.net/api/${this.proId}/testing/results/`
+        }
+
         await axios({
-          url: `https://asprof-test.azurewebsites.net/api/${this.type}/${this.proId}/test/results/`,
+          url: api,
           method: 'GET',
           headers: {
             Authorization: 'Bearer ' + this.$store.getters.getToken

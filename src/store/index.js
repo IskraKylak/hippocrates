@@ -11,6 +11,7 @@ import contact from './contact'
 import project from './project'
 import search from './search'
 import acc from './acc'
+import lesson from './lesson'
 
 export default createStore({
   state: {
@@ -33,6 +34,7 @@ export default createStore({
     contact,
     project,
     search,
-    acc
+    acc,
+    lesson
   }
 })

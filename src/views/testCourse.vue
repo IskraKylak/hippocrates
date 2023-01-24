@@ -1,10 +1,10 @@
 <template>
-    <div v-if="idVebinar" class="wrapTesting">
+    <div v-if="idCourse" class="wrapTesting">
         <div class="container content_vebinar ">
             <h1 class="title_test">
             Тестовий вебінар
             </h1>
-            <Testing  :proId="idVebinar" :type="type"  />
+            <Testing  :proId="idCourse" :type="type"  />
         </div>
     </div>
 </template>
@@ -17,8 +17,8 @@ export default {
     },
     data () {
     return {
-        idVebinar: 'webinars/'+this.$route.params.Pid4,
-        type: 'webinars'
+        idCourse: 'courses/'+this.$route.params.Pid2,
+        type: 'courses'
 
     }
   },

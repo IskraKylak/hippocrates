@@ -9,10 +9,23 @@
         </h2>
         <div class="courseSingle_content">
             <div class="courseSingle_left">
-                <div class="courseSingle_wrapImg mob" v-if="coursesContent.course_image">
+                <div class="courseSingle_lessons" v-if="isLessons">
+                    <div class="courseSingle_lessons_item bg">
+                        Уроки
+                    </div>
+                    <div class="courseSingle_lessons_item" v-for="(item, idx) in coursesContent.lessons_set" :key="idx">
+                        <div @click="openLesson(item.id)">
+                            {{ item.order_number }}. {{ item.name }}
+                        </div>
+                    </div>
+                    <div class="courseSingle_lessons_item">
+                        <Button class="btn btn_btnFeedback" @click="isLessons = false; isLessonContent = false">Подивитись Курс</Button>
+                    </div>
+                </div>
+                <div class="courseSingle_wrapImg mob" v-if="coursesContent.course_image && !isLessons">
                     <img :src="coursesContent.course_image" alt="img">
                 </div>
-                <div class="courseSingle_table">
+                <div class="courseSingle_table" v-if="!isLessons">
                     <div class="courseSingle_row bg">
                         <div class="courseSingle_head">
                             {{ table.head }}
@@ -52,9 +65,14 @@
                     </div>
                     <div class="courseSingle_row">
                         <Button v-if="tokkent === ''" class="btn btn_btnFeedback" @click="openLog()">Авторизуйтесь</Button>
+                        <div v-else class="courseSingle_wrapBtn">
+                            <Button class="btn btn_btnFeedback" @click="isLessons = !isLessons">Подивитись уроки</Button>
+                            <Button v-if="coursesContent.course_test" class="btn btn_btnFeedback" @click="goToTest()">Пройти тест</Button>
+                        </div>
+                        
                     </div>
                 </div>
-                <div class="courseSingle_text mob" v-html="coursesContent.text">
+                <div class="courseSingle_text mob" v-if="!lessons" v-html="coursesContent.text">
                 </div>
                 <div class="courseSingle_wrapAuthor">
                     <div class="courseSingle_authorTitle">
@@ -65,11 +83,19 @@
                     </div>
                 </div>
             </div>
-            <div class="courseSingle_right">
+            <div class="courseSingle_right" v-if="!isLessonContent">
                 <div class="courseSingle_wrapImg">
                     <img :src="coursesContent.course_image" alt="img">
                 </div>
                 <div class="courseSingle_text" v-html="coursesContent.text">
+                </div>
+                <div class="courseSingle_promotion"></div>
+            </div>
+            <div class="courseSingle_right" v-if="isLessons && isLessonContent">
+                <h2 class="courseSingle_lessonTitle">
+                    {{ contentLesson.name }}
+                </h2>
+                <div class="courseSingle_text" v-html="contentLesson.text">
                 </div>
                 <div class="courseSingle_promotion"></div>
             </div>
@@ -94,6 +120,9 @@ export default {
   },
   data() {
     return {
+        contentLesson: {},
+        isLessonContent: false,
+        isLessons: false,
         coursesContent: false,
         specialization: '',
         allSpecialization: [],
@@ -240,6 +269,25 @@ export default {
     }
   },
   methods: {
+    goToTest () {
+      // alert(proId)
+      this.$router.push({
+        name: 'testCourse',
+        params: { Pid2: this.title }
+      })
+    },
+    openLesson(id) {
+        let obj = {
+            course: this.coursesContent.id,
+            lesson: id
+        }
+        this.GET_LESSON_FROM_API(obj).then((response) => {
+            if(response) {
+                this.contentLesson = response
+                this.isLessonContent = true
+            }
+        })
+    },
     openLog() {
         this.$router.push('/login')
     },
@@ -247,7 +295,8 @@ export default {
         'GET_COURSESITEM_FROM_API',
         'GET_SPECIALIZATIONS_ITEM_FROM_API',
         'GET_SPECIALIZATIONS_FROM_API',
-        'GET_COURSESITEM_FROM_API_TOKKEN'
+        'GET_COURSESITEM_FROM_API_TOKKEN',
+        'GET_LESSON_FROM_API'
     ]),
   },
   mounted() {
@@ -308,6 +357,13 @@ export default {
         margin-bottom: desktop-vw(50);
     }
 
+    &_wrapBtn {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        grid-gap: desktop-vw(10);
+    }
+
     &_right {
         flex: 1 1 auto;
     }
@@ -349,14 +405,38 @@ export default {
         padding-bottom: desktop-vw(60);
     }
 
-    &_table {
+    &_table, &_lessons {
         width: desktop-vw(350);
         border: 1px solid rgba(0,0,0,.1);
         border-radius: 3px;
         overflow: hidden;
     }
 
-    &_row {
+    &_lessonTitle {
+        color: #383838;
+        margin-bottom: desktop-vw(15);
+    }
+
+    &_lessons_item {
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: #1FAEEA;
+        }
+        
+        &.bg {
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: auto;
+
+            &:hover {
+                color: #383838;
+            }
+        }
+    }
+
+    &_row, &_lessons_item {
         min-height: desktop-vw(50);
         padding: desktop-vw(15) desktop-vw(20);
         border-bottom: 1px solid rgba(0,0,0,.1);
@@ -484,6 +564,10 @@ export default {
 @media screen and (max-width: $mobile) {
     .courseSingle {
         padding: mobile-vw(40) 0 0;
+
+        &_wrapBtn {
+            grid-gap: mobile-vw(10);
+        }
         
         &_title {
             font-size: mobile-vw(24);

@@ -69,7 +69,7 @@ import Pagination from '@/components/Pagination'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
-  name: 'Vebinars',
+  name: 'Courses',
   components: {
     Breadcrumbs,
     ItemCourses,

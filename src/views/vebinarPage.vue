@@ -29,7 +29,7 @@
                 {{ titleSpikers }}
             </h2>
             <div class="vebinarPage_content" v-html="vebinar.text"></div>
-            <div v-if="tokkent != ''" class="wrapBtn">
+            <div v-if="tokkent != '' && vebinar.test" class="wrapBtn">
                 <Button :btnClass="'btnLink'" v-if="!vebinar.registered" class="reg" @click.prevent="registerSeminar()"> Реєстрація на семінар </Button>
                 <div v-else>
                     Ви зареєстровані!
@@ -166,10 +166,59 @@ export default {
     ...mapActions([
         'GET_VEBINARSINGLE_FROM_API',
     ]),
+    getApiVebinar () {
+        let obj = {
+            id: this.$route.params.Pid,
+            tokken: this.tokkent
+        }
+        this.GET_VEBINARSINGLE_FROM_API(obj).then((response) => {
+            if(response) {
+                console.log('this.vebinar')
+                this.vebinar = response
+
+                const VIDEO_ID = "dAv0Tyxu8-M"; // for live chat
+                if(this.vebinar)
+                    VIDEO_ID = this.vebinar.youtube_id
+                
+                /*
+                code from:
+                https://stackoverflow.com/questions/52468303/how-to-embed-youtube-livestream-chat
+                */
+                let chat_embed_wrapper = document.getElementById("chat-embed-wrapper");  
+                let chat_embed_iframe = document.createElement("iframe");  
+                chat_embed_iframe.referrerPolicy = "origin";  
+                chat_embed_iframe.src = `https://www.youtube.com/live_chat?v=${VIDEO_ID}&embed_domain=${window.location.hostname}&dark_theme=1`;  
+                chat_embed_iframe.frameBorder = "0";  
+                chat_embed_iframe.id = "chat-embed-iframe";  
+                chat_embed_iframe.style.height = "100%";
+                chat_embed_iframe.style.width = "100%";
+                chat_embed_wrapper.appendChild(chat_embed_iframe);
+
+                let change_stream_embed_iframe_size = function(){
+                let stream_container = document.getElementById("stream-container");
+                let stream_embed_wrapper = document.getElementById("stream-embed-wrapper");
+                let stream_embed_iframe = document.getElementById("stream-embed-iframe");
+
+                    if(typeof window.orientation !== 'undefined'){ //on phone
+                        chat_embed_wrapper.style.display = 'none';
+                        stream_embed_iframe.width = stream_container.clientWidth;
+                    }else{ // on pc (desktop browsers == 'undefined')
+                        stream_embed_iframe.width = stream_embed_wrapper.clientWidth;
+                    }
+                };
+                change_stream_embed_iframe_size();
+
+                window.onresize = function(event) {
+                    //console.log("[window.onresize]");
+                    change_stream_embed_iframe_size();
+                };
+            }
+        })
+    },
     async registerSeminar () {
       if (this.$store.getters.getToken) {
         await axios({
-          url: `https://asprof-test.azurewebsites.net/api/events/${this.$route.params.Pid}/register/`,
+          url: `https://asprof-test.azurewebsites.net/api/webinars/${this.$route.params.Pid}/register/`,
           method: 'Post',
           headers: {
             Authorization: 'Bearer ' + this.tokkent
@@ -188,6 +237,7 @@ export default {
           name: 'inLogin'
         })
       }
+      this.getApiVebinar()
     },
   },
   computed: {
@@ -214,49 +264,7 @@ export default {
     }
   },
   mounted() {
-    this.GET_VEBINARSINGLE_FROM_API(this.$route.params.Pid).then((response) => {
-      if(response) {
-        console.log('this.vebinar')
-        this.vebinar = response
-
-        const VIDEO_ID = "dAv0Tyxu8-M"; // for live chat
-        if(this.vebinar)
-            VIDEO_ID = this.vebinar.youtube_id
-        
-        /*
-        code from:
-        https://stackoverflow.com/questions/52468303/how-to-embed-youtube-livestream-chat
-        */
-        let chat_embed_wrapper = document.getElementById("chat-embed-wrapper");  
-        let chat_embed_iframe = document.createElement("iframe");  
-        chat_embed_iframe.referrerPolicy = "origin";  
-        chat_embed_iframe.src = `https://www.youtube.com/live_chat?v=${VIDEO_ID}&embed_domain=${window.location.hostname}&dark_theme=1`;  
-        chat_embed_iframe.frameBorder = "0";  
-        chat_embed_iframe.id = "chat-embed-iframe";  
-        chat_embed_iframe.style.height = "100%";
-        chat_embed_iframe.style.width = "100%";
-        chat_embed_wrapper.appendChild(chat_embed_iframe);
-
-        let change_stream_embed_iframe_size = function(){
-        let stream_container = document.getElementById("stream-container");
-        let stream_embed_wrapper = document.getElementById("stream-embed-wrapper");
-        let stream_embed_iframe = document.getElementById("stream-embed-iframe");
-
-            if(typeof window.orientation !== 'undefined'){ //on phone
-                chat_embed_wrapper.style.display = 'none';
-                stream_embed_iframe.width = stream_container.clientWidth;
-            }else{ // on pc (desktop browsers == 'undefined')
-                stream_embed_iframe.width = stream_embed_wrapper.clientWidth;
-            }
-        };
-        change_stream_embed_iframe_size();
-
-        window.onresize = function(event) {
-            //console.log("[window.onresize]");
-            change_stream_embed_iframe_size();
-        };
-      }
-    })
+    this.getApiVebinar()
   }
 }
 </script>
