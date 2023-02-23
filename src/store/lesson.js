@@ -17,7 +17,10 @@ export default {
         },
         GET_LESSON_FROM_API({commit}, obj) {
             return axios(`https://asprof-test.azurewebsites.net/api/courses/${obj.course}/lessons/${obj.lesson}/`, {
-                method: "GET"
+                method: "GET",
+                headers: {
+                    'Authorization': 'Bearer ' + obj.tokken
+                }
             }).then((products) => {
                 commit('SET_LESSON', products.data)
                 return products.data

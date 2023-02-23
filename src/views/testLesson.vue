@@ -2,9 +2,9 @@
     <div class="wrapTesting">
         <div class="container content_vebinar ">
             <h1 class="title_test">
-            Тест Курсу
+                Тест уроку
             </h1>
-            <TestingCourse  :content="product"  @goToCourse="goToCourse"/>
+            <TestingCourse  :content="product" @goToCourse="goToCourse"/>
         </div>
     </div>
 </template>
@@ -16,10 +16,11 @@ export default {
         TestingCourse
     },
     data () {
-        return {
+    return {
             product: {
-                idCourse: 'courses/'+this.$route.params.Pid2,
-                type: 'courses'
+                idCourse: 'courses/'+this.$route.params.courseId,
+                idLesson: 'lessons/'+this.$route.params.Pid3,
+                type: 'lessons'
             }
         }
     },
@@ -27,7 +28,7 @@ export default {
         goToCourse() {
             this.$router.push({
                 name: 'courseSingle',
-                params: { Pid2: this.$route.params.Pid2 }
+                params: { Pid2: this.$route.params.courseId }
             })
         }
     }

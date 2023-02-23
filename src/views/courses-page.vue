@@ -195,7 +195,7 @@ export default {
             oneSpec: false,
             spec: this.$route.params.Pid1
         }
-        console.log(this.SPECIALIZATIONSITEM.id)
+        // console.log(this.SPECIALIZATIONSITEM.id)
         this.GET_COURSES_FROM_API_PAGE(obj).then((response) => {
             // console.log(response)
             if(response) {

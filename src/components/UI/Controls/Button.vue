@@ -41,6 +41,16 @@ export default {
   justify-content: center;
   box-sizing: border-box;
   transition: all 0.3s ease;
+  &:disabled,
+  &[disabled]{
+    background-color: #cccccc;
+    color: #666666;
+     &:hover  {
+      background-color: #cccccc;
+      color: #666666;
+      cursor: auto;
+     }
+  }
 
   &:hover {
     background: #93d922;

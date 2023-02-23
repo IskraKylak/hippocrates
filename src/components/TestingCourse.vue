@@ -1,6 +1,6 @@
 <template>
-    <div v-if="infoTest.user_statistics">
-      <div v-if="infoTest.user_statistics.test_available && resultInfo === ''">
+    <div>
+      <div v-if="resultInfo === ''">
           <div class="list_question" v-for="(quest, idx) in testVebinar" :key="idx">
           <div class="lq_item">
             <p class="lq_number">Питання №{{idx + 1}}</p>
@@ -48,18 +48,27 @@
         <div v-if="resultInfo.success" class="block_success">
           <h3>Вітаємо! Ви пройшли тест</h3>
           <p>Ваш відсоток правильних відповідей</p>
-          <span class="interest">{{ userTest.result }}%</span>
+          <span class="interest">{{ resultInfo.result }}%</span>
+          <!-- <p>Ви можете отримати Сертифікат про проходження курсу "Тестовий вебінар"</p> -->
+          <a 
+            href='#'
+            @click.prevent="goToCourse()" 
+            class="btn_certificate"
+          >Повернутись до курсу</a>
         </div>
         <div v-else-if="!resultInfo.success" class="block_success">
           <p>Ваш відсоток правильних відповідей</p>
           <span class="interest">{{ resultInfo.result }}%</span>
-          <p v-if="infoTest.max_tries !==0">Кількість спроб: {{infoTest.max_tries - infoTest.user_statistics.tries}}</p>
-          <p v-if="infoTest.max_tries === 0">Кількість спроб: Безліч</p>
-          <a href="#" v-if="infoTest.max_tries === 0 || infoTest.max_tries > infoTest.user_statistics.tries" v-on:click.prevent="restart()" class="btn_certificate">Спробувати ще!</a>
+          <!-- <div v-if="infoTest.max_tries">
+              <p v-if="infoTest.max_tries !==0">Кількість спроб: {{infoTest.max_tries - infoTest.user_statistics.tries}}</p>
+              <p v-if="infoTest.max_tries === 0">Кількість спроб: Безліч</p>
+              <a href="#" v-if="infoTest.max_tries === 0 || infoTest.max_tries > infoTest.user_statistics.tries" v-on:click.prevent="restart()" class="btn_certificate">Спробувати ще!</a>
+          </div> -->
+          <a href="#" v-on:click.prevent="goToCourse()" class="btn_certificate">Перепройти курс?</a>
         </div>
-        <div v-if="(infoTest.max_tries) === infoTest.user_statistics.tries && infoTest.max_tries !== 0 && !resultInfo.success" class="block_success">
+        <!-- <div v-if="(infoTest.max_tries) === infoTest.user_statistics.tries && infoTest.max_tries !== 0 && !resultInfo.success" class="block_success">
             <h3>Тест не пройдено!</h3>
-        </div>
+        </div> -->
       </div>
     </div>
 </template>
@@ -68,7 +77,7 @@
 import axios from 'axios'
 export default {
   name: 'TestVebinar',
-  props: ['proId', 'type'],
+  props: ['content'],
   data () {
     return {
       testVebinar: [],
@@ -83,67 +92,20 @@ export default {
     this.getNotify()
   },
   methods: {
-    async getSertificat(id) {
-      // console.log(`https://asprof-test.azurewebsites.net/api/${this.type}/${id}/test/results/certificate/`)
-      // console.log(this.$store.getters.getToken)
-      this.$message('Очікуйте зараз іде підготовка сертифіката')
-      await axios({
-        url: `https://asprof-test.azurewebsites.net/api/${this.type}/${id}/test/results/certificate/`,
-        data: this.userTest,
-        method: 'get',
-        headers: {
-          Authorization: 'Bearer ' + this.$store.getters.getToken
-        }
-      }).then(respons => {
-        console.log(respons.data)
-        
-        var a = document.createElement("a");
-        a.style = "display: none";
-        a.href = `data:application/pdf;base64,<?= ${respons.data} ?>`;
-        a.download = "download.pdf";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-      })
-        .catch(error => {
-          console.log(error)
-          this.$message('Помилка')
-        })
-        .finally()
-        
-    },
-    restart () {
-      this.resultInfo = ''
-      this.getNotify()
-    },
-    addAnsverChebox (idQuest, idAnsver, add) {
-      // alert(add)
-      if (add) {
-        this.userTest[idQuest].push(idAnsver)
-      } else {
-        for (let x = 0; x < this.userTest[idQuest].length; x++) {
-          if (this.userTest[idQuest][x] == idAnsver) {
-            this.userTest[idQuest].splice(x, 1)
-          }
-        }
-      }
+    goToCourse() {
+      this.$emit('goToCourse')
     },
     addAnsverRadio (idQuest, idAnsver) {
       this.userTest[idQuest] = idAnsver
     },
     async postTest () {
-      // let obj = {
-      //   '47': '50',
-      //   '48': '52'
-      // }
       let api = ""
-      if(this.type === 'webinars') {
-        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/test/results/`
-      } else if(this.type === 'courses') {
-        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/testing/results/`
+      if(this.content.type === 'lessons') {
+        api = `https://asprof-test.azurewebsites.net/api/${this.content.idCourse}/${this.content.idLesson}/test/results/`
+      } else if(this.content.type === 'courses') {
+        api = `https://asprof-test.azurewebsites.net/api/${this.content.idCourse}/test/results/`
       }
-
+      // console.log(this.userTest)
       await axios({
         url: api,
         data: this.userTest,
@@ -152,47 +114,44 @@ export default {
           Authorization: 'Bearer ' + this.$store.getters.getToken
         }
       }).then(respons => {
-        // this.$message('Тест закінчено!')
+        this.$message('Тест відправлено!')
         this.resultInfo = respons.data
+        console.log(this.resultInfo)
       })
         .catch(error => {
           console.log(error)
           this.$message('Помилка')
         })
         .finally(() => (this.loading = false))
-      this.getNotify()
+      
+      if(!this.resultInfo.success) {
+          let api = ""
+          api = `https://asprof-test.azurewebsites.net/api/${this.content.idCourse}/restart/`
+        
+          await axios({
+            url: api,
+            method: 'POST',
+            headers: {
+              Authorization: 'Bearer ' + this.$store.getters.getToken
+            }
+          }).then(respons => {
+            // this.$message('Тест перезавантажено!')
+          })
+            .catch(error => {
+              // console.log(error)
+              this.$message('Помилка')
+            })
+            .finally(() => (this.loading = false))
+
+      }
     },
     async getNotify () {
-
-      let api = ""
-      if(this.type === 'webinars') {
-        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/test/`
-      } else if(this.type === 'courses') {
-        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/progress/`
-      }
-      
-      await axios({
-        url: api,
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + this.$store.getters.getToken
-        }
-      }).then(respons => {
-        this.testVebinar = respons.data.questions_set
-        this.infoTest = respons.data
-      })
-        .catch(error => {
-          console.log(error)
-          this.$message('Помилка')
-        })
-        .finally(() => (this.loading = false))
-      // если тест доступен, получить тест
-      if (this.infoTest.user_statistics.test_available) {
-
-        if(this.type === 'webinars') {
-          api = `https://asprof-test.azurewebsites.net/api/${this.proId}/test/`
-        } else if(this.type === 'courses') {
-          api = `https://asprof-test.azurewebsites.net/api/${this.proId}/testing/`
+        this.resultInfo = ''
+        let api = ""
+        if(this.content.type === 'lessons') {
+          api = `https://asprof-test.azurewebsites.net/api/${this.content.idCourse}/${this.content.idLesson}/testing/`
+        } else if(this.content.type === 'courses') {
+          api = `https://asprof-test.azurewebsites.net/api/${this.content.idCourse}/testing/`
         }
         await axios({
           url: api,
@@ -212,38 +171,12 @@ export default {
               this.testVebinar[i].answers_set[x].correct = false
             }
           }
-          // this.messages = res;
         })
           .catch(error => {
             console.log(error)
             this.$message('Помилка')
           })
           .finally(() => (this.loading = false))
-      } else {
-
-        if(this.type === 'webinars') {
-          api = `https://asprof-test.azurewebsites.net/api/${this.proId}/test/results/`
-        } else if(this.type === 'courses') {
-          api = `https://asprof-test.azurewebsites.net/api/${this.proId}/testing/results/`
-        }
-
-        await axios({
-          url: api,
-          method: 'GET',
-          headers: {
-            Authorization: 'Bearer ' + this.$store.getters.getToken
-          }
-        }).then(respons => {
-          this.testVebinar = respons.data.questions_set
-          this.userTest = respons.data[0]
-          this.resultInfo = respons.data[0]
-        })
-          .catch(error => {
-            console.log(error)
-            this.$message('Помилка')
-          })
-          .finally(() => (this.loading = false))
-      }
     }
   }
 }

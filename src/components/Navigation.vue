@@ -133,7 +133,7 @@ export default {
         this.$router.push({
             name: 'courseSingle',
             params: { Pid2: prodId}
-        })
+        }).catch({})
     },
     ...mapActions([
         'GET_ACC_FROM_API',
@@ -172,7 +172,7 @@ export default {
         this.GET_SEARCH_FROM_API(newSearch).then((response) => {
             if(response.count != 0) {
               this.result = []
-              console.log(response.results)
+              // console.log(response.results)
               for(let i = 0; i < response.results.length; i++) {
                   this.result.push(response.results[i])
               }

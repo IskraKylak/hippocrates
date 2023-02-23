@@ -14,7 +14,7 @@
                         Уроки
                     </div>
                     <div class="courseSingle_lessons_item" v-for="(item, idx) in coursesContent.lessons_set" :key="idx">
-                        <div @click="openLesson(item.id)">
+                        <div @click="openLesson(item)" :class="[getClassLesson(item) ? 'disabled' : '']">
                             {{ item.order_number }}. {{ item.name }}
                         </div>
                     </div>
@@ -39,14 +39,14 @@
                             {{ item }}
                         </div>
                     </div>
-                    <div class="courseSingle_row">
+                    <!-- <div class="courseSingle_row">
                         <div class="courseSingle_certifikate">
                             {{ table.certifikat }}
                         </div>
                         <div class="courseSingle_value">
                             {{ courseInfo.cer }}
                         </div>
-                    </div>
+                    </div> -->
                     <div class="courseSingle_row">
                         <div class="courseSingle_calend">
                             {{ table.availableIn }}
@@ -65,14 +65,14 @@
                     </div>
                     <div class="courseSingle_row">
                         <Button v-if="tokkent === ''" class="btn btn_btnFeedback" @click="openLog()">Авторизуйтесь</Button>
-                        <div v-else class="courseSingle_wrapBtn">
-                            <Button class="btn btn_btnFeedback" @click="isLessons = !isLessons">Подивитись уроки</Button>
-                            <Button v-if="coursesContent.course_test" class="btn btn_btnFeedback" @click="goToTest()">Пройти тест</Button>
+                        <div v-else-if="coursesContent" class="courseSingle_wrapBtn">
+                            <Button class="btn btn_btnFeedback" v-if="coursesContent.lessons_set.length" @click="isLessons = true">Подивитись уроки</Button>
+                            <Button v-if="coursesContent.course_available && coursesContent.has_test && coursesContent.lessons_set.length" :disabled='showBtnCourseTest' class="btn btn_btnFeedback" @click="goToTest()">Пройти тест</Button>
                         </div>
                         
                     </div>
                 </div>
-                <div class="courseSingle_text mob" v-if="!lessons" v-html="coursesContent.text">
+                <div class="courseSingle_text mob" v-if="!isLessons" v-html="coursesContent.text">
                 </div>
                 <div class="courseSingle_wrapAuthor">
                     <div class="courseSingle_authorTitle">
@@ -97,6 +97,8 @@
                 </h2>
                 <div class="courseSingle_text" v-html="contentLesson.text">
                 </div>
+                <Button v-if="contentLesson.has_test && showBtn(contentLesson)" class="btn btn_btnFeedback" @click="openTestLesson(contentLesson)">Пройти тест</Button>
+                <Button v-if="!contentLesson.has_test && showBtn(contentLesson)" class="btn btn_btnFeedback" @click="finishLesson(contentLesson)">Закінчити урок</Button>
                 <div class="courseSingle_promotion"></div>
             </div>
         </div>
@@ -110,6 +112,7 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 import ItemCourses from '@/components/ItemCourses'
 import Button from '@/components/UI/Controls/Button.vue'
 import {mapActions, mapGetters} from 'vuex'
+import axios from 'axios'
 
 export default {
   name: 'Vebinars',
@@ -128,7 +131,7 @@ export default {
         allSpecialization: [],
         courseInfo: {
             work: 'Акушер-гінеколог',
-            cer: '0 бал',
+            // cer: '0 бал',
             dataStart: '20.05.2020',
             dataEnd: '20.05.2020'
 
@@ -137,7 +140,7 @@ export default {
         table: {
             head: 'ПРО КУРС',
             user: 'СПЕЦІАЛЬНОСТІ',
-            certifikat: 'СЕРТИФІКАТ',
+            // certifikat: 'СЕРТИФІКАТ',
             availableIn: 'ДОСТУПНИЙ З', 
             availableUpTo: 'ДОСТУПНИЙ ДО'
         },
@@ -150,6 +153,33 @@ export default {
   created () {
   },
   computed: {
+    showBtnCourseTest () {
+         if(this.coursesContent.users_progress !== null) {
+            if(!this.coursesContent.users_progress.finished && this.coursesContent.users_progress.is_last_lesson) {
+                let current_lesson = this.coursesContent.users_progress.current_lesson
+                let isFinishLesson = true
+                this.coursesContent.lessons_set.forEach(item => {
+                    if(item.id === current_lesson && item.users_progress.finished) {
+                        isFinishLesson = false
+                        
+                    }
+                })
+                return isFinishLesson
+            }
+         }
+         return true
+    },
+    getTestCourse() {
+        if(this.coursesContent.users_progress.current_lesson == null ) {
+            return true
+        } else {
+            if (this.coursesContent.users_progress.is_last_lesson && this.coursesContent.lessons_set[this.coursesContent.lessons_set.length - 1].users_progress.finished && !this.coursesContent.users_progress.finished) {
+                return true
+            } else {
+                return false
+            }
+        }
+    },
     breadcrumbs() {
         let breadcrumbs = [
             {
@@ -269,24 +299,143 @@ export default {
     }
   },
   methods: {
+    startLoadPage () {
+       if(this.$route.params.Pid1) {
+            let mas = this.$route.params.Pid1.split('&');
+            if(mas.length == 2) {
+                let numEl = parseInt(this.$route.params.Pid1.match(/\d+/));
+                this.GET_SPECIALIZATIONS_ITEM_FROM_API(numEl).then((response) => {
+                    if(response) {
+                        this.specialization = response
+                    }
+                })
+            }
+        }
+        let obj = {
+            id: this.$route.params.Pid2,
+            tokken: this.tokkent
+        }
+        if(this.tokkent === '') {
+            this.GET_COURSESITEM_FROM_API(obj).then((response) => {
+                if(response) {
+                    this.coursesContent = response
+                }
+            })
+            
+        } else {
+            this.GET_COURSESITEM_FROM_API_TOKKEN(obj).then((response) => {
+                if(response) {
+                    this.coursesContent = response
+                    if(this.coursesContent.users_progress === null && this.coursesContent.lessons_set.length != 0) {
+                        axios({
+                            url: `https://asprof-test.azurewebsites.net/api/courses/${this.coursesContent.id}/start/`,
+                            method: 'post',
+                            headers: {
+                                Authorization: 'Bearer ' + this.$store.getters.getToken
+                            }
+                        }).then(respons => {
+                            // this.$message('Урок відкрито')
+                            this.GET_COURSESITEM_FROM_API_TOKKEN(obj).then((response) => {
+                                if(response) {
+                                    this.coursesContent = response
+                                }
+                            })
+                        })
+                    }
+                }
+            })
+            // console.log(this.coursesContent)
+        }
+        
+        this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+        if(response) {
+            this.allSpecialization = response
+        }
+        }) 
+    },
+    showBtn (lesson) {
+        if(this.coursesContent.users_progress !== null) {
+            if(lesson.id === this.coursesContent.users_progress.current_lesson && !this.contentLesson.users_progress.finished) {
+                return true
+            } 
+            return false
+        } else {
+            return false
+        }
+    },
+    finishLesson (item) {
+        let obj = {
+            id: this.$route.params.Pid2,
+            tokken: this.tokkent
+        }
+        axios({
+            url: `https://asprof-test.azurewebsites.net/api/courses/${this.coursesContent.id}/lessons/${item.id}/finish/`,
+            method: 'post',
+            headers: {
+                Authorization: 'Bearer ' + this.$store.getters.getToken
+            }
+        }).then(respons => {
+            this.$message('Урок закінчено')
+            this.isLessons = false
+            this.isLessonContent = false
+            this.startLoadPage()
+        })
+        .catch(error => {
+            console.log(error)
+            this.$message('Помилка')
+        })
+        .finally()
+    },
+    getClassLesson (item) {
+        if(item.id > this.coursesContent.users_progress.current_lesson) {
+            return true 
+        } else {
+            return false     
+        } 
+    },
+    openTestLesson (item) {
+        this.$router.push({
+            name: 'testLesson',
+            params: { courseId: this.coursesContent.id, Pid3: item.id }
+        })
+    },
+    // openLessons () {
+    //     this.isLessons = true
+    // },
     goToTest () {
       // alert(proId)
-      this.$router.push({
-        name: 'testCourse',
-        params: { Pid2: this.title }
-      })
+        if(this.coursesContent.users_progress !== null) {
+            if(!this.coursesContent.users_progress.finished && this.coursesContent.users_progress.is_last_lesson) {
+                let current_lesson = this.coursesContent.users_progress.current_lesson
+                let isFinishLesson = false
+                this.coursesContent.lessons_set.forEach(item => {
+                    if(item.id === current_lesson && item.users_progress.finished) {
+                        isFinishLesson = true
+                    }
+                })
+                if (isFinishLesson) {
+                    this.$router.push({
+                        name: 'testCourse',
+                        params: { Pid2: this.title }
+                    })
+                }
+            }
+        }
     },
-    openLesson(id) {
+    openLesson(item) {
         let obj = {
             course: this.coursesContent.id,
-            lesson: id
+            lesson: item.id,
+            tokken: this.tokkent
         }
-        this.GET_LESSON_FROM_API(obj).then((response) => {
-            if(response) {
-                this.contentLesson = response
-                this.isLessonContent = true
-            }
-        })
+        if(item.id <= this.coursesContent.users_progress.current_lesson) {
+            this.GET_LESSON_FROM_API(obj).then((response) => {
+                if(response) {
+                    this.contentLesson = response
+                    this.isLessonContent = true
+                }
+            })
+        }
     },
     openLog() {
         this.$router.push('/login')
@@ -300,42 +449,12 @@ export default {
     ]),
   },
   mounted() {
-    if(this.$route.params.Pid1) {
-        let mas = this.$route.params.Pid1.split('&');
-        if(mas.length == 2) {
-            let numEl = parseInt(this.$route.params.Pid1.match(/\d+/));
-            this.GET_SPECIALIZATIONS_ITEM_FROM_API(numEl).then((response) => {
-                if(response) {
-                    this.specialization = response
-                }
-            })
-        }
+    this.startLoadPage()
+  },
+  watch: {
+    $route(to, from) {
+      this.startLoadPage()
     }
-    let obj = {
-        id: this.$route.params.Pid2,
-        tokken: this.tokkent
-    }
-    if(this.tokkent === '') {
-        this.GET_COURSESITEM_FROM_API(obj).then((response) => {
-            if(response) {
-                this.coursesContent = response
-            }
-        })
-        
-    } else {
-        this.GET_COURSESITEM_FROM_API_TOKKEN(obj).then((response) => {
-            if(response) {
-                this.coursesContent = response
-            }
-        })
-        console.log(this.coursesContent)
-    }
-    
-    this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
-      if(response) {
-        this.allSpecialization = response
-      }
-    })
   }
 }
 </script>
@@ -392,6 +511,7 @@ export default {
         color: #383838;
         line-height: 130%;
         font-size: desktop-vw(16);
+        margin-bottom: desktop-vw(16);
         
         &.mob {
             display: none;
@@ -420,6 +540,15 @@ export default {
     &_lessons_item {
         cursor: pointer;
         transition: all 0.3s ease;
+
+        & .disabled {
+            color: rgba(0, 0, 0, 0.1);
+            cursor: auto;
+
+            &:hover {
+                color: rgba(0, 0, 0, 0.1);
+            }
+        }
 
         &:hover {
             color: #1FAEEA;

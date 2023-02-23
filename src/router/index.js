@@ -70,6 +70,12 @@ const routes = [
     component: () => import('../views/testCourse.vue')
   },
   {
+    path: '/course/:courseId/test/:Pid3',
+    name: 'testLesson',
+    meta: { layout: 'main' },
+    component: () => import('../views/testLesson.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     meta: { layout: 'main' },

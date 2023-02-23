@@ -5,7 +5,7 @@
     <Events :content="events" />
     <Courses v-if="courses.list.length !== 0" :content="courses" />
     <CalendarEvent :content="calendarEvent" />
-    <Portfolio :content="portfolio" />
+    <!-- <Portfolio :content="portfolio" /> -->
   </div>
 </template>
 

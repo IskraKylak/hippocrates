@@ -1,7 +1,6 @@
 <template>
     <div class="vebinarPage">
         <Breadcrumbs :content="breadcrumbs" /> 
-        {{ vebinar }}
         <div class="vebinarPage_content">
             <h2 class="vebinarPage_title">
                 {{ vebinar.name }}
