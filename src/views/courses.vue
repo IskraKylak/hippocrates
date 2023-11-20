@@ -5,8 +5,10 @@
     </div>
     <div class="container">
         <h1 class="courses_title">{{ title }}</h1>
+        <a href="" class="custom_link"></a>
+        <Button :btnClass="'btnLink'" @click="openCourse"> Всі курси </Button>
         <div class="courses_content">
-            <div class="courses_filter" v-if="courses.list.length !== 0">
+            <!-- <div class="courses_filter" v-if="courses.list.length !== 0">
                 <div class="courses_filter_title" :class="{'active' : activeFilter}" @click="activeFilter = !activeFilter">
                     {{ filterTitle }}
                 </div>
@@ -15,9 +17,9 @@
                     <div class="mt"></div>
                     <Button :btnClass="'btnLink'" @click="filterEnter">Показати</Button>
                 </slide-up-down>
-            </div>
+            </div> -->
             <div class="courses_list" v-if="courses.list.length !== 0">
-                <ItemCatCourses v-for="(item, idx) in courses.list" :key="idx" :content="item" />
+                <ItemCatCourses v-for="(item, idx) in courses.list" :key="idx" :content="item" @goToCoursesCat="goToCoursesCat" />
             </div>
             <div class="courses_wrapCarusel" v-if="courses.list.length !== 0">
                 <carousel class="courses_carousel" :items-to-show="1" snapAlign="start">
@@ -58,6 +60,20 @@ export default {
     Navigation
   },
     methods: {
+    openCourse() {
+        this.$router.push({
+            name: 'coursesCatPage',
+            params: { Pid1: 'allCourses' }
+        })
+    },
+    goToCoursesCat(data) {
+        let parts = data.split('=');
+        this.$router.push({
+            name: 'coursesCatPage',
+            params: { Pid1: 'allCourses'  },
+            query: {specializations: parts[1]}
+        })
+    },
     ...mapActions([
         'GET_HOME_FROM_API',
         'GET_SPECIALIZATIONS_FROM_API',
@@ -120,6 +136,10 @@ export default {
 }
 </script>
 <style lang="scss">
+.btn.btn_btnLink {
+    margin: 0 auto desktop-vw(50) auto;
+}
+
 .carousel__prev, .carousel__next {
     background-color: #1FAEEA;
     height: desktop-vw(50);
@@ -131,7 +151,24 @@ export default {
     }
 }
 
+.custom_link {
+    font-style: normal;
+    font-weight: 700;
+    font-size: desktop-vw(16);
+    line-height: 130%;
+    text-align: center;
+    color: #1FAEEA;
+    position: relative;
+    z-index: 4;
+    text-decoration: none;
+}
+
 @media screen and (max-width: $mobile) {
+
+    .btn.btn_btnLink {
+        margin: 0 auto mobile-vw(50) auto;
+    }
+
     .carousel__prev, .carousel__next {
         background-color: #1FAEEA;
         height: mobile-vw(50);
@@ -165,9 +202,9 @@ export default {
     padding-bottom: desktop-vw(70);
 
     .coursesCat_item {
-        max-width: desktop-vw(177);
+        max-width: desktop-vw(267);
         width: 100%;
-        height: desktop-vw(177);
+        height: desktop-vw(267);
     }
 
     &_wrapCarusel {
@@ -189,7 +226,7 @@ export default {
     &_list {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-gap: desktop-vw(22) desktop-vw(46);
+        grid-gap: desktop-vw(22) desktop-vw(26);
         justify-content: space-between;
         width: 100%;
         height: max-content;

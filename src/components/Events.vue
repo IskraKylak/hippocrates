@@ -7,28 +7,7 @@
                 </h2>
                 <carousel class="events_carousel" :items-to-show="((width <= 767) ? 1 : 2)" snapAlign="start">
                     <slide v-for="(item, idx) in content.list" :key="idx">
-                        <div class="events_item"  @click="goToVebinar(item.name)"> 
-                            <div class="events_img">
-                                <img :src="item.img" alt="img">
-                            </div>
-                            <div class="events_bottom">
-                                <div class="events_name">
-                                    {{ item.name }}
-                                </div>
-                                <div class="events_text">
-                                    {{ item.text }}
-                                </div>
-                                <div class="events_wrapData">
-                                    <div class="events_data">
-                                        <span>Дата: {{ item.data }}</span>
-                                        <span>Час: {{ item.time }}</span>          
-                                    </div>
-                                    <div class="events_more">
-                                        Детальніше
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <ItemEvent :content="item" />
                     </slide>
                     <template #addons>
                         <navigation />
@@ -44,13 +23,15 @@
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import Button from '@/components/UI/Controls/Button.vue'
+import ItemEvent from '@/components/ItemEvent'
 export default {
     props: ['content'],
     components: {
         Button,
         Carousel,
         Slide,
-        Navigation
+        Navigation,
+        ItemEvent
     },
     data() {
         return {
@@ -61,23 +42,17 @@ export default {
         updateWidth() {
             this.width = window.innerWidth;
         },
-        goToVebinar(prodId) {
-            this.$router.push({
-                name: 'vebinarPage',
-                params: { Pid: prodId }
-            })
-        },
         openLogin() {
             if(this.tokkent === '')
                 this.$router.push('/login')
             else
-                window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
+                window.open(`https://asprofosvit.azurewebsites.net/another_domen_auth/${this.tokkent}`);
         }
     },
     computed: {
-      tokkent() {
-          return this.$store.getters.getToken
-      }
+        tokkent() {
+            return this.$store.getters.getToken
+        }
     },
     created() {
         this.width = window.innerWidth;
@@ -97,6 +72,10 @@ export default {
         height: 60%;
         width: 60%;
     }
+}
+
+.carousel__slide {
+    align-items: flex-start;
 }
 
 .carousel__prev {
@@ -128,6 +107,7 @@ export default {
         flex-direction: column;
         cursor: pointer;
         transition: all 0.5s ease;
+        height: 100%;
 
         // &:hover {
         //     box-shadow: 0px 2px 16px rgb(0 0 0 / 25%);
@@ -136,6 +116,10 @@ export default {
 
     &_bottom {
         padding: desktop-vw(20) 0 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: calc(100% - desktop-vw(280));
     }
 
     &_img {
@@ -251,6 +235,7 @@ export default {
 
         &_bottom {
             padding: mobile-vw(20) 0 0;
+            height: calc(100% - mobile-vw(280));
         }
 
         &_img {

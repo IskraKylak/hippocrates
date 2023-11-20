@@ -15,7 +15,7 @@
                     <Button @click="openReg()">Реєстрація</Button>
                 </div>
                 <div class="mainMenu_accPanel" v-else>
-                    <div class="nameAcc" @click.prevent="openMenu, lcMenu = !lcMenu" :class="[lcMenu ? 'active' : '']">{{ acc.first_name }} {{ acc.last_name }}</div>
+                    <div class="nameAcc" @click.prevent="openMenu, lcMenu = !lcMenu" :class="[lcMenu ? 'active' : '']">{{ ACC.first_name }} {{ ACC.last_name }}</div>
                     <div class="accPanel_menu" :class="[lcMenu ? 'active' : '']">
                         <div @click="redirect()" class="accPanel_item">
                             Особистий кабінет
@@ -77,11 +77,14 @@ export default {
     computed: {
         tokkent() {
             return this.$store.getters.getToken
-        }
+        },
+        ...mapGetters([
+            'ACC',
+        ]),
     },
     methods: {
         redirect() {
-            window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
+            window.open(`https://asprofosvit.azurewebsites.net/another_domen_auth/${this.tokkent}`);
         },
         ...mapActions([
             'GET_ACC_FROM_API'
@@ -100,15 +103,15 @@ export default {
                 })
         }
     },
-    mounted() {
-        if(this.tokkent != '') {
-            this.GET_ACC_FROM_API(this.tokkent).then((response) => {
-                if(response) {
-                    this.acc = response
-                }
-            })
-        }
-    }
+    // mounted() {
+    //     if(this.tokkent != '') {
+    //         this.GET_ACC_FROM_API(this.tokkent).then((response) => {
+    //             if(response) {
+    //                 this.acc = response
+    //             }
+    //         })
+    //     }
+    // }
 }
 </script>
 

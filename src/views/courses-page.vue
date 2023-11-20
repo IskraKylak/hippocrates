@@ -4,32 +4,6 @@
         <Breadcrumbs :content="breadcrumbs" /> 
     </div>
     <div class="container">
-        <!-- <div class="courses-page_wrapList">
-            <div class="courses-page_type">
-                {{ coursesType1.name }}
-            </div>
-            <div class="courses-page_list">
-                <ItemCourses v-for="(item, idx) in coursesType1Sort" :key="idx" :content="item" />
-            </div>
-            <div class="box_pagination" v-if="pag1 > 1">
-                <ul class="pagination">
-                    <li><a href="#" class="prev" @click.prevent="prevPage"></a></li>
-                    <li v-for="(tmpPag, idx) in pag1"
-                        :key="idx">
-                    <a
-                        href="#"
-                        :class="active === (idx + 1) ? 'active' : ''"
-                        @click.prevent="openPage(idx + 1)"
-                    >
-                        {{ idx + 1 }}
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#" class="next" @click.prevent="nextPage"></a>
-                    </li>
-                </ul>
-            </div>
-        </div> -->
         <div class="courses-page_wrapList">
             <div class="courses-page_type">
                 {{ coursesType2.name }}
@@ -37,25 +11,7 @@
             <div class="courses-page_list">
                 <ItemCourses v-for="(item, idx) in coursesType2.courses" :key="idx" :content="item" />
             </div>
-            <Pagination v-if="pagination > 1" :content="pagination" :activePag="activePag" @openPage="openPage"/>
-            <!-- <div class="box_pagination" v-if="pag2 > 1">
-                <ul class="pagination">
-                    <li><a href="#" class="prev" @click.prevent="prevPage"></a></li>
-                    <li v-for="(tmpPag, idx) in pag2"
-                        :key="idx">
-                    <a
-                        href="#"
-                        :class="active === (idx + 1) ? 'active' : ''"
-                        @click.prevent="openPage(idx + 1)"
-                    >
-                        {{ idx + 1 }}
-                    </a>
-                    </li>
-                    <li>
-                    <a href="#" class="next" @click.prevent="nextPage"></a>
-                    </li>
-                </ul>
-            </div> -->
+            <Pagination v-if="pagination.count > 1" :content="pagination" @openPage="openPage" />
         </div>
     </div>
   </div>
@@ -75,44 +31,20 @@ export default {
     ItemCourses,
     Pagination
   },
-  mounted() {
-    let mas = this.$route.params.Pid1.split('&');
-    this.GET_COURSES_SPECIAL_FROM_API(this.$route.params.Pid1).then((response) => {
-      if(response) {
-        this.countItem = response.count
-        for(let i = 0; i < response.results.length; i++) {
-            this.coursesType2.courses.push(response.results[i])
-        }
-      }
-    })
-    if(mas.length == 2) {
-        let numEl = parseInt(this.$route.params.Pid1.match(/\d+/));
-        this.GET_SPECIALIZATIONS_ITEM_FROM_API(numEl).then((response) => {
-            if(response) {
-                this.nameCat = response.name
-                this.idCat = response.id
-                
-            }
-        })
-    }
-    
-    if(this.coursesType2.courses.length !== 0) {
-        this.pag2 = Math.ceil(this.coursesType2.courses.length / this.page.length)
-    }
-  },
-  data() {
+    data() {
     return {
-        // page: {
-        //     current: 1,
-        //     length: 6,
-        // },
         nameCat: '',
         idCat: '',
-        // active: 1,
-        // pag1: [],
-        // pag2: [],
-        countItem: 0,
-        activePag: 1,
+        options: {
+            page: 1,
+            spec: ''
+        },
+        pagination: {
+            elementPage: 6,
+            count: 0,
+            next: null,
+            prev: null
+        },
         coursesType2: {
             name: 'Всі курси',
             courses: [
@@ -129,13 +61,6 @@ export default {
     ...mapGetters([
       'SPECIALIZATIONSITEM',
     ]),
-    pagination() {
-        let pag = 0
-        for( let i = 0; i < this.countItem; i+=6) {
-            pag+=1
-        }
-        return pag
-    },
     breadcrumbs() {
         let breadcrumbs = [
             {
@@ -162,66 +87,96 @@ export default {
             
         return breadcrumbs;
     },
-    // coursesType2Sort () {
-    //     if(this.coursesType2.courses.length !== 0) {
-    //         return this.coursesType2.courses
-    //             .filter((row, index) => {
-    //             let start = (this.page.current - 1) * this.page.length
-    //             let end = this.page.current * this.page.length
-    //             if (index >= start && index < end) return true
-    //             })
-    //     }
-    //     return []
-    // }
+  },
+  mounted() {
+    const currentQuery = { ...this.$route.query };
+
+    if(currentQuery.specializations) {
+        this.options.spec += `&specializations=${currentQuery.specializations}`
+        this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+        if(response) {
+            response.forEach(item => {
+                if (item.id == currentQuery.specializations) {
+                    this.nameCat = item.name
+                }
+            });
+        }
+        }).finally(()=>{
+            this.initApi()
+        })
+    }  
+    if(currentQuery.page)
+        this.options.page = currentQuery.page
+    this.initApi()
   },
   methods: {
     ...mapActions([
         'GET_COURSES_SPECIAL_FROM_API',
         'GET_SPECIALIZATIONS_ITEM_FROM_API',
-        'GET_COURSES_FROM_API_PAGE'
+        'GET_COURSES_FROM_API_PAGE',
+        'GET_SPECIALIZATIONS_FROM_API'
     ]),
-    openPage(idx) {
-        this.activePag = idx
-        this.coursesType2.courses = []
-        if(this.SPECIALIZATIONSITEM.length) {
-            let obj = {
-                page: this.activePag,
-                oneSpec: true,
-                spec: this.SPECIALIZATIONSITEM.id
-            }
-        }
-        let obj = {
-            page: this.activePag,
-            oneSpec: false,
-            spec: this.$route.params.Pid1
-        }
-        // console.log(this.SPECIALIZATIONSITEM.id)
-        this.GET_COURSES_FROM_API_PAGE(obj).then((response) => {
-            // console.log(response)
+    initApi () {
+        this.GET_COURSES_FROM_API_PAGE(this.options).then((response) => {
             if(response) {
-                this.countItem = response.count
-                for(let i = 0; i < response.results.length; i++) {
-                    this.coursesType2.courses.push( response.results[i])
+                this.pagination.count = response.count
+                let urlParams = ''
+                if(response.previous) {
+                    urlParams = new URLSearchParams(response.previous);
+                    if(parseInt(urlParams.get('page')))
+                        this.pagination.prev = parseInt(urlParams.get('page'));
+                    else 
+                        this.pagination.prev = 1
+                } else {
+                    this.pagination.prev = null
                 }
+                if(response.next) {
+                    urlParams = new URLSearchParams(response.next);
+                    this.pagination.next = parseInt(urlParams.get('page'));
+                } else {
+                    this.pagination.next = null
+                } 
+                this.coursesType2.courses = response.results;
             }
         })
-    }
-    // openPage (idx) {
-    //   this.active = idx
-    //   this.page.current = idx
-    // },
-    // prevPage () {
-    //     if (this.page.current > 1) {
-    //         this.page.current -= 1
-    //         this.active = this.page.current
-    //     }
-    // },
-    // nextPage () {
-    //     if (this.page.current * this.page.length < this.info1.length) {
-    //         this.page.current += 1
-    //         this.active = this.page.current
-    //     }
-    // }
+    },
+    openPage(data) {
+        this.options.page = data
+        this.addQueryToUrl(false, data)
+    },
+    addQueryToUrl(sp = null, page = null) {
+        // Получаем текущий путь и параметры запроса
+        const currentPath = this.$route.path;
+        const currentQuery = JSON.parse(JSON.stringify(this.$route.query));
+
+        if (sp) {
+            currentQuery.specializations = currentQuery.specializations || [];
+            if (typeof currentQuery.specializations === 'string') {
+                let tmp = currentQuery.specializations
+                currentQuery.specializations = []
+                currentQuery.specializations.push(tmp);
+                currentQuery.specializations.push(sp.toString());
+            } else {
+                currentQuery.specializations.push(sp.toString());
+            }
+            currentQuery.page = []
+        }
+
+        if (page) {
+            currentQuery.page = currentQuery.page || [];
+            currentQuery.page = page
+        }
+
+        // Создаем новый маршрут с обновленными параметрами запроса
+        const newRoute = { path: currentPath, query: currentQuery };
+
+        // Используем $router.push для обновления URL с новым маршрутом
+        this.$router.push(newRoute);
+
+        // Принудительно вызываем повторный рендер текущего маршрута
+        this.initApi()
+        this.componentKey += 1;
+    },
   }
 }
 </script>

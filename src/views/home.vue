@@ -2,7 +2,7 @@
   <div class="home">
     <Poster :content="poster" /> 
     <Instruction :content="instruction" />
-    <Events :content="events" />
+    <Events v-if="events.list.length !== 0" :content="events" />
     <Courses v-if="courses.list.length !== 0" :content="courses" />
     <CalendarEvent :content="calendarEvent" />
     <!-- <Portfolio :content="portfolio" /> -->
@@ -29,42 +29,6 @@ export default {
     Courses,
     CalendarEvent,
     Portfolio
-  },
-  methods: {
-    ...mapActions([
-        'GET_HOME_FROM_API',
-        'GET_SPECIALIZATIONS_FROM_API',
-        'GET_EVENT_FROM_API'
-    ]),
-  },
-  mounted() {
-    this.GET_HOME_FROM_API().then((response) => {
-      // console.log(response)
-      if(response) {
-        this.poster.img = response.banner
-        this.poster.text = response.banner_text
-        this.poster.title = 'Hippocrates'
-        this.instruction.title = response.text_over_video
-        this.instruction.list[0].video = response.help_video
-        this.instruction.list[0].text = ''
-        this.instruction.list[0].title = response.text_under_video
-        this.events.title = response.events_block_title
-        this.calendarEvent.title = response.calendar_block_title
-      }
-    })
-    this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
-      if(response) {
-        for(let i = 0; i < response.length; i++) {
-          this.courses.list.push(response[i])
-          this.courses.list[i].img = response[i].photo
-        }
-      }
-    })
-    this.GET_EVENT_FROM_API().then((response) => {
-      if(response) {
-        this.calendarEvent.list = response.results
-      }
-    })
   },
   data() {
     return {
@@ -150,27 +114,6 @@ export default {
         title: '',
         btn: 'Переглянути усі',
         list: [
-          {
-            img: require('../assets/img/imageEvents.png'),
-            name: 'Фетальне програмування та інтегральний інтервал',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum.',
-            data: '08.07.2020',
-            time: '16:00'
-          },
-          {
-            img: require('../assets/img/imageEvents.png'),
-            name: 'цикл вебінарів “кардіо-метаболічна академія”',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum.',
-            data: '09.07.2020',
-            time: '17:00'
-          },
-          {
-            img: require('../assets/img/imageEvents.png'),
-            name: 'Фетальне програмування та інтегральний інтервал',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum.',
-            data: '08.07.2020',
-            time: '16:00'
-          }
         ]
       },
       instruction: {
@@ -186,6 +129,48 @@ export default {
         
       }
     }
+  },
+  methods: {
+    ...mapActions([
+        'GET_HOME_FROM_API',
+        'GET_SPECIALIZATIONS_FROM_API',
+        'GET_EVENT_FROM_API',
+        'GET_VEBINAR_FROM_API'
+    ]),
+  },
+  mounted() {
+    this.GET_HOME_FROM_API().then((response) => {
+      // console.log(response)
+      if(response) {
+        this.poster.img = response.banner
+        this.poster.text = response.banner_text
+        this.poster.title = 'Hippocrates'
+        this.instruction.title = response.text_over_video
+        this.instruction.list[0].video = response.help_video
+        this.instruction.list[0].text = ''
+        this.instruction.list[0].title = response.text_under_video
+        this.events.title = response.events_block_title
+        this.calendarEvent.title = response.calendar_block_title
+      }
+    })
+    this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+      if(response) {
+        for(let i = 0; i < response.length; i++) {
+          this.courses.list.push(response[i])
+          this.courses.list[i].img = response[i].photo
+        }
+      }
+    })
+    this.GET_EVENT_FROM_API().then((response) => {
+      if(response) {
+        this.calendarEvent.list = response.results
+      }
+    })
+    this.GET_VEBINAR_FROM_API().then((response) => {
+      if(response) {
+        this.events.list = response.results
+      }
+    })
   }
 }
 </script>

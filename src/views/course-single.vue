@@ -67,7 +67,7 @@
                         <Button v-if="tokkent === ''" class="btn btn_btnFeedback" @click="openLog()">Авторизуйтесь</Button>
                         <div v-else-if="coursesContent" class="courseSingle_wrapBtn">
                             <Button class="btn btn_btnFeedback" v-if="coursesContent.lessons_set.length" @click="isLessons = true">Подивитись уроки</Button>
-                            <Button v-if="coursesContent.course_available && coursesContent.has_test && coursesContent.lessons_set.length" :disabled='showBtnCourseTest' class="btn btn_btnFeedback" @click="goToTest()">Пройти тест</Button>
+                            <Button v-if="coursesContent.course_available && coursesContent.has_test && coursesContent.lessons_set.length" :disabled='!lastLessonFinish' class="btn btn_btnFeedback" @click="goToTest()">Пройти тест</Button>
                         </div>
                         
                     </div>
@@ -123,6 +123,7 @@ export default {
   },
   data() {
     return {
+        lastLessonFinish: false,
         contentLesson: {},
         isLessonContent: false,
         isLessons: false,
@@ -153,33 +154,6 @@ export default {
   created () {
   },
   computed: {
-    showBtnCourseTest () {
-         if(this.coursesContent.users_progress !== null) {
-            if(!this.coursesContent.users_progress.finished && this.coursesContent.users_progress.is_last_lesson) {
-                let current_lesson = this.coursesContent.users_progress.current_lesson
-                let isFinishLesson = true
-                this.coursesContent.lessons_set.forEach(item => {
-                    if(item.id === current_lesson && item.users_progress.finished) {
-                        isFinishLesson = false
-                        
-                    }
-                })
-                return isFinishLesson
-            }
-         }
-         return true
-    },
-    getTestCourse() {
-        if(this.coursesContent.users_progress.current_lesson == null ) {
-            return true
-        } else {
-            if (this.coursesContent.users_progress.is_last_lesson && this.coursesContent.lessons_set[this.coursesContent.lessons_set.length - 1].users_progress.finished && !this.coursesContent.users_progress.finished) {
-                return true
-            } else {
-                return false
-            }
-        }
-    },
     breadcrumbs() {
         let breadcrumbs = [
             {
@@ -299,7 +273,24 @@ export default {
     }
   },
   methods: {
+    async showBtnCourseTest () {
+         if(this.coursesContent.users_progress !== null) {
+            if(!this.coursesContent.users_progress.finished && this.coursesContent.users_progress.is_last_lesson) {
+                await axios({
+                    url: `https://asprof-test.azurewebsites.net/api/courses/${this.coursesContent.id}/lessons/${this.coursesContent.users_progress.current_lesson}/progress/`,
+                    method: 'get',
+                    headers: {
+                        Authorization: 'Bearer ' + this.$store.getters.getToken
+                    }
+                }).then(respons => {
+                    
+                    this.lastLessonFinish = respons.data.finished
+                }).finally()
+            }
+         }    
+    },
     startLoadPage () {
+       this.lastLessonFinish = false
        if(this.$route.params.Pid1) {
             let mas = this.$route.params.Pid1.split('&');
             if(mas.length == 2) {
@@ -323,9 +314,11 @@ export default {
             })
             
         } else {
+            
             this.GET_COURSESITEM_FROM_API_TOKKEN(obj).then((response) => {
                 if(response) {
                     this.coursesContent = response
+                    this.showBtnCourseTest()
                     if(this.coursesContent.users_progress === null && this.coursesContent.lessons_set.length != 0) {
                         axios({
                             url: `https://asprof-test.azurewebsites.net/api/courses/${this.coursesContent.id}/start/`,
@@ -338,6 +331,7 @@ export default {
                             this.GET_COURSESITEM_FROM_API_TOKKEN(obj).then((response) => {
                                 if(response) {
                                     this.coursesContent = response
+                                    
                                 }
                             })
                         })
@@ -352,10 +346,11 @@ export default {
             this.allSpecialization = response
         }
         }) 
+        
     },
     showBtn (lesson) {
         if(this.coursesContent.users_progress !== null) {
-            if(lesson.id === this.coursesContent.users_progress.current_lesson && !this.contentLesson.users_progress.finished) {
+            if(lesson.id === this.coursesContent.users_progress.current_lesson && !this.lastLessonFinish) {
                 return true
             } 
             return false
@@ -406,19 +401,23 @@ export default {
       // alert(proId)
         if(this.coursesContent.users_progress !== null) {
             if(!this.coursesContent.users_progress.finished && this.coursesContent.users_progress.is_last_lesson) {
-                let current_lesson = this.coursesContent.users_progress.current_lesson
-                let isFinishLesson = false
-                this.coursesContent.lessons_set.forEach(item => {
-                    if(item.id === current_lesson && item.users_progress.finished) {
-                        isFinishLesson = true
+                let finish = false
+                 axios({
+                    url: `https://asprof-test.azurewebsites.net/api/courses/${this.coursesContent.id}/lessons/${this.coursesContent.users_progress.current_lesson}/progress/`,
+                    method: 'get',
+                    headers: {
+                        Authorization: 'Bearer ' + this.$store.getters.getToken
+                    }
+                }).then(respons => {
+                    finish = respons.data.finished
+                }).finally(()=>{
+                    if (finish) {
+                        this.$router.push({
+                            name: 'testCourse',
+                            params: { Pid2: this.title }
+                        })
                     }
                 })
-                if (isFinishLesson) {
-                    this.$router.push({
-                        name: 'testCourse',
-                        params: { Pid2: this.title }
-                    })
-                }
             }
         }
     },

@@ -1,34 +1,36 @@
 <template>
     <div class="vebinarItem" @click="goToVebinar()">
-        <div class="vebinarItem_wrapImage">
-            <img :src="content.image" alt="img">
-        </div>
-        <div class="vebinarItem_wrapCalendar">
-            <div class="vebinarItem_calendar">
-                {{ getDateStart }}.{{ getMonthStart }} - {{ getDateEnd }}.{{ getMonthEnd}}
+        <div class="vebinarItem_insideWrap">
+            <div class="vebinarItem_wrapImage">
+                <img :src="content.image" alt="img">
             </div>
-            <div class="vebinarItem_status" :class="(content.statusClass ? content.statusClass : '')" v-if="content.add_to_favourites">
-                ОБРАНИЙ
-            </div>
-            <div class="vebinarItem_status expected" v-else-if="content.add_to_favourites === false">
-                ОЧІКУЄТЬСЯ
-            </div>
-            <div class="vebinarItem_status" v-else></div>
-        </div>
-        <div class="vebinarItem_content">
-            <div class="vebinarItem_title">
-                {{ content.name }}
-            </div>
-            <div class="vebinarItem_text" v-html="content.description">
-            </div>
-            <div class="vebinarItem_wrapTime">
-                <div class="vebinarItem_time">
-                    {{getHoursStart}}:{{ getMinutesStart}} - {{getHoursEnd}}:{{getMinutesEnd}}
+            <div class="vebinarItem_wrapCalendar">
+                <div class="vebinarItem_calendar">
+                    {{ getDateStart }}.{{ getMonthStart }} - {{ getDateEnd }}.{{ getMonthEnd}}
                 </div>
-                <div class="vebinarItem_location">
-                    <!-- {{ content.location }} -->
-                    {{ content.place }}
+                <div class="vebinarItem_status" :class="(content.statusClass ? content.statusClass : '')" v-if="content.add_to_favourites">
+                    ОБРАНИЙ
                 </div>
+                <div class="vebinarItem_status expected" v-else-if="content.add_to_favourites === false">
+                    ОЧІКУЄТЬСЯ
+                </div>
+                <div class="vebinarItem_status" v-else></div>
+            </div>
+            <div class="vebinarItem_content">
+                <div class="vebinarItem_title">
+                    {{ content.name }}
+                </div>
+                <div class="vebinarItem_text" v-html="content.description">
+                </div>
+            </div>
+        </div>
+        <div class="vebinarItem_wrapTime">
+            <div class="vebinarItem_time">
+                {{getHoursStart}}:{{ getMinutesStart}} - {{getHoursEnd}}:{{getMinutesEnd}}
+            </div>
+            <div class="vebinarItem_location" v-if="content.place">
+                <!-- {{ content.location }} -->
+                {{ content.place }}
             </div>
         </div>
     </div>
@@ -50,8 +52,8 @@ export default {
         goToVebinar() {
             this.SET_VEBINARSINGLE(this.content)
             this.$router.push({
-                name: 'vebinarPage',
-                params: { Pid: this.content.id }
+                name: 'vebinarSingle',
+                params: { Pid2: this.content.id }
             })
         },
     },
@@ -102,10 +104,16 @@ export default {
 <style lang="scss" scoped>
 
 .vebinarItem {
+    position: relative;
+    overflow: hidden;
     max-width: desktop-vw(345);
     width: 100%;
     background: rgba(248, 248, 248, 0.85);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     cursor: pointer;
 
     &_wrapImage {
@@ -129,14 +137,14 @@ export default {
     &_calendar {
         height: desktop-vw(39);
         background: #1FAEEA;
-        padding: 0 desktop-vw(14);
+        padding: 0 desktop-vw(10);
         width: 100%;
         display: flex;
         align-items: center;
-        grid-gap: desktop-vw(15);
+        grid-gap: desktop-vw(10);
         font-style: normal;
         font-weight: 700;
-        font-size: desktop-vw(18);
+        font-size: desktop-vw(14);
         line-height: 130%;
         /* identical to box height */
         text-transform: uppercase;
@@ -183,17 +191,21 @@ export default {
     }
 
     &_content {
-        padding: desktop-vw(20) desktop-vw(14);
+        padding: desktop-vw(20) desktop-vw(14) 0 desktop-vw(14);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: max-content;
     }
 
     &_title {
         font-style: normal;
         font-weight: 700;
-        font-size: desktop-vw(16);
+        font-size: desktop-vw(14);
         line-height: 130%;
         text-transform: uppercase;
         color: #1FAEEA;
-        margin-bottom: desktop-vw(16);
+        margin-bottom: desktop-vw(10);
     }
 
     &_text {
@@ -202,12 +214,13 @@ export default {
         font-size: desktop-vw(14);
         line-height: 130%;
         color: #383838;
-        margin-bottom: desktop-vw(32);
+        margin-bottom: desktop-vw(12);
     }
 
     &_wrapTime {
         display: flex;
         justify-content: space-between;
+        padding: 0 desktop-vw(14) desktop-vw(20) desktop-vw(14);
     }
 
     &_time {

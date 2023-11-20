@@ -1,6 +1,6 @@
 <template>
     <div class="wrapCustomCheckBox">
-        <input type="checkbox" :id="'input'+idx" :name="content.id" v-model="checked">
+        <input type="checkbox" :id="'input'+idx" :name="content.id" v-model="content.checked">
         <label :for="'input'+idx" class="customCheckBox"></label>
         <label :for="'input'+idx" class="customCheckBoxText">
             {{ content.name }}
@@ -19,15 +19,12 @@ export default {
     methods: {
     },
     watch: {
-        checked: {
-            handler(val, oldVal) {
-                if(val) {
-                    this.$emit('addSpec', this.content.id)
-                } else {
-                    this.$emit('removeSpec', this.content.id)
-                }
-                
-            },
+        'content.checked': function(val, oldVal) {
+            if(val) {
+                this.$emit('addSpec', this.content.id)
+            } else {
+                this.$emit('removeSpec', this.content.id)
+            }
         },
     }
 }
@@ -58,7 +55,6 @@ export default {
         font-size: desktop-vw(16);
         line-height: 130%;
         /* identical to box height */
-        text-align: center;
         color: #383838;
         cursor: pointer;
         

@@ -2,7 +2,7 @@
   <div class="home">
     <Poster :content="poster" /> 
     <Instruction :content="instruction" />
-    <Events :content="events" />
+    <Events v-if="events.list.length !== 0" :content="events" />
     <Courses v-if="courses.list.length !== 0" :content="courses" />
     <CalendarEvent :content="calendarEvent" />
   </div>
@@ -29,7 +29,8 @@ export default {
     ...mapActions([
         'GET_HOME_FROM_API',
         'GET_SPECIALIZATIONS_FROM_API',
-        'GET_EVENT_FROM_API'
+        'GET_EVENT_FROM_API',
+        'GET_VEBINAR_FROM_API'
     ]),
   },
   mounted() {
@@ -53,6 +54,11 @@ export default {
           this.courses.list.push(response[i])
           this.courses.list[i].img = response[i].photo
         }
+      }
+    })
+    this.GET_VEBINAR_FROM_API().then((response) => {
+      if(response) {
+        this.events.list = response.results
       }
     })
     this.GET_EVENT_FROM_API().then((response) => {
@@ -86,30 +92,6 @@ export default {
         title: 'календар наукових заходів',
         subtitle: 'Найближчі події',
         list: [
-          {
-            img: require('../assets/img/calendarImg.png'),
-            data: '9.07 - 10.07',
-            time: '17:00 - 19:00',
-            location: 'Київ - Черкаси - Житомир',
-            name: 'Кардіо-Метаболічна Академія, частина четверта.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
-          },
-          {
-            img: require('../assets/img/calendarImg.png'),
-            data: '9.07 - 10.07',
-            time: '17:00 - 19:00',
-            location: 'Київ - Черкаси - Житомир',
-            name: 'Кардіо-Метаболічна Академія, частина четверта.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
-          },
-          {
-            img: require('../assets/img/calendarImg.png'),
-            data: '9.07 - 10.07',
-            time: '17:00 - 19:00',
-            location: 'Київ - Черкаси - Житомир',
-            name: 'Кардіо-Метаболічна Академія, частина четверта.',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
-          }
         ]
       },
       courses: {
@@ -154,27 +136,6 @@ export default {
         title: 'нові освітні події',
         btn: 'Переглянути усі',
         list: [
-          {
-            img: require('../assets/img/imageEvents.png'),
-            name: 'Фетальне програмування та інтегральний інтервал',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum.',
-            data: '08.07.2020',
-            time: '16:00'
-          },
-          {
-            img: require('../assets/img/imageEvents.png'),
-            name: 'цикл вебінарів “кардіо-метаболічна академія”',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum.',
-            data: '09.07.2020',
-            time: '17:00'
-          },
-          {
-            img: require('../assets/img/imageEvents.png'),
-            name: 'Фетальне програмування та інтегральний інтервал',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque molestie faucibus dignissim elementum.',
-            data: '08.07.2020',
-            time: '16:00'
-          }
         ]
       }
     }

@@ -1,29 +1,31 @@
 <template>
-    <div class="calendar_item">
-        <div class="calendar_item_img">
-            <img :src="content.image" alt="img">
-            <div class="calendar_item_img_data">
-                {{ getDateStart }}.{{ getMonthStart }} - {{ getDateEnd }}.{{ getMonthEnd}}
-            </div>
-        </div>
-        <div class="calendar_item_info">
-            <div>
-                <div class="calendar_item_name">
-                    {{ content.name }}
-                </div>
-                <div class="calendar_item_text" v-html="content.description">
+    <div v-if="content.id">
+        <a :href="'https://asprofosvit.azurewebsites.net/details/' + content.id" class="calendar_item" target="_blank">
+            <div class="calendar_item_img">
+                <img :src="content.image" alt="img">
+                <div class="calendar_item_img_data">
+                    {{ getDateStart }}.{{ getMonthStart }} - {{ getDateEnd }}.{{ getMonthEnd}}
                 </div>
             </div>
-            
-            <div class="calendar_item_wrapLocation">
-                <div class="calendar_item_time">
-                    {{getHoursStart}}:{{ getMinutesStart}} - {{getHoursEnd}}:{{getMinutesEnd}}
+            <div class="calendar_item_info">
+                <div>
+                    <div class="calendar_item_name">
+                        {{ content.name }}
+                    </div>
+                    <div class="calendar_item_text" v-html="content.description">
+                    </div>
                 </div>
-                <div class="calendar_item_location">
-                    {{ content.place }}
+                
+                <div class="calendar_item_wrapLocation">
+                    <div class="calendar_item_time">
+                        {{getHoursStart}}:{{ getMinutesStart}} - {{getHoursEnd}}:{{getMinutesEnd}}
+                    </div>
+                    <div class="calendar_item_location">
+                        {{ content.place }}
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 </template>
 
@@ -89,6 +91,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
+a {
+    text-decoration: none;
+}
 
 .calendar {
     &_item {

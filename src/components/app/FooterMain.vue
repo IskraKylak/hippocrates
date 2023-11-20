@@ -35,9 +35,9 @@
           <div class="footer_copirait">
             {{ copirait }}
           </div>
-          <div class="footer_develop">
+          <!-- <div class="footer_develop">
             {{ develop }}
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

@@ -24,20 +24,27 @@ const routes = [
   {
     path: '/vebinars',
     name: 'vebinars',
+    props: route => ({ pid: route.query.params }),
     meta: { layout: 'main' },
-    component: () => import('../views/vebinars.vue')
+    component: () => import('../views/vebinars-page.vue')
+  },
+  // {
+  //   path: '/vebinars/:Pid1',
+  //   name: 'vebinarsCatPage',
+  //   meta: { layout: 'main' },
+  //   component: () => import('../views/vebinars-page.vue')
+  // },
+  {
+    path: '/vebinar/:Pid2',
+    name: 'vebinarSingle',
+    meta: { layout: 'main' },
+    component: () => import('../views/vebinar-single.vue')
   },
   {
     path: '/courses',
     name: 'courses',
     meta: { layout: 'main' },
     component: () => import('../views/courses.vue')
-  },
-  {
-    path: '/vebinars/:Pid',
-    name: 'vebinarPage',
-    meta: { layout: 'main' },
-    component: () => import('../views/vebinarPage.vue')
   },
   {
     path: '/about',
@@ -55,6 +62,7 @@ const routes = [
     path: '/courses/:Pid1',
     name: 'coursesCatPage',
     meta: { layout: 'main' },
+    props: route => ({ pid: route.query.params }),
     component: () => import('../views/courses-page.vue')
   },
   {

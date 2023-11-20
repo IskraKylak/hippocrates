@@ -22,10 +22,7 @@ export default {
         goToCoursesCat() {
             let str = ''
             str += `&specializations=${this.content.id}`
-            this.$router.push({
-                name: 'coursesCatPage',
-                params: { Pid1: str }
-            })
+            this.$emit('goToCoursesCat', str)
         },
     }
 }
@@ -33,9 +30,9 @@ export default {
 <style lang="scss" scoped>
 
 .coursesCat_item {
-    max-width: desktop-vw(230);
+    max-width: desktop-vw(267);
     width: 100%;
-    height: desktop-vw(230);
+    height: desktop-vw(267);
     display: flex;
     justify-content: center;
     align-items: center;

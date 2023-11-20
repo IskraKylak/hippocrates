@@ -95,6 +95,18 @@ export default {
     goToCourse() {
       this.$emit('goToCourse')
     },
+    addAnsverChebox (idQuest, idAnsver, add) {
+      // alert(add)
+      if (add) {
+        this.userTest[idQuest].push(idAnsver)
+      } else {
+        for (let x = 0; x < this.userTest[idQuest].length; x++) {
+          if (this.userTest[idQuest][x] == idAnsver) {
+            this.userTest[idQuest].splice(x, 1)
+          }
+        }
+      }
+    },
     addAnsverRadio (idQuest, idAnsver) {
       this.userTest[idQuest] = idAnsver
     },
@@ -105,7 +117,7 @@ export default {
       } else if(this.content.type === 'courses') {
         api = `https://asprof-test.azurewebsites.net/api/${this.content.idCourse}/test/results/`
       }
-      // console.log(this.userTest)
+      console.log(this.userTest)
       await axios({
         url: api,
         data: this.userTest,

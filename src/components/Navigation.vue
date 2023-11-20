@@ -33,7 +33,7 @@
         </div>
         <div class="nav_right">
           <a href="#" class="nav_search" @click.prevent="activeSearch = !activeSearch" :class="{'close' : activeSearch}"></a>
-          <div class="nav_wrapLang">
+          <!-- <div class="nav_wrapLang">
             <div class="nav_lang" @click="activeLang = !activeLang">
                 {{ lang[0] }}
             </div>
@@ -47,14 +47,14 @@
                 </div>
               </slide-up-down>
             </div>
-          </div>
+          </div> -->
         </div>
         <div v-if="tokkent === ''" class="loginMb" @click="openLogin()">
           Вхід
         </div>
         <div class="wrap_user" v-else>
           <div class="nav_user">
-            <div class="nav_userName" @click.prevent="openMenu, lcMenu = !lcMenu" :class="[lcMenu ? 'active' : '']">{{ acc.first_name }} {{ acc.last_name }}</div>
+            <div class="nav_userName" @click.prevent="openMenu, lcMenu = !lcMenu" :class="[lcMenu ? 'active' : '']">{{ ACC.first_name }} {{ ACC.last_name }}</div>
           </div>
           <div class="accPanel_menu" :class="[lcMenu ? 'active' : '']">
               <div class="accPanel_item" @click="redirect()">
@@ -96,7 +96,6 @@ export default {
   data() {
     return {
       lcMenu: false,
-      acc: {},
       search: '',
       result: [],
       active: false,
@@ -116,7 +115,7 @@ export default {
   },
   methods: {
     redirect() {
-        window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
+        window.open(`https://hippocrates-fe.azurewebsites.net/another_domen_auth/${this.tokkent}`);
     },
     openLogin() {
         this.$router.push('/login')
@@ -144,16 +143,12 @@ export default {
   computed: {
       tokkent() {
           return this.$store.getters.getToken
-      }
-  },
+      },
+      ...mapGetters([
+        'ACC',
+      ]),
+  },   
   mounted() {
-      if(this.tokkent) {
-          this.GET_ACC_FROM_API(this.tokkent).then((response) => {
-              if(response) {
-                  this.acc = response
-              }
-          })
-      }
       this.GET_CONTACT_FROM_API().then((response) => {
         if(response) {
           this.email = response.email

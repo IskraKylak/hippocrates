@@ -33,8 +33,12 @@ export default {
     background: #F8F8F8;
     padding: desktop-vw(14) desktop-vw(20);
     display: flex;
-    align-items: center;
+    // align-items: center;
     grid-gap: desktop-vw(5);
+
+    &_link {
+        text-wrap: nowrap;
+    }
 
     &_link,
     &_title {

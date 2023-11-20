@@ -9,7 +9,7 @@
                     <slide v-for="(item, idx) in content.list" :key="idx">
                         <div class="instruction_item">
                             <div class="instruction_video" v-if="item.video">
-                                <video :src="item.video" preload="auto" autoplay="false" controls="" loop=""></video>
+                                <video :src="item.video" preload="auto" controls="" loop=""></video>
                             </div>
                             <div class="instruction_item_bottom">
                                 <div class="instruction_item_name">
@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         redirect() {
-            window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
+            window.open(`https://asprofosvit.azurewebsites.net/another_domen_auth/${this.tokkent}`);
         },
         updateWidth() {
             this.width = window.innerWidth;
@@ -59,7 +59,7 @@ export default {
             if(this.tokkent === '')
                 this.$router.push('/login')
             else
-                window.open(`http://asprof.goodcode.pp.ua/another_domen_auth/${this.tokkent}`);
+                window.open(`https://asprofosvit.azurewebsites.net/another_domen_auth/${this.tokkent}`);
         },
     },
     computed: {

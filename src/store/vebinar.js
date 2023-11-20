@@ -33,6 +33,17 @@ export default {
                 return error
             })
         },
+        GET_VEBINAR_SPECIAL_FROM_API({commit}, id) {
+            return axios(`https://asprof-test.azurewebsites.net/api/webinars/?ordering=-start_date&page_size=6${id}`, {
+                method: "GET"
+            }).then((products) => {
+                commit('SET_VEBINAR', products.data)
+                return products.data
+            }).catch((error) => {
+                console.log(error)
+                return error
+            })
+        },
         GET_VEBINAR_FROM_API_FAVORITE({commit}, payload) {
             if(payload.token) {
                 return axios('https://asprof-test.azurewebsites.net/api/webinars/?ordering=-start_date&page_size=6&add_to_favourites=1', {
@@ -68,6 +79,29 @@ export default {
             return []
         },
         GET_VEBINAR_FROM_API_PAGE({commit}, payload) {
+            if(payload.oneSpec) {
+                return axios(`https://asprof-test.azurewebsites.net/api/webinars/?ordering=-start_date&page_size=6&page=${payload.page}${payload.spec}`, {
+                    method: "GET"
+                }).then((products) => {
+                    commit('SET_COURSES', products.data)
+                    return products.data
+                }).catch((error) => {
+                    console.log(error)
+                    return error
+                })
+            } else {
+                return axios(`https://asprof-test.azurewebsites.net/api/webinars/?ordering=-start_date&page=${payload.page}&page_size=6${payload.spec}`, {
+                    method: "GET"
+                }).then((products) => {
+                    commit('SET_COURSES', products.data)
+                    return products.data
+                }).catch((error) => {
+                    console.log(error)
+                    return error
+                })
+            }
+        },
+        GET_VEBINAR_FROM_API_PAGE_OLD({commit}, payload) {
             if(payload.token !== "") {
                 return axios(`http://asprof-test.azurewebsites.net/api/webinars/?ordering=-start_date&page=${payload.content}&page_size=6`, {
                     method: "GET",
