@@ -58,15 +58,19 @@ export default {
         },
         CheckBox: [
         ],
-        breadcrumbs: [
+    }
+  },
+  computed: {
+    breadcrumbs() {
+        return [
             {
-                name: 'Головна',
-                link: '/'
+                name: this.$t('breadcrumbs.home'),
+                link: `/${this.$i18n.locale}/`
             },
             {
-                name: 'Вебінари'
-            }
-        ],
+                name: this.$t('breadcrumbs.webinars'),
+            },
+        ] 
     }
   },
   components: {

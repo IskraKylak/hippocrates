@@ -45,7 +45,7 @@ export default {
                 return products.data
             }).catch((error) => {
                 console.log(error)
-                return error
+                return false
             })
         }
     },

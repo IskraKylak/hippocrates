@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="nav_time">
-            {{ time }}
+            {{$t('time')}}
           </div>
         </div>
         <div class="nav_soc">
@@ -33,24 +33,24 @@
         </div>
         <div class="nav_right">
           <a href="#" class="nav_search" @click.prevent="activeSearch = !activeSearch" :class="{'close' : activeSearch}"></a>
-          <!-- <div class="nav_wrapLang">
-            <div class="nav_lang" @click="activeLang = !activeLang">
-                {{ lang[0] }}
+          <div class="nav_wrapLang">
+            <div class="nav_lang" @click="openLang = !openLang">
+                {{ activeLang }}
             </div>
-            <div class="nav_arrPhone" :class="{'active' : activeLang}" @click="activeLang = !activeLang"></div>
+            <div class="nav_arrPhone" :class="{'active' : openLang}" @click="activeLang = !activeLang"></div>
             <div class="nav_wrapListLang">
-              <slide-up-down class="nav_listPhone" v-model="activeLang" :duration="300">
+              <slide-up-down class="nav_listPhone" v-model="openLang" :duration="300">
                 <div class="nav_listLang">
-                  <a href="#" class="nav_lang" v-for="(item, idx) in lang" :key="idx">
-                    {{ item }}
+                  <a href="#" v-for="(item, idx) in lang" :key="idx" @click="switchLang(item.slag)" class="nav_lang" >
+                    {{ item.name }}
                   </a>
                 </div>
               </slide-up-down>
             </div>
-          </div> -->
+          </div>
         </div>
         <div v-if="tokkent === ''" class="loginMb" @click="openLogin()">
-          Вхід
+          {{$t('btns.Вхід')}}
         </div>
         <div class="wrap_user" v-else>
           <div class="nav_user">
@@ -58,10 +58,10 @@
           </div>
           <div class="accPanel_menu" :class="[lcMenu ? 'active' : '']">
               <div class="accPanel_item" @click="redirect()">
-                  Особистий кабінет
+                  {{$t('btns.Особистий_кабінет')}}
               </div>
               <div class="accPanel_item" @click="logout()">
-                  Вихід
+                  {{$t('btns.Вихід')}}
               </div>
           </div>
         </div>
@@ -69,7 +69,7 @@
     </div>
     <div class="nav_searchInput" v-if="activeSearch">
       <div class="container">
-        <input type="text" v-model="search"  placeholder="Пошук курсу">
+        <input type="text" v-model="search"  :placeholder="$t('register.palaceHolder.search')">
       </div>
     </div>
     <div class="nav_result" v-if="activeSearch && result.length > 0">
@@ -99,7 +99,7 @@ export default {
       search: '',
       result: [],
       active: false,
-      activeLang: false,
+      openLang: false,
       activeSearch: false,
       userName: 'Татьяна Мал',
       email: '',
@@ -109,21 +109,38 @@ export default {
         viber_link: '',
         telegram_link: '',
       },
-      time: 'з 10:00 до 18:00',
-      lang: ['UA', 'RU', 'EN']
+      lang: [
+        {
+          name: 'UA',
+          slag: 'ua'
+        },
+        {
+          name: 'RU',
+          slag: 'ru'
+        },
+        {
+          name: 'EN',
+          slag: 'en'
+        }]
     }
   },
   methods: {
+    switchLang(lang) {
+      this.$router.push({ params: { lang: lang } });
+      localStorage.setItem('lang', lang);
+      this.$i18n.locale = lang;
+      this.openLang = false
+    },
     redirect() {
         window.open(`https://hippocrates-fe.azurewebsites.net/another_domen_auth/${this.tokkent}`);
     },
     openLogin() {
-        this.$router.push('/login')
+        this.$router.push(`/${this.$i18n.locale}/login`)
     },
     async logout () {
         this.$store.dispatch('logout')
             .then(() => {
-                this.$router.push('/')
+                this.$router.push(`/${this.$i18n.locale}/`)
             })
     },
     goToCourse(prodId) {
@@ -147,6 +164,10 @@ export default {
       ...mapGetters([
         'ACC',
       ]),
+      activeLang() {
+        let lang = this.lang.find (item => item.slag == this.$i18n.locale)
+        return lang.name
+      }
   },   
   mounted() {
       this.GET_CONTACT_FROM_API().then((response) => {

@@ -18,7 +18,7 @@ export default {
     data () {
         return {
             product: {
-                idCourse: 'courses/'+this.$route.params.Pid2,
+                idCourse: `/${this.$i18n.locale}/courses/`+this.$route.params.Pid2,
                 type: 'courses'
             }
         }

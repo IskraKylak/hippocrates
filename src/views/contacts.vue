@@ -25,15 +25,15 @@ export default {
   },
   data() {
     return {
-        breadcrumbs: [
-            {
-                name: 'Головна',
-                link: '/'
-            },
-            {
-                name: 'Контакти'
-            }
-        ],
+        // breadcrumbs: [
+        //     {
+        //         name: 'Головна',
+        //         link: `/${this.$i18n.locale}/`
+        //     },
+        //     {
+        //         name: 'Контакти'
+        //     }
+        // ],
         poster: {
             title: '',
             img: '',
@@ -49,6 +49,20 @@ export default {
             viber_link: '',
             telegram_link: ''
         }
+    }
+  },
+  computed: {
+    breadcrumbs() {
+      let breadcrumbs = [
+        {
+            name: this.$t('breadcrumbs.home'),
+            link: `/${this.$i18n.locale}/`
+        },
+        {
+            name: this.$t('breadcrumbs.contact'),
+        },
+      ]
+      return breadcrumbs
     }
   },
   methods: {

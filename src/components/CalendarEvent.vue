@@ -3,13 +3,13 @@
         <div class="container">
             <div class="calendar_content">
                 <div class="calendar_title">
-                    {{ content.title }}
+                    {{$t('Calendar.title')}}
                 </div>
                 <div class="calendar_wrapList" >
                     <Calendar @dataSelect='dataSelect' :content="content.list" />
                     <div class="calendar_calendarList">
                         <div class="calendar_calendarList_title">
-                            {{ content.subtitle }}
+                            {{$t('calendarEvent.subtitle')}}
                         </div>
                         <div class="calendar_list" v-if="!clickCalendar">
                             <ItemCalendarEvent v-for="(item, idx) in calendarList" :key="idx" :content="item" />
@@ -41,10 +41,12 @@ export default {
     },
     computed: {
         calendarList() {
-            this.content.list.sort(function(a, b){
-                return (Date.parse(b.start_date)/1000) - (Date.parse(a.start_date)/1000)
-            });
-            return this.content.list.slice(0, 3)
+            if(this.content.list) {
+                this.content.list.sort(function(a, b){
+                    return (Date.parse(b.start_date)/1000) - (Date.parse(a.start_date)/1000)
+                });
+                return this.content.list.slice(0, 3)
+            }
         }
     },
     methods: {

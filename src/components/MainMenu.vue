@@ -2,7 +2,7 @@
     <div class="mainMenu">
         <div class="container">
             <div class="mainMenu_content">
-                <router-link class="mainMenu_logo" to="/">
+                <router-link class="mainMenu_logo" :to="`/${this.$i18n.locale}/`">
                     <img src="@/assets/img/logo.png" alt="logo">
                 </router-link>
                 <div class="mainMenu_list">
@@ -11,17 +11,17 @@
                     </router-link>
                 </div>
                 <div class="mainMenu_accPanel" v-if="tokkent === ''">
-                    <Button :btnClass="'btnBorder'" @click="openLogin()">Вхід</Button>
-                    <Button @click="openReg()">Реєстрація</Button>
+                    <Button :btnClass="'btnBorder'" @click="openLogin()">{{$t('btns.Вхід')}}</Button>
+                    <Button @click="openReg()">{{$t('btns.Реєстрація')}}</Button>
                 </div>
                 <div class="mainMenu_accPanel" v-else>
                     <div class="nameAcc" @click.prevent="openMenu, lcMenu = !lcMenu" :class="[lcMenu ? 'active' : '']">{{ ACC.first_name }} {{ ACC.last_name }}</div>
                     <div class="accPanel_menu" :class="[lcMenu ? 'active' : '']">
                         <div @click="redirect()" class="accPanel_item">
-                            Особистий кабінет
+                            {{$t('btns.Особистий_кабінет')}}
                         </div>
                         <div class="accPanel_item"  @click.prevent="logout">
-                            Вихід
+                            {{$t('btns.Вихід')}}
                         </div>
                     </div>
                 </div>
@@ -46,35 +46,37 @@ export default {
                 first_name: '',
                 last_name: '',
             },
-            menu: [
-                {
-                    name: 'Проект',
-                    link: '/about'
-                },
-                {
-                    name: 'Користувачу',
-                    link: '/how-to'
-                },
-                {
-                    name: 'Курси',
-                    link: '/courses'
-                },
-                {
-                    name: 'Вебінари',
-                    link: '/vebinars'
-                },
-                {
-                    name: 'Календар',
-                    link: '/calendar'
-                },
-                {
-                    name: 'Контакти',
-                    link: '/contacts'
-                }
-            ]
         }
     },
     computed: {
+        menu() {
+            return [
+                {
+                    name: this.$t('menu.Проект'),
+                    link: `/${this.$i18n.locale}/about`
+                },
+                {
+                    name: this.$t('menu.Користувачу'),
+                    link: `/${this.$i18n.locale}/how-to`
+                },
+                {
+                    name: this.$t('menu.Курси'),
+                    link: `/${this.$i18n.locale}/courses`
+                },
+                {
+                    name: this.$t('menu.Вебінари'),
+                    link: `/${this.$i18n.locale}/webinars`
+                },
+                {
+                    name: this.$t('menu.Календар'),
+                    link: `/${this.$i18n.locale}/calendar`
+                },
+                {
+                    name: this.$t('menu.Контакти'),
+                    link: `/${this.$i18n.locale}/contacts`
+                }
+            ]
+        },
         tokkent() {
             return this.$store.getters.getToken
         },
@@ -90,16 +92,16 @@ export default {
             'GET_ACC_FROM_API'
         ]),
         openLogin() {
-            this.$router.push('/login')
+            this.$router.push(`/${this.$i18n.locale}/login`)
         },
         openReg() {
-            this.$router.push('/register')
+            this.$router.push(`/${this.$i18n.locale}/register`)
         },
         async logout () {
             this.lcMenu = false
             this.$store.dispatch('logout')
                 .then(() => {
-                    this.$router.push('/')
+                    this.$router.push(`/${this.$i18n.locale}/`)
                 })
         }
     },

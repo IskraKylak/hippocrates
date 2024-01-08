@@ -138,13 +138,6 @@ export default {
 
         },
         title: this.$route.params.Pid2,
-        table: {
-            head: 'ПРО КУРС',
-            user: 'СПЕЦІАЛЬНОСТІ',
-            // certifikat: 'СЕРТИФІКАТ',
-            availableIn: 'ДОСТУПНИЙ З', 
-            availableUpTo: 'ДОСТУПНИЙ ДО'
-        },
         author: {
             name: 'Автор курсу',
             img: require('../assets/img/courses.jpg'),
@@ -157,12 +150,12 @@ export default {
     breadcrumbs() {
         let breadcrumbs = [
             {
-                name: 'Головна',
-                link: '/'
+                name: this.$t('breadcrumbs.home'),
+                link: `/${this.$i18n.locale}/`
             },
             {
-                name: 'Курсы',
-                link: '/courses'
+                name: this.$t('breadcrumbs.courses'),
+                link: `/${this.$i18n.locale}/courses`
             },
         ]
         if(this.specialization != '')
@@ -171,6 +164,14 @@ export default {
             breadcrumbs.push({name: this.coursesContent.name})
         return breadcrumbs;
     },
+    table() {
+        return {
+            head: this.$t('course-single.table.head'),
+            user: this.$t('course-single.table.user'),
+            availableIn: this.$t('course-single.table.availableIn'), 
+            availableUpTo: this.$t('course-single.table.availableUpTo')
+        }
+    }, 
     getDateStart() {
         if(this.coursesContent) {
             return new Date(this.coursesContent.start_date).getDate()
@@ -437,7 +438,7 @@ export default {
         }
     },
     openLog() {
-        this.$router.push('/login')
+        this.$router.push(`/${this.$i18n.locale}/login`)
     },
     ...mapActions([
         'GET_COURSESITEM_FROM_API',

@@ -38,15 +38,6 @@ export default {
   },
   data() {
     return {
-        breadcrumbs: [
-            {
-                name: 'Головна',
-                link: '/'
-            },
-            {
-                name: 'ПРОЕКТ'
-            }
-        ],
         poster: {
             img: '',
         },
@@ -59,6 +50,19 @@ export default {
             }
         }
     }
+  },
+  computed: {
+    breadcrumbs() {
+        return [
+            {
+                name: this.$t('breadcrumbs.home'),
+                link: `/${this.$i18n.locale}/`
+            },
+            {
+                name: this.$t('breadcrumbs.about')
+            }
+        ]
+    } 
   },
   methods: {
     ...mapActions([

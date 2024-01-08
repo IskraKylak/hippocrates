@@ -23,7 +23,7 @@ export default {
                 return products.data
             }).catch((error) => {
                 console.log(error)
-                return error
+                return false
             })
         },
         GET_COURSESITEM_FROM_API_TOKKEN({commit}, obj) {
@@ -37,7 +37,7 @@ export default {
                 return products.data
             }).catch((error) => {
                 console.log(error)
-                return error
+                return false
             })
         },
     },

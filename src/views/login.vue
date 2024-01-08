@@ -6,7 +6,7 @@
     <div class="container" >
         <div class="login_content" v-if="tokkent === ''">
             <h2 class="login_title">
-                АВТОРИЗАЦІЯ
+                {{$t('login.title')}}
             </h2>
             <form @submit.prevent="onSubmit" class="login_form">
                 <div class="form-item" :class="{ errorInput: v$.email.$error }">
@@ -27,7 +27,7 @@
                         v-model="password"
                         :class="{ error: v$.password.$error }"
                         @change="v$.password.$touch()"
-                        placeholder="Пароль"
+                        :placeholder="$t('placeholder.pass')"
                     />
                     <p class="errorText" v-if="v$.password.required.$invalid">
                         Filed is required
@@ -36,12 +36,12 @@
                         Password mast have at least {{ v$.password.minLength.$params.min }} !
                     </p>
                 </div>
-				<Button class="btnLogin">Вхід</Button>
-                <Button :btnClass="'btnBorder'" @click.prevent="openReg()" class="btnReg">Реєстрація</Button>
+				        <Button class="btnLogin">{{$t('login.btnEnter')}}</Button>
+                <Button :btnClass="'btnBorder'" @click.prevent="openReg()" class="btnReg">{{$t('login.btnReg')}}</Button>
             </form>
         </div>
         <div v-else class="registred">
-          <h2 class="registred_title">Ви вже зареєстровані!</h2>
+          <h2 class="registred_title">{{$t('titleReg')}}</h2>
         </div>
     </div>
   </div>
@@ -66,15 +66,6 @@ export default {
     return {
         password: '',
         email: '',
-        breadcrumbs: [
-            {
-                name: 'Головна',
-                link: '/'
-            },
-            {
-                name: 'АВТОРИЗАЦІЯ',
-            }
-        ],
     }
   },
   validations () {
@@ -91,7 +82,7 @@ export default {
   },
   methods: {
     openReg() {
-      this.$router.push('/register')
+      this.$router.push(`/${this.$i18n.locale}/register`)
     },
     async onSubmit () {
       this.v$.$touch()
@@ -102,15 +93,26 @@ export default {
         }
         try {
           await this.$store.dispatch('login', user)
-          this.$router.push('/')
+          this.$router.push(`/${this.$i18n.locale}/`)
         } catch (e) {
-          this.$message('Невірний логін або пароль')
+          this.$message(this.$t('login.message.login'))
           throw e
         }
       }
     }
   },
   computed: {
+    breadcrumbs() {
+      return [
+        {
+            name: this.$t('breadcrumbs.home'),
+            link: `/${this.$i18n.locale}/`
+        },
+        {
+            name: this.$t('breadcrumbs.login'),
+        }
+      ]
+    },
     tokkent() {
         return this.$store.getters.getToken
     },

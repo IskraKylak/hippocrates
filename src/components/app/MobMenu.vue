@@ -2,7 +2,7 @@
   <div class="mobMenu">
     <div class="mobMenu_content" v-if="mobMenu">
         <div class="mobMenu_close" @click="mobMenu = false"></div>
-        <router-link  to="/" class="mobMenu_logo" @click="mobMenu = false">
+        <router-link  :to="`/${this.$i18n.locale}/`" class="mobMenu_logo" @click="mobMenu = false">
             <img src="@/assets/img/logoFooter.svg" alt="img">
         </router-link>
         <div class="mobMenu_list">
@@ -71,27 +71,27 @@ export default {
         menu: [
             {
                 name: 'Проект',
-                link: '/about'
+                link: `/${this.$i18n.locale}/about`
             },
             {
                 name: 'Користувачу',
-                link: '/how-to'
+                link: `/${this.$i18n.locale}/how-to`
             },
             {
                 name: 'Курси',
-                link: '/courses/'
+                link: `/${this.$i18n.locale}/courses/`
             },
             {
                 name: 'Вебінари',
-                link: '/vebinars'
+                link: `/${this.$i18n.locale}/webinars`
             },
             {
                 name: 'Календар',
-                link: '/calendar'
+                link: `/${this.$i18n.locale}/calendar`
             },
             {
                 name: 'Контакти',
-                link: '/contacts'
+                link: `/${this.$i18n.locale}/contacts`
             }
         ]
     }

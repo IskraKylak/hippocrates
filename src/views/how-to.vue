@@ -2,8 +2,8 @@
   <div class="home">
     <Poster :content="poster" /> 
     <Instruction :content="instruction" />
-    <Events v-if="events.list.length !== 0" :content="events" />
-    <Courses v-if="courses.list.length !== 0" :content="courses" />
+    <Events :content="events" />
+    <Courses :content="courses" />
     <CalendarEvent :content="calendarEvent" />
   </div>
 </template>
@@ -32,6 +32,51 @@ export default {
         'GET_EVENT_FROM_API',
         'GET_VEBINAR_FROM_API'
     ]),
+  },
+  data() {
+    return {
+      instruction: {
+        // title: 'як користуватися платформою гіппократ',
+        // btn: 'Особистий кабінет',
+        list: [
+          {
+            video: '',
+            // title: 'підвищуйте свою професійну кваліфікацію',
+            text: ''
+          }
+        ]
+      },
+      poster: {
+        text: ''
+      },
+      // portfolio: {
+      //   title: 'освітнє портфоліо',
+      //   text: 'Навіщо потрібне освітнє портфоліо - офіційні документи МОЗ України, які повинен заповнювати кожен лікар для підготовки до атестації.',
+      //   btn: 'Відкрити анкету'
+      // },
+      calendarEvent: {
+        title: '',
+        subtitle: 'Найближчі події',
+        list: [
+        ]
+      },
+      courses: {
+        title: 'Основні курси',
+        btn: 'Переглянути усі',
+        list: [
+          // {
+          //   img: require('../assets/img/courses/1.png'),
+          //   name: 'хірургія'
+          // },
+        ]
+      },
+      events: {
+        title: '',
+        btn: 'Переглянути усі',
+        list: [
+        ]
+      }
+    }
   },
   mounted() {
     this.GET_HOME_FROM_API().then((response) => {
@@ -66,79 +111,6 @@ export default {
         this.calendarEvent.list = response.results
       }
     })
-  },
-  data() {
-    return {
-      instruction: {
-        title: 'як користуватися платформою гіппократ',
-        btn: 'Особистий кабінет',
-        list: [
-          {
-            video: '',
-            title: 'підвищуйте свою професійну кваліфікацію',
-            text: ''
-          }
-        ]
-      },
-      poster: {
-        text: 'БЕЗПЕРЕРВНА МЕДИЧНА ОСВІТА ЛІКАРІВ І ФАРМАЦЕВТІВ'
-      },
-      portfolio: {
-        title: 'освітнє портфоліо',
-        text: 'Навіщо потрібне освітнє портфоліо - офіційні документи МОЗ України, які повинен заповнювати кожен лікар для підготовки до атестації.',
-        btn: 'Відкрити анкету'
-      },
-      calendarEvent: {
-        title: 'календар наукових заходів',
-        subtitle: 'Найближчі події',
-        list: [
-        ]
-      },
-      courses: {
-        title: 'Основні курси',
-        btn: 'Переглянути усі',
-        list: [
-          // {
-          //   img: require('../assets/img/courses/1.png'),
-          //   name: 'хірургія'
-          // },
-          // {
-          //   img: require('../assets/img/courses/2.png'),
-          //   name: 'сімейна медицина'
-          // },
-          // {
-          //   img: require('../assets/img/courses/3.png'),
-          //   name: 'кардіологія'
-          // },
-          // {
-          //   img: require('../assets/img/courses/4.png'),
-          //   name: 'неврологія'
-          // },
-          // {
-          //   img: require('../assets/img/courses/1.png'),
-          //   name: 'хірургія'
-          // },
-          // {
-          //   img: require('../assets/img/courses/2.png'),
-          //   name: 'сімейна медицина'
-          // },
-          // {
-          //   img: require('../assets/img/courses/3.png'),
-          //   name: 'кардіологія'
-          // },
-          // {
-          //   img: require('../assets/img/courses/4.png'),
-          //   name: 'неврологія'
-          // }
-        ]
-      },
-      events: {
-        title: 'нові освітні події',
-        btn: 'Переглянути усі',
-        list: [
-        ]
-      }
-    }
   }
 }
 </script>

@@ -13,7 +13,7 @@
                         <navigation />
                     </template>
                 </carousel>
-                <Button :btnClass="'btnLink'" @click="openLogin()"> Особистий кабінет </Button>
+                <Button :btnClass="'btnLink'" @click="openLogin()"> {{$t('events.btnName')}} </Button>
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@ export default {
         },
         openLogin() {
             if(this.tokkent === '')
-                this.$router.push('/login')
+                this.$router.push(`/${this.$i18n.locale}/login`)
             else
                 window.open(`https://asprofosvit.azurewebsites.net/another_domen_auth/${this.tokkent}`);
         }

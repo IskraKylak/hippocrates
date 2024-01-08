@@ -6,19 +6,19 @@
     <div class="container">
         <div class="register_content" v-if="tokkent === ''">
 			<h2 class="register_title">
-				РЕЄСТРАЦІЯ
+				{{$t('register.title')}}
 			</h2>
 			<form @submit.prevent="onSubmit" class="register_form">
-				<p>Вже маєте зареєстрований аккаунт?</p>
-				<router-link to="/login" class="register_login">Увійдіть</router-link>
-				<p>Інформація про особу</p>
+				<p>{{$t('register.subtitle')}}</p>
+				<router-link :to="`/${this.$i18n.locale}/login`" class="register_login">Увійдіть</router-link>
+				<p>{{$t('register.subtitle1')}}</p>
 				<div class="wrap_form_row">
 					<div class="form-item" :class="{ errorInput: v$.surname.$error }">
 						<input
 							v-model="surname"
 							:class="{ error: v$.surname.$error }"
 							@change="v$.surname.$touch()"
-							placeholder="Прізвище*"
+							:placeholder="$t('register.palaceHolder.surname')+'*'"
 						/>
 						<p class="errorText" v-if="v$.surname.required.$invalid">
 							Filed is required
@@ -33,7 +33,7 @@
 							v-model="name"
 							:class="{ error: v$.name.$error }"
 							@change="v$.name.$touch()"
-							placeholder="Ім'я*"
+							:placeholder="$t('register.palaceHolder.name')+'*'"
 						/>
 						<p class="errorText" v-if="v$.name.required.$invalid">
 							Filed is required
@@ -47,7 +47,7 @@
 							v-model="middleName"
 							:class="{ error: v$.middleName.$error }"
 							@change="v$.middleName.$touch()"
-							placeholder="Побатькові*"
+							:placeholder="$t('register.palaceHolder.middleName')+'*'"
 						/>
 						<p class="errorText" v-if="v$.middleName.required.$invalid">
 							Filed is required
@@ -58,7 +58,7 @@
 						</p>
 					</div>
 				</div>
-				<p>Місце проживання</p>
+				<p>{{$t('register.subtitle2')}}</p>
 				<div class="wrap_form_row">
 					<div
 						class="form-item select"
@@ -68,9 +68,9 @@
 							v-model="selectedRegions"
 							:class="{ error: v$.selectedRegions.$error }"
 							@change="v$.selectedRegions.$touch()"
-							placeholder="Оберіть область*"
+							:placeholder="$t('register.palaceHolder.selectedRegions') + '*'"
 						>
-							<option value="" disabled selected>Виберіть область*</option>
+							<option value="" disabled selected>{{ $t('register.palaceHolder.selectedRegions') }}*</option>
 							<option
 							v-for="region in regions"
 							:value="region.name"
@@ -88,7 +88,7 @@
 							v-model="locality"
 							:class="{ error: v$.locality.$error }"
 							@change="v$.locality.$touch()"
-							placeholder="Населенний пункт*"
+							:placeholder="$t('register.palaceHolder.locality') + '*'"
 						/>
 						<p class="errorText" v-if="v$.locality.required.$invalid">
 							Filed is required
@@ -99,7 +99,7 @@
 						</p>
 					</div>
 				</div>
-				<p>Професійна діяльність</p>
+				<p>{{$t('register.subtitle3')}}</p>
 				<div class="wrap_form_row">
 					<div
 						class="form-item select"
@@ -110,7 +110,7 @@
 							:class="{ error: v$.selectedSpeciality.$error }"
 							@change="v$.selectedSpeciality.$touch()"
 						>
-							<option value="" disabled selected>Виберіть спеціальність*</option>
+							<option value="" disabled selected>{{$t('register.palaceHolder.selectedSpeciality')}}*</option>
 							<option
 							v-for="spec in speciality"
 							:value="spec.id"
@@ -128,7 +128,7 @@
 							v-model="work"
 							:class="{ error: v$.work.$error }"
 							@change="v$.work.$touch()"
-							placeholder="місце роботи*"
+							:placeholder="$t('register.palaceHolder.work') + '*'"
 						/>
 						<p class="errorText" v-if="v$.work.required.$invalid">
 							Filed is required
@@ -143,7 +143,7 @@
 							v-model="position"
 							:class="{ error: v$.position.$error }"
 							@change="v$.position.$touch()"
-							placeholder="Посада*"
+							:placeholder="$t('register.palaceHolder.position') + '*'"
 						/>
 						<p class="errorText" v-if="v$.position.required.$invalid">
 							Filed is required
@@ -154,7 +154,7 @@
 						</p>
 					</div>
 				</div>
-				<p>Контактні дані</p>
+				<p>{{$t('register.subtitle4')}}</p>
 				<div class="wrap_form_row">
 					<div class="form-item" :class="{ errorInput: v$.email.$error }">
 						<input
@@ -173,7 +173,7 @@
 							v-model="tel"
 							:class="{ error: v$.tel.$error }"
 							@change="v$.tel.$touch()"
-							placeholder="Мобільний телефон*"
+							:placeholder="$t('register.palaceHolder.tel') + '*'"
 						/>
 						<p class="errorText" v-if="v$.tel.required.$invalid">
 							Filed is required
@@ -187,7 +187,7 @@
 						</p>
 					</div>
 				</div>
-				<p>Безпека</p>
+				<p>{{$t('register.subtitle5')}}</p>
 				<div class="wrap_form_row">
 					<div class="form-item" :class="{ errorInput: v$.password1.$error }">
 						<input
@@ -195,7 +195,7 @@
 							v-model="password1"
 							:class="{ error: v$.password1.$error }"
 							@change="v$.password1.$touch()"
-							placeholder="Пароль*"
+							:placeholder="$t('register.palaceHolder.password') + '*'"
 							ref="password"
 							autocomplete="off"
 						/>
@@ -213,7 +213,7 @@
 							v-model="password2"
 							:class="{ error: v$.password2.$error }"
 							@change="v$.password2.$touch()"
-							placeholder="Пароль*"
+							:placeholder="$t('register.palaceHolder.password') + '*'"
 						/>
 						<p class="errorText"  v-if="v$.password2.sameAsPassword.$params.equalTo">Password and Confirm Password should match</p>
 						<p class="errorText" v-if="v$.password2.required.$invalid">
@@ -222,16 +222,16 @@
 					</div>
 				</div>
 				<div class="register_message">
-					Поля, відмічені зірочкою (*) обов’язкові до заповнення.
+					{{$t('register.help1')}}
 				</div>
 				<div class="register_terms">
-					Натискаючи на кнопку "Реєстрація", Ви погоджуєтесь з<a href="#" target="_blank" class="UserAgreement_link"> угодою користувача</a>
+					{{$t('register.help2')}}<a href="#" target="_blank" class="UserAgreement_link"> {{$t('register.help2Link')}}</a>
 				</div>
-				<Button class="btnReg">Реєстрація</Button>
+				<Button class="btnReg">{{$t('register.btnName')}}</Button>
 			</form>
         </div>
 		<div v-else class="registred">
-          <h2 class="registred_title">Ви вже зареєстровані!</h2>
+          <h2 class="registred_title">{{$t('titleReg')}}</h2>
         </div>
     </div>
   </div>
@@ -300,7 +300,7 @@ export default {
 			breadcrumbs: [
 				{
 					name: 'Головна',
-					link: '/'
+					link: `/${this.$i18n.locale}/`
 				},
 				{
 					name: 'РЕЄСТРАЦІЯ',
@@ -384,7 +384,7 @@ export default {
 				}
 				try {
 					await this.$store.dispatch('register', user1)
-					this.$router.push('/')
+					this.$router.push(`/${this.$i18n.locale}/`)
 				} catch (e) {
 					this.$message('Помилка')
 					throw e
@@ -399,6 +399,19 @@ export default {
 		tokkent() {
 			return this.$store.getters.getToken
 		},
+		breadcrumbs() {
+			let breadcrumbs = [
+				{
+					name: this.$t('breadcrumbs.home'),
+					link: `/${this.$i18n.locale}/`
+				},
+				{
+					name: this.$t('breadcrumbs.webinars'),
+					link: `/${this.$i18n.locale}/webinars`
+				}
+			] 
+			return breadcrumbs;
+		}
 	},
 	mounted() {
 		this.GET_SPECIALIZATIONS_FROM_API().then((response) => {

@@ -6,13 +6,13 @@
       <button @click="next">&#9658;</button>
     </div>
     <div class="week days">
-      <div class="day">Пн</div>
-      <div class="day">Вт</div>
-      <div class="day">Ср</div>
-      <div class="day">Чт</div>
-      <div class="day">Пт</div>
-      <div class="day">Сб</div>
-	  <div class="day">Нд</div>
+      <div class="day">{{$t('Calendar.days.Mon')}}</div>
+      <div class="day">{{$t('Calendar.days.Tue')}}</div>
+      <div class="day">{{$t('Calendar.days.Wed')}}</div>
+      <div class="day">{{$t('Calendar.days.Ths')}}</div>
+      <div class="day">{{$t('Calendar.days.Fri')}}</div>
+      <div class="day">{{$t('Calendar.days.Sat')}}</div>
+	    <div class="day">{{$t('Calendar.days.Sun')}}</div>
     </div>
     <div class="week" v-for="(week, idx) in weeks" :key="idx">
       <div class="day selectable"
@@ -31,8 +31,8 @@
 </template>
 <script>
 const DATE = new Date()
-const DAYS = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-const MONTHS = ['Cічень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень']
+// const DAYS = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+// const MONTHS = ['Cічень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень']
 const daysInYearMonth = (y, m) => new Date(y, m, 0).getDate()
 export default {
   props: ['content'],
@@ -48,6 +48,24 @@ export default {
   },
   mounted () {
     this.init()
+  },
+  computed: {
+    MONTHS() {
+      return [
+        this.$t('Calendar.month.January'),
+        this.$t('Calendar.month.February'), 
+        this.$t('Calendar.month.March'), 
+        this.$t('Calendar.month.April'), 
+        this.$t('Calendar.month.May'), 
+        this.$t('Calendar.month.June'), 
+        this.$t('Calendar.month.July'), 
+        this.$t('Calendar.month.August'), 
+        this.$t('Calendar.month.September'),
+        this.$t('Calendar.month.October'), 
+        this.$t('Calendar.month.November'), 
+        this.$t('Calendar.month.December'),
+      ]
+    }
   },
   created () {
     // this.getNotify()
@@ -98,7 +116,7 @@ export default {
       return new Date(this.year, this.month, 1).getDay()
     },
     setTitle () {
-      this.title = `${MONTHS[this.month]} ${this.year}`
+      this.title = `${this.MONTHS[this.month]} ${this.year}`
     },
     update (date) {
       

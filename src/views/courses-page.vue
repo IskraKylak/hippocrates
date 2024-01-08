@@ -64,22 +64,22 @@ export default {
     breadcrumbs() {
         let breadcrumbs = [
             {
-                name: 'Головна',
-                link: '/'
+                name: this.$t('breadcrumbs.home'),
+                link: `/${this.$i18n.locale}/`
             },
             {
-                name: 'Курсы',
+                name: this.$t('breadcrumbs.courses'),
             },
         ] 
         if(this.nameCat != '') {
             breadcrumbs = [
                 {
-                    name: 'Головна',
-                    link: '/'
+                    name: this.$t('breadcrumbs.home'),
+                    link: `/${this.$i18n.locale}/`
                 },
                 {
-                    name: 'Курсы',
-                    link: '/courses'
+                    name: this.$t('breadcrumbs.courses'),
+                    link: `/${this.$i18n.locale}/courses`
                 },
             ] 
             breadcrumbs.push({name: this.nameCat})

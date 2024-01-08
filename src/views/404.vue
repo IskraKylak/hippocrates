@@ -2,7 +2,7 @@
   <div class="notFound">
     <div class="container">
       <h1>404 Page not found!</h1>
-      <p>Go to <router-link class="link-home" to="/">Main Page</router-link>?</p>
+      <p>Go to <router-link class="link-home" :to="`/${this.$i18n.locale}/`">Main Page</router-link>?</p>
     </div>
   </div>
 </template>

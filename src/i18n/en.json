@@ -1,0 +1,133 @@
+{
+    "Зареєструватися": "Sign up",
+    "menu": {
+        "Проект": "Project",
+        "Користувачу": "Instruction",
+        "Курси": "Courses",
+        "Вебінари": "Webinars",
+        "Календар": "Calendar",
+        "Контакти": "Contacts"
+    },
+    "btns": {
+        "Вихід": "Exit",
+        "Реєстрація": "Registration",
+        "Особистий_кабінет": "Personal office",
+        "Вхід": "Login"
+    },
+    "feedback": {
+        "title": "Feedback",
+        "description": "By clicking the button, you agree to the processing of personal data. But go to the Telegram bot.",
+        "btnName": "Send"
+    },
+    "instruction": {
+        "title": "how to use the hippocrates platform",
+        "btnName": "Personal office",
+        "list" : {
+            "title": "improve your professional qualifications"
+        }
+    },
+    "events": {
+        "title": "Basic courses",
+        "btnName": "Personal office"
+    },
+    "courses": {
+        "title": "Basic courses",
+        "btnName": "View all"
+    },
+    "calendarEvent": {
+        "subtitle": "Upcoming events"
+    },
+    "course-single": {
+        "table": {
+            "head": "ABOUT THE COURSE",
+            "user": "SPECIALTIES",
+            "availableIn": "AVAILABLE FROM", 
+            "availableUpTo": "AVAILABLE TO"
+        }
+    },
+    "Calendar": {
+        "title": "calendar of scientific events",
+        "month": {
+            "January": "January",
+            "February": "February",
+            "March": "March",
+            "April": "April",
+            "May": "May",
+            "June": "June",
+            "July": "July",
+            "August": "August",
+            "September": "September",
+            "October": "October",
+            "November": "November",
+            "December": "December"
+        },
+        "days": {
+            "Mon": "Mon",
+            "Tue": "Tue",
+            "Wed": "Wed",
+            "Ths": "Ths",
+            "Fri": "Fri",
+            "Sat": "Sat",
+            "Sun": "Sun"
+        }
+    },
+    "coursePage": {
+        "title": "COURSES",
+        "btnName": "All courses"
+    },
+    "contactPage": {
+        "socTitle": "Contact via social networks:"
+    },
+    "footer": {
+        "copirait": "© ГО “All-Ukrainian Association of Continuous Professional Education of Doctors and Pharmacists”. All Rights Reserved"
+    },
+    "time": "from 10:00 to 18:00",
+    "breadcrumbs": {
+        "home": "Main",
+        "about": "PROJECT",
+        "courses": "COURSES",
+        "webinars": "Webinars",
+        "login": "AUTHORIZATION",
+        "calendar": "Calendar",
+        "contact": "Contacts"
+    },
+    "titleReg": "You are already registered!",
+    "login": {
+        "title": "AUTHORIZATION",
+        "btnEnter": "Login",
+        "btnReg": "Registration",
+        "placeholder": {
+            "pass": "Password"
+        },
+        "message": {
+            "login": "Invalid login or password"
+        }
+    },
+    "register": {
+        "title": "REGISTRATION",
+        "subtitle": "Already have a registered account?",
+        "subtitle1": "Information about the person",
+        "subtitle2": "Place of residence",
+        "subtitle3": "Professional activity",
+        "subtitle4": "Contacts",
+        "subtitle5": "Security",
+        "help1": "Fields marked with an asterisk (*) are mandatory.",
+        "help2": "By clicking on the 'Registration' button, you agree with",
+        "help2Link": "user agreement",
+        "btnName": "Registration",
+        "palaceHolder": {
+            "search": "Course search",
+            "surname": "Name",
+            "name": "Name",
+            "middleName": "Surname",
+            "selectedRegions": "Choose an area",
+            "locality": "Settlement",
+            "selectedSpeciality": "Choose a specialty",
+            "work": "job",
+            "position": "Position",
+            "email": "",
+            "tel": "Cellphone",
+            "password": "Password"
+        }
+    }
+}

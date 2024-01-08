@@ -153,7 +153,7 @@ export default {
         breadcrumbs: [
             {
                 name: 'Головна',
-                link: '/'
+                link: `/${this.$i18n.locale}/`
             },
             {
                 name: 'Вебінари'

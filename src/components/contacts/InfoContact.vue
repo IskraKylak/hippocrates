@@ -19,7 +19,7 @@
                 </div>
                 <div class="infoContact_wrapSoc">
                     <div class="infoContact_wrapSoc_title">
-                        {{ content.socTitle }}
+                        {{$t('contactPage.socTitle')}}
                     </div>
                     <div class="infoContact_listSoc">
                         <a :href="content.facebook_link" class="infoContact_fb"></a>

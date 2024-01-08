@@ -4,25 +4,25 @@ import NotFound from '@/views/404.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/:lang/',
     name: 'home',
     meta: { layout: 'main' },
     component: () => import('../views/home.vue')
   },
   {
-    path: '/contacts',
+    path: '/:lang/contacts',
     name: 'contacts',
     meta: { layout: 'main' },
     component: () => import('../views/contacts.vue')
   },
   {
-    path: '/calendar',
+    path: '/:lang/calendar',
     name: 'calendar',
     meta: { layout: 'main' },
     component: () => import('../views/calendar.vue')
   },
   {
-    path: '/vebinars',
+    path: '/:lang/webinars',
     name: 'vebinars',
     props: route => ({ pid: route.query.params }),
     meta: { layout: 'main' },
@@ -35,74 +35,74 @@ const routes = [
   //   component: () => import('../views/vebinars-page.vue')
   // },
   {
-    path: '/vebinar/:Pid2',
+    path: '/:lang/webinars/:Pid2',
     name: 'vebinarSingle',
     meta: { layout: 'main' },
     component: () => import('../views/vebinar-single.vue')
   },
   {
-    path: '/courses',
+    path: '/:lang/courses',
     name: 'courses',
     meta: { layout: 'main' },
     component: () => import('../views/courses.vue')
   },
   {
-    path: '/about',
+    path: '/:lang/about',
     name: 'about',
     meta: { layout: 'main' },
     component: () => import('../views/about.vue')
   },
   {
-    path: '/how-to',
+    path: '/:lang/how-to',
     name: 'how-to',
     meta: { layout: 'main' },
     component: () => import('../views/how-to.vue')
   },
   {
-    path: '/courses/:Pid1',
+    path: '/:lang/courses/:Pid1',
     name: 'coursesCatPage',
     meta: { layout: 'main' },
     props: route => ({ pid: route.query.params }),
     component: () => import('../views/courses-page.vue')
   },
   {
-    path: '/course/:Pid2',
+    path: '/:lang/course/:Pid2',
     name: 'courseSingle',
     meta: { layout: 'main' },
     component: () => import('../views/course-single.vue')
   },
   {
-    path: '/course/:Pid2/test/',
+    path: '/:lang/course/:Pid2/test/',
     name: 'testCourse',
     meta: { layout: 'main' },
     component: () => import('../views/testCourse.vue')
   },
   {
-    path: '/course/:courseId/test/:Pid3',
+    path: '/:lang/course/:courseId/test/:Pid3',
     name: 'testLesson',
     meta: { layout: 'main' },
     component: () => import('../views/testLesson.vue')
   },
   {
-    path: '/login',
+    path: '/:lang/login',
     name: 'login',
     meta: { layout: 'main' },
     component: () => import('../views/login.vue')
   },
   {
-    path: '/register',
+    path: '/:lang/register',
     name: 'register',
     meta: { layout: 'main' },
     component: () => import('../views/register.vue')
   },
   {
-    path: '/search',
+    path: '/:lang/search',
     name: 'search',
     meta: { layout: 'main' },
     component: () => import('../views/search.vue')
   },
   {
-    path: '/vebinars/:Pid4/test/',
+    path: '/:lang/webinars/:Pid4/test/',
     name: 'testVebinar',
     meta: { layout: 'main' },
     component: () => import('../views/testVebinar.vue')

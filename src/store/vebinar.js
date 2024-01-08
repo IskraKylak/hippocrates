@@ -30,7 +30,7 @@ export default {
                 return products.data
             }).catch((error) => {
                 console.log(error)
-                return error
+                return false
             })
         },
         GET_VEBINAR_SPECIAL_FROM_API({commit}, id) {
@@ -41,7 +41,7 @@ export default {
                 return products.data
             }).catch((error) => {
                 console.log(error)
-                return error
+                return false
             })
         },
         GET_VEBINAR_FROM_API_FAVORITE({commit}, payload) {
@@ -56,7 +56,7 @@ export default {
                     return products.data
                 }).catch((error) => {
                     console.log(error)
-                    return error
+                    return false
                 })
             }
             return []
@@ -73,7 +73,7 @@ export default {
                     return products.data
                 }).catch((error) => {
                     console.log(error)
-                    return error
+                    return false
                 })
             }
             return []
@@ -87,7 +87,7 @@ export default {
                     return products.data
                 }).catch((error) => {
                     console.log(error)
-                    return error
+                    return false
                 })
             } else {
                 return axios(`https://asprof-test.azurewebsites.net/api/webinars/?ordering=-start_date&page=${payload.page}&page_size=6${payload.spec}`, {
@@ -97,7 +97,7 @@ export default {
                     return products.data
                 }).catch((error) => {
                     console.log(error)
-                    return error
+                    return false
                 })
             }
         },
@@ -113,7 +113,7 @@ export default {
                     return products.data
                 }).catch((error) => {
                     console.log(error)
-                    return error
+                    return false
                 })
             }
             return axios(`http://asprof-test.azurewebsites.net/api/webinars/?ordering=-start_date&page=${payload.content}&page_size=6`, {
@@ -123,7 +123,7 @@ export default {
                 return products.data
             }).catch((error) => {
                 console.log(error)
-                return error
+                return false
             })
         },
         GET_VEBINAR_FROM_API_PAGE_FAVORITE({commit}, payload) {
@@ -138,7 +138,7 @@ export default {
                     return products.data
                 }).catch((error) => {
                     console.log(error)
-                    return error
+                    return false
                 })
             }
             return []
@@ -155,7 +155,7 @@ export default {
                     return products.data
                 }).catch((error) => {
                     console.log(error)
-                    return error
+                    return false
                 })
             }
             return []

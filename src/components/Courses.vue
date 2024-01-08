@@ -3,7 +3,7 @@
         <div class="container">
             <div class="courses_content">
                 <h2 class="courses_title">
-                    {{ content.title }}
+                    {{$t('courses.title')}}
                 </h2>
                 <carousel class="courses_carousel" :items-to-show="((width <= 767) ? 1 : 4)" snapAlign="start">
                     <slide v-for="(item, idx) in content.list" :key="idx">
@@ -13,7 +13,7 @@
                         <navigation />
                     </template>
                 </carousel>
-                <Button :btnClass="'btnLink'" @click="openCourses()"> Переглянути усі </Button>
+                <Button :btnClass="'btnLink'" @click="openCourses()"> {{$t('courses.btnName')}}</Button>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@ export default {
             this.width = window.innerWidth;
         },
         openCourses() {
-            this.$router.push('/courses')
+            this.$router.push(`/${this.$i18n.locale}/courses`)
         }
     },
     created() {

@@ -107,22 +107,22 @@ export default {
     breadcrumbs() {
         let breadcrumbs = [
             {
-                name: 'Головна',
-                link: '/'
+                name: this.$t('breadcrumbs.home'),
+                link: `/${this.$i18n.locale}/`
             },
             {
-                name: 'Вебінари',
+                name: this.$t('breadcrumbs.webinars'),
             },
         ] 
         if(this.nameCat != '') {
             breadcrumbs = [
                 {
-                    name: 'Головна',
-                    link: '/'
+                    name: this.$t('breadcrumbs.home'),
+                    link: `/${this.$i18n.locale}/`
                 },
                 {
-                    name: 'Вебінари',
-                    link: '/vebinars'
+                    name: this.$t('breadcrumbs.webinars'),
+                    link: `/${this.$i18n.locale}/webinars`
                 },
             ] 
             breadcrumbs.push({name: this.nameCat})
@@ -180,14 +180,9 @@ export default {
         this.removeQueryToUrl(data)
     },
     addQueryToUrl(sp = null, page = null) {
-        // Получаем текущий путь и параметры запроса
         const currentPath = this.$route.path;
         const currentQuery = JSON.parse(JSON.stringify(this.$route.query));
 
-        // Инициализируем массив specializations, если он еще не существует
-        
-
-        // Добавляем новое значение в массив specializations
         if (sp) {
             currentQuery.specializations = currentQuery.specializations || [];
             if (typeof currentQuery.specializations === 'string') {
@@ -206,23 +201,18 @@ export default {
             currentQuery.page = page
         }
 
-        // Создаем новый маршрут с обновленными параметрами запроса
         const newRoute = { path: currentPath, query: currentQuery };
 
-        // Используем $router.push для обновления URL с новым маршрутом
         this.$router.push(newRoute);
 
-        // Принудительно вызываем повторный рендер текущего маршрута
         this.initApi()
         this.componentKey += 1;
     },
     removeQueryToUrl(sp = null, page = null) {
-      // Получаем текущий путь и параметры запроса
+
       const currentPath = this.$route.path;
       const currentQuery = JSON.parse(JSON.stringify(this.$route.query));
 
-
-      // Удаляем значение из массива specializations
         if (sp) {
             if (typeof currentQuery.specializations === 'string') {
                 currentQuery.specializations = [] 
@@ -235,13 +225,10 @@ export default {
             currentQuery.page = []
         }
 
-        // Создаем новый маршрут с обновленными параметрами запроса
         const newRoute = { path: currentPath, query: currentQuery };
 
-        // Используем $router.push для обновления URL с новым маршрутом
         this.$router.push(newRoute);
 
-        // Принудительно вызываем повторный рендер текущего маршрута
         this.initApi()
         this.componentKey -= 1;
 

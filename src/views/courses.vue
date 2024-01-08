@@ -4,9 +4,9 @@
         <Breadcrumbs :content="breadcrumbs" /> 
     </div>
     <div class="container">
-        <h1 class="courses_title">{{ title }}</h1>
+        <h1 class="courses_title">{{$t('coursePage.title')}}</h1>
         <a href="" class="custom_link"></a>
-        <Button :btnClass="'btnLink'" @click="openCourse"> Всі курси </Button>
+        <Button :btnClass="'btnLink'" @click="openCourse"> {{$t('coursePage.btnName')}} </Button>
         <div class="courses_content">
             <!-- <div class="courses_filter" v-if="courses.list.length !== 0">
                 <div class="courses_filter_title" :class="{'active' : activeFilter}" @click="activeFilter = !activeFilter">
@@ -122,15 +122,19 @@ export default {
         },
         CheckBox: [
         ],
-        breadcrumbs: [
+    }
+  },
+  computed: {
+    breadcrumbs() {
+        return [
             {
-                name: 'Головна',
-                link: '/'
+                name: this.$t('breadcrumbs.home'),
+                link: `/${this.$i18n.locale}/`
             },
             {
-                name: 'курсы'
-            }
-        ],
+                name: this.$t('breadcrumbs.courses'),
+            },
+        ] 
     }
   }
 }

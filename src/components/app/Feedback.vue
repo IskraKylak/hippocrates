@@ -1,12 +1,12 @@
 <template>
   <div class="feedback">
     <div class="feedback__title">
-        зворотній зв’язок
+        {{$t('feedback.title')}}
     </div>
     <div class="feedback__description">
-        Натискаючи кнопку, Ви погоджуютесь з обробкою персональних даних. Та переходите до телеграм-боту.
+        {{$t('feedback.description')}}
     </div>
-    <Button :btnClass="'btnFeedback'">Надіслати</Button>   
+    <Button :btnClass="'btnFeedback'">{{$t('feedback.btnName')}}</Button>   
   </div>
 </template>
 

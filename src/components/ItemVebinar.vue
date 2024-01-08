@@ -1,7 +1,7 @@
 <template>
     <div class="vebinarItem" @click="goToVebinar()">
         <div class="vebinarItem_insideWrap">
-            <div class="vebinarItem_wrapImage">
+            <div class="vebinarItem_wrapImage" >
                 <img :src="content.image" alt="img">
             </div>
             <div class="vebinarItem_wrapCalendar">
@@ -117,15 +117,16 @@ export default {
     cursor: pointer;
 
     &_wrapImage {
-        height: desktop-vw(168);
+        // height: desktop-vw(168);
         width: 100%;
+        // min-height: 119px;
         position: relative;
 
         img {
-            position: absolute;
-            object-fit: cover;
+            position: relative;
+            // object-fit: cover;
             width: 100%;
-            height: 100%;
+            height: auto;
         }
     }
 

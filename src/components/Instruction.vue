@@ -3,7 +3,7 @@
         <div class="container">
             <div class="instruction_content">
                 <h2 class="instruction_title">
-                    {{ content.title }}
+                    {{$t('instruction.title')}}
                 </h2>
                 <carousel class="events_carousel" :items-to-show="((width <= 767) ? 1 : 3)" snapAlign="start">
                     <slide v-for="(item, idx) in content.list" :key="idx">
@@ -13,7 +13,7 @@
                             </div>
                             <div class="instruction_item_bottom">
                                 <div class="instruction_item_name">
-                                    {{ item.title }}
+                                    {{ $t('instruction.list.title') }}
                                 </div>
                                 <div class="instruction_item_text">
                                     {{ item.text }}
@@ -25,7 +25,7 @@
                         <navigation />
                     </template>
                 </carousel>
-                <Button :btnClass="'btnLink'" @click="openLogin()"> Особистий кабінет </Button>
+                <Button :btnClass="'btnLink'" @click="openLogin()">{{$t('instruction.btnName')}}</Button>
             </div>
         </div>
     </div>
@@ -57,7 +57,7 @@ export default {
         },
         openLogin() {
             if(this.tokkent === '')
-                this.$router.push('/login')
+                this.$router.push(`/${this.$i18n.locale}/login`)
             else
                 window.open(`https://asprofosvit.azurewebsites.net/another_domen_auth/${this.tokkent}`);
         },

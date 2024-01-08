@@ -2,8 +2,8 @@
   <div class="home">
     <Poster :content="poster" /> 
     <Instruction :content="instruction" />
-    <Events v-if="events.list.length !== 0" :content="events" />
-    <Courses v-if="courses.list.length !== 0" :content="courses" />
+    <Events :content="events" />
+    <Courses :content="courses" />
     <CalendarEvent :content="calendarEvent" />
     <!-- <Portfolio :content="portfolio" /> -->
   </div>
@@ -37,11 +37,11 @@ export default {
         text: '',
         img: '',
       },
-      portfolio: {
-        title: 'освітнє портфоліо',
-        text: 'Навіщо потрібне освітнє портфоліо - офіційні документи МОЗ України, які повинен заповнювати кожен лікар для підготовки до атестації.',
-        btn: 'Відкрити анкету'
-      },
+      // portfolio: {
+      //   title: 'освітнє портфоліо',
+      //   text: 'Навіщо потрібне освітнє портфоліо - офіційні документи МОЗ України, які повинен заповнювати кожен лікар для підготовки до атестації.',
+      //   btn: 'Відкрити анкету'
+      // },
       calendarEvent: {
         title: '',
         subtitle: 'Найближчі події',
@@ -54,22 +54,6 @@ export default {
           //   name: 'Кардіо-Метаболічна Академія, частина четверта.',
           //   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
           // },
-          // {
-          //   img: require('../assets/img/calendarImg.png'),
-          //   data: '9.07 - 10.07',
-          //   time: '17:00 - 19:00',
-          //   location: 'Київ - Черкаси - Житомир',
-          //   name: 'Кардіо-Метаболічна Академія, частина четверта.',
-          //   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
-          // },
-          // {
-          //   img: require('../assets/img/calendarImg.png'),
-          //   data: '9.07 - 10.07',
-          //   time: '17:00 - 19:00',
-          //   location: 'Київ - Черкаси - Житомир',
-          //   name: 'Кардіо-Метаболічна Академія, частина четверта.',
-          //   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porttitor nunc pellentesque ipsum mauris. Vel phasellus quam enim, consectetur vitae vitae......'
-          // }
         ]
       },
       courses: {
@@ -80,34 +64,6 @@ export default {
           //   img: require('../assets/img/courses/1.png'),
           //   name: 'хірургія'
           // },
-          // {
-          //   img: require('../assets/img/courses/2.png'),
-          //   name: 'сімейна медицина'
-          // },
-          // {
-          //   img: require('../assets/img/courses/3.png'),
-          //   name: 'кардіологія'
-          // },
-          // {
-          //   img: require('../assets/img/courses/4.png'),
-          //   name: 'неврологія'
-          // },
-          // {
-          //   img: require('../assets/img/courses/1.png'),
-          //   name: 'хірургія'
-          // },
-          // {
-          //   img: require('../assets/img/courses/2.png'),
-          //   name: 'сімейна медицина'
-          // },
-          // {
-          //   img: require('../assets/img/courses/3.png'),
-          //   name: 'кардіологія'
-          // },
-          // {
-          //   img: require('../assets/img/courses/4.png'),
-          //   name: 'неврологія'
-          // }
         ]
       },
       events: {
@@ -122,7 +78,7 @@ export default {
         list: [
           {
             video: '',
-            title: 'підвищуйте свою професійну кваліфікацію',
+            // title: 'підвищуйте свою професійну кваліфікацію',
             text: ''
           }
         ]

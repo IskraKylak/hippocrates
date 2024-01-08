@@ -7,7 +7,7 @@
             </h2>
         </div>
         <div class="vebinarPage_wrapVideo">
-            <div v-if="tokkent != ''" id="stream-container">
+            <div id="stream-container">
                 <!-- stream -->
                 <div id="stream-embed-wrapper">
                     <iframe id="stream-embed-iframe" height="100%" width="100%" :src="'https://www.youtube.com/embed/'+this.vebinar.youtube_id" frameborder="0" allowfullscreen></iframe>
@@ -18,10 +18,10 @@
                 
                 <div class="clear_both"></div>
             </div>
-            <p class="vebinarPage_textVideo" v-if="tokkent == ''">
+            <!-- <p class="vebinarPage_textVideo" v-if="tokkent == ''">
                 {{ textVideo }}
             </p>
-            <Button :btnClass="'btnLink'" v-if="tokkent === ''" @click="openLog()"> Аторизуйтесь </Button>
+            <Button :btnClass="'btnLink'" v-if="tokkent === ''" @click="openLog()"> Аторизуйтесь </Button> -->
         </div>
         <div class="vebinarPage_spicers">
             <h2 class="vebinarPage_title">
@@ -160,7 +160,7 @@ export default {
       })
     },
     openLog() {
-        this.$router.push('/login')
+        this.$router.push(`/${this.$i18n.locale}/login`)
     },
     ...mapActions([
         'GET_VEBINARSINGLE_FROM_API',
@@ -175,7 +175,7 @@ export default {
                 console.log('this.vebinar')
                 this.vebinar = response
 
-                const VIDEO_ID = "dAv0Tyxu8-M"; // for live chat
+                let VIDEO_ID = "dAv0Tyxu8-M"; // for live chat
                 if(this.vebinar)
                     VIDEO_ID = this.vebinar.youtube_id
                 
@@ -224,7 +224,7 @@ export default {
           }
         })
           .then(respons => {
-            this.$message('Вы зареєстровані!')
+            this.$message('Ви зареєстровані!')
             this.getNotify()
           })
           .catch(error => {
@@ -249,12 +249,12 @@ export default {
     breadcrumbs() {
         let breadcrumbs = [
             {
-                name: 'Головна',
-                link: '/'
+                name: this.$t('breadcrumbs.home'),
+                link: `/${this.$i18n.locale}/`
             },
             {
-                name: 'Вебінари',
-                link: '/vebinars'
+                name: this.$t('breadcrumbs.webinars'),
+                link: `/${this.$i18n.locale}/webinars`
             }
         ] 
         if(this.vebinar.name)

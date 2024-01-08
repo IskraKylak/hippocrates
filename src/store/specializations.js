@@ -26,7 +26,7 @@ export default {
                 return products.data
             }).catch((error) => {
                 console.log(error)
-                return error
+                return false
             })
         },
         GET_SPECIALIZATIONS_ITEM_FROM_API({commit}, id) {
@@ -37,7 +37,7 @@ export default {
                 return products.data
             }).catch((error) => {
                 console.log(error)
-                return error
+                return false
             })
         }
     },

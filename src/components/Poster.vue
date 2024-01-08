@@ -12,7 +12,7 @@
                 <h2 class="poster_subtitle">
                     {{ content.text }}
                 </h2>
-                <Button v-if="tokkent === ''" :btnClass="'btnPoster'" @click="openReg()">Зареєструватися</Button>
+                <Button v-if="tokkent === ''" :btnClass="'btnPoster'" @click="openReg()">{{$t('Зареєструватися')}}</Button>
             </div>
             <Feedback />
         </div>
@@ -24,8 +24,15 @@
 // @ is an alias to /src
 import Button from '@/components/UI/Controls/Button.vue'
 import Feedback from '@/components/app/Feedback.vue'
+import {useI18n} from 'vue-i18n'
+
+// const { t } = useI18n({useScope: 'global'})
+
 export default {
     props: ['content'],
+    // created() {
+    //     const { t, locale } = this.$i18n
+    // },
     components: {
         Button,
         Feedback
@@ -41,7 +48,7 @@ export default {
     },
     methods: {
         openReg() {
-            this.$router.push('/register')
+            this.$router.push(`/${this.$i18n.locale}/register`)
         }
     }
 }

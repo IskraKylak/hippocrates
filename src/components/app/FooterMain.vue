@@ -4,7 +4,7 @@
       <div class="footer_content">
         <div class="footer_top">
           <div class="footer_logo">
-            <router-link to="/">
+            <router-link :to="`/${this.$i18n.locale}/`">
               <img src="@/assets/img/logoFooter.svg" alt="img">
             </router-link>
           </div>
@@ -33,7 +33,7 @@
         </div>
         <div class="footer_bottom">
           <div class="footer_copirait">
-            {{ copirait }}
+            {{$t('footer.copirait')}}
           </div>
           <!-- <div class="footer_develop">
             {{ develop }}
@@ -60,7 +60,6 @@ export default {
         telegram_link:'',
       },
       copirait: '© ГО “Всеукраїнська асоціація безперервної професійної освіти лікарів і фармацевтів”. All Rights Reserved',
-      develop: 'Розробка сайту Codexe'
     }
   },
   methods: {
