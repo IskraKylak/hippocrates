@@ -70,7 +70,10 @@ export default {
     ]),
   },
   mounted() {
-      this.GET_PROJECT_FROM_API().then((response) => {
+    let lang = 'uk'
+    if(this.$i18n.locale != 'ua')
+      lang = this.$i18n.locale
+    this.GET_PROJECT_FROM_API(lang).then((response) => {
         if(response) {
             this.poster.img = response.banner
             this.aboutContent.title = response.title
@@ -79,7 +82,7 @@ export default {
             this.aboutContent.bernds.img1 = response.first_logo
             this.aboutContent.bernds.img2 = response.second_logo
         }
-      })
+    })
   }
 }
 </script>

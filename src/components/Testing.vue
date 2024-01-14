@@ -163,12 +163,15 @@ export default {
       this.getNotify()
     },
     async getNotify () {
-
+      
       let api = ""
+      let lang = "uk"
+      if(this.$i18n.locale != 'ua')
+          lang = this.$i18n.locale
       if(this.type === 'webinars') {
-        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/test/`
+        api = `https://asprof-test.azurewebsites.net/${lang}/api/${this.proId}/test/`
       } else if(this.type === 'courses') {
-        api = `https://asprof-test.azurewebsites.net/api/${this.proId}/progress/`
+        api = `https://asprof-test.azurewebsites.net/${lang}/api/${this.proId}/progress/`
       }
       
       await axios({

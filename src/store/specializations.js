@@ -18,8 +18,8 @@ export default {
             // обратимся к нашему комиту и візовем мутацию setNotify в кторую передадим payload
             commit('SET_SPECIALIZATIONS', payload)
         },
-        GET_SPECIALIZATIONS_FROM_API({commit}) {
-            return axios('https://asprof-test.azurewebsites.net/api/specializations/', {
+        GET_SPECIALIZATIONS_FROM_API({commit}, lang) {
+            return axios(`https://asprof-test.azurewebsites.net/${lang}/api/specializations/`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_SPECIALIZATIONS', products.data)
@@ -29,8 +29,8 @@ export default {
                 return false
             })
         },
-        GET_SPECIALIZATIONS_ITEM_FROM_API({commit}, id) {
-            return axios(`https://asprof-test.azurewebsites.net/api/specializations/${id}`, {
+        GET_SPECIALIZATIONS_ITEM_FROM_API({commit}, payload) {
+            return axios(`https://asprof-test.azurewebsites.net/${payload.lang}/api/specializations/${payload.id}`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_SPECIALIZATIONSITEM', products.data)

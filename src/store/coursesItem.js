@@ -16,7 +16,7 @@ export default {
             commit('SET_COURSESITEM', payload)
         },
         GET_COURSESITEM_FROM_API({commit}, obj) {
-            return axios(`https://asprof-test.azurewebsites.net/api/courses/${obj.id}`, {
+            return axios(`https://asprof-test.azurewebsites.net/${obj.lang}/api/courses/${obj.id}`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_COURSESITEM', products.data)
@@ -27,7 +27,7 @@ export default {
             })
         },
         GET_COURSESITEM_FROM_API_TOKKEN({commit}, obj) {
-            return axios(`https://asprof-test.azurewebsites.net/api/courses/${obj.id}`, {
+            return axios(`https://asprof-test.azurewebsites.net/${obj.lang}/api/courses/${obj.id}`, {
                 method: "GET",
                 headers: {
                     'Authorization': 'Bearer ' + obj.tokken

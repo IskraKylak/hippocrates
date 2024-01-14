@@ -2,7 +2,7 @@
   <div class="calendar">
     <div class="header-calendar">
       <button @click="prev">&#9668;</button>
-      <span class="title">{{ title }}</span>
+      <span class="title">{{ title }} {{ year }}</span>
       <button @click="next">&#9658;</button>
     </div>
     <div class="week days">
@@ -38,7 +38,7 @@ export default {
   props: ['content'],
   data () {
     return {
-      title: '',
+      // title: '',
       eventTrue: [],
       month: 0,
       year: 0,
@@ -65,6 +65,9 @@ export default {
         this.$t('Calendar.month.November'), 
         this.$t('Calendar.month.December'),
       ]
+    },
+    title() {
+      return `${this.MONTHS[this.month]}`
     }
   },
   created () {
@@ -115,9 +118,9 @@ export default {
     monthStartsOn () {
       return new Date(this.year, this.month, 1).getDay()
     },
-    setTitle () {
-      this.title = `${this.MONTHS[this.month]} ${this.year}`
-    },
+    // setTitle () {
+    //   this.title = `${this.MONTHS[this.month]} ${this.year}`
+    // },
     update (date) {
       
       if (date) {
@@ -125,7 +128,7 @@ export default {
         this.year = date.getFullYear()
         this.day = date.getDate()
       }
-      this.setTitle()
+      // this.setTitle()
       this.setDays()
       this.setWeeks()
     },

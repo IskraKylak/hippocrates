@@ -37,7 +37,8 @@ export default {
         idCat: '',
         options: {
             page: 1,
-            spec: ''
+            spec: '',
+            lang: 'uk'
         },
         pagination: {
             elementPage: 6,
@@ -90,10 +91,13 @@ export default {
   },
   mounted() {
     const currentQuery = { ...this.$route.query };
-
+    let lang = 'uk'
+    if(this.$i18n.locale != 'ua')
+      lang = this.$i18n.locale
+    this.options.lang = lang
     if(currentQuery.specializations) {
         this.options.spec += `&specializations=${currentQuery.specializations}`
-        this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+        this.GET_SPECIALIZATIONS_FROM_API(lang).then((response) => {
         if(response) {
             response.forEach(item => {
                 if (item.id == currentQuery.specializations) {

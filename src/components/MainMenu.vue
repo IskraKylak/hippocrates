@@ -88,9 +88,6 @@ export default {
         redirect() {
             window.open(`https://asprofosvit.azurewebsites.net/another_domen_auth/${this.tokkent}`);
         },
-        ...mapActions([
-            'GET_ACC_FROM_API'
-        ]),
         openLogin() {
             this.$router.push(`/${this.$i18n.locale}/login`)
         },
@@ -104,16 +101,7 @@ export default {
                     this.$router.push(`/${this.$i18n.locale}/`)
                 })
         }
-    },
-    // mounted() {
-    //     if(this.tokkent != '') {
-    //         this.GET_ACC_FROM_API(this.tokkent).then((response) => {
-    //             if(response) {
-    //                 this.acc = response
-    //             }
-    //         })
-    //     }
-    // }
+    }
 }
 </script>
 

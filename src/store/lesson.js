@@ -16,7 +16,7 @@ export default {
             commit('SET_LESSON', payload)
         },
         GET_LESSON_FROM_API({commit}, obj) {
-            return axios(`https://asprof-test.azurewebsites.net/api/courses/${obj.course}/lessons/${obj.lesson}/`, {
+            return axios(`https://asprof-test.azurewebsites.net/${obj.lang}/api/courses/${obj.course}/lessons/${obj.lesson}/`, {
                 method: "GET",
                 headers: {
                     'Authorization': 'Bearer ' + obj.tokken

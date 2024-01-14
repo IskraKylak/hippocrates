@@ -56,7 +56,8 @@ export default {
         },
         options: {
             page: 1,
-            spec: ''
+            spec: '',
+            lang: "uk"
         },
         nameCat: '',
         idCat: '',
@@ -76,7 +77,11 @@ export default {
   mounted() {
     // console.log('this.$route.query', this.$route.query)
     const currentQuery = { ...this.$route.query };
-    this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+    let lang = "uk"
+    if(this.$i18n.locale != 'ua') {
+        lang = this.$i18n.locale
+    }
+    this.GET_SPECIALIZATIONS_FROM_API(lang).then((response) => {
       if(response) {
         for(let i = 0; i < response.length; i++) {
           this.courses.list.push(response[i])
@@ -138,6 +143,9 @@ export default {
         'GET_VEBINAR_FROM_API_PAGE'
     ]),
     initApi () {
+        if(this.$i18n.locale != 'ua') {
+            this.options.lang = this.$i18n.locale
+        }
         this.GET_VEBINAR_FROM_API_PAGE(this.options).then((response) => {
             if(response) {
                 this.pagination.count = response.count

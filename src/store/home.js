@@ -15,8 +15,8 @@ export default {
             // обратимся к нашему комиту и візовем мутацию setNotify в кторую передадим payload
             commit('SET_HOME', payload)
         },
-        GET_HOME_FROM_API({commit}) {
-            return axios('https://asprof-test.azurewebsites.net/api/content/hippocrates/home/', {
+        GET_HOME_FROM_API({commit}, lang) {
+            return axios(`https://asprof-test.azurewebsites.net/${lang}/api/content/hippocrates/home/`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_HOME', products.data)

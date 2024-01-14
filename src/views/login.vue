@@ -27,7 +27,7 @@
                         v-model="password"
                         :class="{ error: v$.password.$error }"
                         @change="v$.password.$touch()"
-                        :placeholder="$t('placeholder.pass')"
+                        :placeholder="$t('login.placeholder.pass')"
                     />
                     <p class="errorText" v-if="v$.password.required.$invalid">
                         Filed is required
@@ -89,8 +89,11 @@ export default {
       if (!this.v$.$invalid) {
         const user = {
           email: this.email,
-          password: this.password
+          password: this.password,
+          lang: "uk"
         }
+        if(this.$i18n.locale != 'ua')
+          user.lang = this.$i18n.locale
         try {
           await this.$store.dispatch('login', user)
           this.$router.push(`/${this.$i18n.locale}/`)

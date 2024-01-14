@@ -15,8 +15,8 @@ export default {
             // обратимся к нашему комиту и візовем мутацию setNotify в кторую передадим payload
             commit('SET_EVENT', payload)
         },
-        GET_EVENT_FROM_API({commit}) {
-            return axios('https://asprof-test.azurewebsites.net/api/events/?ordering=-start_date&page_size=100', {
+        GET_EVENT_FROM_API({commit}, lang) {
+            return axios(`https://asprof-test.azurewebsites.net/${lang}/api/events/?ordering=-start_date&page_size=100`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_EVENT', products.data)

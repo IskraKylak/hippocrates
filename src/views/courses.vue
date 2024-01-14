@@ -102,7 +102,10 @@ export default {
     }
   },
   mounted() {
-    this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+    let lang = 'uk'
+    if(this.$i18n.locale != 'ua')
+      lang = this.$i18n.locale
+    this.GET_SPECIALIZATIONS_FROM_API(lang).then((response) => {
       if(response) {
         for(let i = 0; i < response.length; i++) {
           this.courses.list.push(response[i])

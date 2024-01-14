@@ -168,7 +168,11 @@ export default {
     getApiVebinar () {
         let obj = {
             id: this.Pid,
-            tokken: this.tokkent
+            tokken: this.tokkent,
+            lang: "uk"
+        }
+        if(this.$i18n.locale != 'ua') {
+            obj.lang = this.$i18n.locale
         }
         this.GET_VEBINARSINGLE_FROM_API(obj).then((response) => {
             if(response) {
@@ -216,8 +220,12 @@ export default {
     },
     async registerSeminar () {
       if (this.$store.getters.getToken) {
+        let lang = "uk"
+        if(this.$i18n.locale != 'ua') {
+            obj.lang = this.$i18n.locale
+        }
         await axios({
-          url: `https://asprof-test.azurewebsites.net/api/webinars/${this.Pid}/register/`,
+          url: `https://asprof-test.azurewebsites.net/${lang}/api/webinars/${this.Pid}/register/`,
           method: 'Post',
           headers: {
             Authorization: 'Bearer ' + this.tokkent

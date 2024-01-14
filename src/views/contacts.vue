@@ -71,7 +71,10 @@ export default {
     ]),
   },
   mounted() {
-      this.GET_CONTACT_FROM_API().then((response) => {
+      let lang = 'uk'
+      if(this.$i18n.locale != 'ua')
+        lang = this.$i18n.locale
+      this.GET_CONTACT_FROM_API(lang).then((response) => {
         if(response) {
           this.poster.title = response.banner_title
           this.poster.img = response.banner

@@ -65,7 +65,10 @@ export default {
     ]),
   },
   mounted() {
-    this.GET_EVENT_FROM_API().then((response) => {
+    let lang = 'uk'
+    if(this.$i18n.locale != 'ua')
+      lang = this.$i18n.locale
+    this.GET_EVENT_FROM_API(lang).then((response) => {
       if(response) {
         this.calendarEvent.list = response.results
       }

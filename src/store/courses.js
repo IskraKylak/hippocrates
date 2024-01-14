@@ -38,7 +38,7 @@ export default {
             })
         },
         GET_COURSES_FROM_API_PAGE({commit}, payload) {
-            return axios(`https://asprof-test.azurewebsites.net/api/courses/?ordering=-start_date&page_size=6&page=${payload.page}${payload.spec}`, {
+            return axios(`https://asprof-test.azurewebsites.net/${payload.lang}/api/courses/?ordering=-start_date&page_size=6&page=${payload.page}${payload.spec}`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_COURSES', products.data)

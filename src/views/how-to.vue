@@ -79,7 +79,10 @@ export default {
     }
   },
   mounted() {
-    this.GET_HOME_FROM_API().then((response) => {
+    let lang = 'uk'
+    if(this.$i18n.locale != 'ua')
+      lang = this.$i18n.locale
+    this.GET_HOME_FROM_API(lang).then((response) => {
       // console.log(response)
       if(response) {
         this.poster.img = response.banner
@@ -93,7 +96,7 @@ export default {
         this.calendarEvent.title = response.calendar_block_title
       }
     })
-    this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
+    this.GET_SPECIALIZATIONS_FROM_API(lang).then((response) => {
       if(response) {
         for(let i = 0; i < response.length; i++) {
           this.courses.list.push(response[i])
@@ -101,12 +104,12 @@ export default {
         }
       }
     })
-    this.GET_VEBINAR_FROM_API().then((response) => {
+    this.GET_VEBINAR_FROM_API(lang).then((response) => {
       if(response) {
         this.events.list = response.results
       }
     })
-    this.GET_EVENT_FROM_API().then((response) => {
+    this.GET_EVENT_FROM_API(lang).then((response) => {
       if(response) {
         this.calendarEvent.list = response.results
       }

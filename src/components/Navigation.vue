@@ -130,6 +130,7 @@ export default {
       localStorage.setItem('lang', lang);
       this.$i18n.locale = lang;
       this.openLang = false
+      this.$emit('reloadCommponents')
     },
     redirect() {
         window.open(`https://hippocrates-fe.azurewebsites.net/another_domen_auth/${this.tokkent}`);
@@ -152,7 +153,6 @@ export default {
         }).catch({})
     },
     ...mapActions([
-        'GET_ACC_FROM_API',
         'GET_CONTACT_FROM_API',
         'GET_SEARCH_FROM_API'
     ]),
@@ -170,7 +170,10 @@ export default {
       }
   },   
   mounted() {
-      this.GET_CONTACT_FROM_API().then((response) => {
+      let lang = "uk"
+      if(this.$i18n.locale != 'ua')
+        lang = this.$i18n.locale
+      this.GET_CONTACT_FROM_API(lang).then((response) => {
         if(response) {
           this.email = response.email
           this.phones = response.phones.split('\r\n')
@@ -185,7 +188,14 @@ export default {
     search(newSearch, oldSearch) {
       if (newSearch.length > 0 ) {
         this.result = []
-        this.GET_SEARCH_FROM_API(newSearch).then((response) => {
+        let obj = {
+          search: newSearch,
+          lang: "uk"
+        }
+        if(this.$i18n.locale != 'ua') {
+          obj.lang = this.$i18n.locale
+        }
+        this.GET_SEARCH_FROM_API(obj).then((response) => {
             if(response.count != 0) {
               this.result = []
               // console.log(response.results)

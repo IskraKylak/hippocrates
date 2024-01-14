@@ -15,8 +15,8 @@ export default {
             // обратимся к нашему комиту и візовем мутацию setNotify в кторую передадим payload
             commit('SET_SEARCH', payload)
         },
-        GET_SEARCH_FROM_API({commit}, content) {
-            return axios(`https://asprof-test.azurewebsites.net/api/courses/?name__icontains=${content}`, {
+        GET_SEARCH_FROM_API({commit}, obj) {
+            return axios(`https://asprof-test.azurewebsites.net/${obj.lang}/api/courses/?name__icontains=${obj.search}`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_SEARCH', products.data)

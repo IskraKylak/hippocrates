@@ -277,8 +277,11 @@ export default {
     async showBtnCourseTest () {
          if(this.coursesContent.users_progress !== null) {
             if(!this.coursesContent.users_progress.finished && this.coursesContent.users_progress.is_last_lesson) {
+                let lang = "uk"
+                if(this.$i18n.locale != 'ua')
+                    lang = this.$i18n.locale
                 await axios({
-                    url: `https://asprof-test.azurewebsites.net/api/courses/${this.coursesContent.id}/lessons/${this.coursesContent.users_progress.current_lesson}/progress/`,
+                    url: `https://asprof-test.azurewebsites.net/${lang}/api/courses/${this.coursesContent.id}/lessons/${this.coursesContent.users_progress.current_lesson}/progress/`,
                     method: 'get',
                     headers: {
                         Authorization: 'Bearer ' + this.$store.getters.getToken
@@ -291,12 +294,18 @@ export default {
          }    
     },
     startLoadPage () {
+        let payload = {
+            lang: 'uk',
+            id: ''
+        }
+        if(this.$i18n.locale != 'ua')
+            payload.lang = this.$i18n.locale
        this.lastLessonFinish = false
        if(this.$route.params.Pid1) {
             let mas = this.$route.params.Pid1.split('&');
             if(mas.length == 2) {
-                let numEl = parseInt(this.$route.params.Pid1.match(/\d+/));
-                this.GET_SPECIALIZATIONS_ITEM_FROM_API(numEl).then((response) => {
+                payload.id = parseInt(this.$route.params.Pid1.match(/\d+/));
+                this.GET_SPECIALIZATIONS_ITEM_FROM_API(payload).then((response) => {
                     if(response) {
                         this.specialization = response
                     }
@@ -305,7 +314,8 @@ export default {
         }
         let obj = {
             id: this.$route.params.Pid2,
-            tokken: this.tokkent
+            tokken: this.tokkent,
+            lang: payload.lang
         }
         if(this.tokkent === '') {
             this.GET_COURSESITEM_FROM_API(obj).then((response) => {
@@ -322,7 +332,7 @@ export default {
                     this.showBtnCourseTest()
                     if(this.coursesContent.users_progress === null && this.coursesContent.lessons_set.length != 0) {
                         axios({
-                            url: `https://asprof-test.azurewebsites.net/api/courses/${this.coursesContent.id}/start/`,
+                            url: `https://asprof-test.azurewebsites.net/${payload.lang}/api/courses/${this.coursesContent.id}/start/`,
                             method: 'post',
                             headers: {
                                 Authorization: 'Bearer ' + this.$store.getters.getToken
@@ -342,10 +352,10 @@ export default {
             // console.log(this.coursesContent)
         }
         
-        this.GET_SPECIALIZATIONS_FROM_API().then((response) => {
-        if(response) {
-            this.allSpecialization = response
-        }
+        this.GET_SPECIALIZATIONS_FROM_API(payload.lang).then((response) => {
+            if(response) {
+                this.allSpecialization = response
+            }
         }) 
         
     },
@@ -360,12 +370,17 @@ export default {
         }
     },
     finishLesson (item) {
+        
+        
         let obj = {
             id: this.$route.params.Pid2,
-            tokken: this.tokkent
+            tokken: this.tokkent,
+            lang: "uk"
         }
+        if(this.$i18n.locale != 'ua') {}
+            obj.lang = this.$i18n.locale
         axios({
-            url: `https://asprof-test.azurewebsites.net/api/courses/${this.coursesContent.id}/lessons/${item.id}/finish/`,
+            url: `https://asprof-test.azurewebsites.net/${obj.lang}/api/courses/${this.coursesContent.id}/lessons/${item.id}/finish/`,
             method: 'post',
             headers: {
                 Authorization: 'Bearer ' + this.$store.getters.getToken
@@ -400,11 +415,14 @@ export default {
     // },
     goToTest () {
       // alert(proId)
+        let lang = "uk"
+        if(this.$i18n.locale != 'ua')
+            lang = this.$i18n.locale
         if(this.coursesContent.users_progress !== null) {
             if(!this.coursesContent.users_progress.finished && this.coursesContent.users_progress.is_last_lesson) {
                 let finish = false
                  axios({
-                    url: `https://asprof-test.azurewebsites.net/api/courses/${this.coursesContent.id}/lessons/${this.coursesContent.users_progress.current_lesson}/progress/`,
+                    url: `https://asprof-test.azurewebsites.net/${lang}/api/courses/${this.coursesContent.id}/lessons/${this.coursesContent.users_progress.current_lesson}/progress/`,
                     method: 'get',
                     headers: {
                         Authorization: 'Bearer ' + this.$store.getters.getToken
@@ -423,11 +441,15 @@ export default {
         }
     },
     openLesson(item) {
+        
         let obj = {
             course: this.coursesContent.id,
             lesson: item.id,
-            tokken: this.tokkent
+            tokken: this.tokkent,
+            lang: "uk"
         }
+        if(this.$i18n.locale != 'ua') {}
+            obj.lang = this.$i18n.locale
         if(item.id <= this.coursesContent.users_progress.current_lesson) {
             this.GET_LESSON_FROM_API(obj).then((response) => {
                 if(response) {

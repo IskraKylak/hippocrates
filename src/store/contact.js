@@ -15,8 +15,8 @@ export default {
             // обратимся к нашему комиту и візовем мутацию setNotify в кторую передадим payload
             commit('SET_CONTACT', payload)
         },
-        GET_CONTACT_FROM_API({commit}) {
-            return axios('https://asprof-test.azurewebsites.net/api/content/hippocrates/contacts/', {
+        GET_CONTACT_FROM_API({commit}, lang) {
+            return axios(`https://asprof-test.azurewebsites.net/${lang}/api/content/hippocrates/contacts/`, {
                 method: "GET"
             }).then((products) => {
                 commit('SET_CONTACT', products.data)

@@ -10,9 +10,9 @@ export default {
     login({commit}, user) {
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        console.log(user)
+        // console.log(user)
         axios({
-          url: 'https://asprof-test.azurewebsites.net/api/auth/token/',
+          url: `https://asprof-test.azurewebsites.net/${user.lang}/api/auth/token/`,
           data: user,
           method: 'POST'
         })
@@ -82,8 +82,8 @@ export default {
     },
     auth_success(state, obj) {
       state.status = 'success'
-      console.log('auth_success token-access: ' + obj.token)
-      console.log('auth_success refresh: ' + obj.user)
+      // console.log('auth_success token-access: ' + obj.token)
+      // console.log('auth_success refresh: ' + obj.user)
       state.token = obj.token
       state.user = obj.user
     },

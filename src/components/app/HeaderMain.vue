@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <Navigation />
+    <Navigation @reloadCommponents="$emit('reloadCommponents')" />
     <MainMenu />
   </div>
 </template>

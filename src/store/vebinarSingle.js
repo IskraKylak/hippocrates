@@ -16,7 +16,7 @@ export default {
         },
         GET_VEBINARSINGLE_FROM_API({commit}, payload) {
             if(payload.tokken !== '') {
-                return axios(`https://asprof-test.azurewebsites.net/api/webinars/${payload.id}`, {
+                return axios(`https://asprof-test.azurewebsites.net/${payload.lang}/api/webinars/${payload.id}`, {
                     method: "GET",
                     headers: {
                         Authorization: 'Bearer ' + payload.tokken

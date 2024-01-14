@@ -15,11 +15,11 @@ export default {
             // обратимся к нашему комиту и візовем мутацию setNotify в кторую передадим payload
             commit('SET_ACC', payload)
         },
-        GET_ACC_FROM_API({commit}, tokken) {
-            return axios('https://asprof-test.azurewebsites.net/api/me/', {
+        GET_ACC_FROM_API({commit}, obj) {
+            return axios(`https://asprof-test.azurewebsites.net/${obj.lang}/api/me/`, {
                 method: "GET",
                 headers: {
-                    'Authorization': 'Bearer ' + tokken
+                    'Authorization': 'Bearer ' + obj.tokkent
                 }
             }).then((products) => {
                 commit('SET_ACC', products.data)

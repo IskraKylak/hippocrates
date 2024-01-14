@@ -1,9 +1,11 @@
 <template>
-  <HeaderMain />
-  <router-view /> 
-  <FooterMain />
-  <div id="message" class="hidden-xs"></div>
-  <MobMenu />
+  <div :key="langChanged">
+    <HeaderMain @reloadCommponents='reloadCommponents' />
+    <router-view /> 
+    <FooterMain />
+    <div id="message" class="hidden-xs"></div>
+    <MobMenu />
+  </div>
 </template>
 
 <script>
@@ -24,12 +26,16 @@ export default {
         first_name: '',
         last_name: ''
       },
+      langChanged: 0,
     }
   },
   methods: {
     ...mapActions([
         'GET_ACC_FROM_API',
     ]),
+    reloadCommponents() {
+      this.langChanged++;
+    }
   },
   computed: {
       tokkent() {
@@ -38,11 +44,19 @@ export default {
   },
   mounted() {
       if(this.tokkent) {
-          this.GET_ACC_FROM_API(this.tokkent).then((response) => {
-              if(response) {
-                  this.acc = response
-              }
-          })
+        let obj = {
+          lang: "uk",
+          tokkent: this.tokkent
+        }
+        if(this.$i18n.locale != 'ua') {
+          obj.lang = this.$i18n.locale
+        }
+          
+        this.GET_ACC_FROM_API(obj).then((response) => {
+            if(response) {
+                this.acc = response
+            }
+        })
       }
   }
 }
