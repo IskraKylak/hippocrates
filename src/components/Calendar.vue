@@ -113,7 +113,7 @@ export default {
       this.update(new Date(this.year, this.month - 1, 1))
     },
     daysInMonth () {
-      return daysInYearMonth(this.year, this.month)
+      return daysInYearMonth(this.year, this.month + 1)
     },
     monthStartsOn () {
       return new Date(this.year, this.month, 1).getDay()
@@ -133,8 +133,8 @@ export default {
       this.setWeeks()
     },
     setDays () {
-      let preDays = this.monthStartsOn() > 0 ? Array(this.monthStartsOn() - 1).fill(0) : []
-      this.days = [...preDays, ...Array(this.daysInMonth() + 2).keys()]
+      let preDays = this.monthStartsOn() > 0 ? Array(this.monthStartsOn() - 1).fill(0) : [0, 0, 0, 0, 0, 0]
+      this.days = [...preDays, ...Array(this.daysInMonth() + 1).keys()]
     },
     setWeeks () {
       let n = 1

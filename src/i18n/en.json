@@ -1,5 +1,8 @@
 {
     "Зареєструватися": "Sign up",
+    "webinarPage": {
+        "title1": "WEBINARS ON SPECIALTIES"
+    },
     "menu": {
         "Проект": "Project",
         "Користувачу": "Instruction",
@@ -38,6 +41,8 @@
         "subtitle": "Upcoming events"
     },
     "course-single": {
+        "text1": "Lessons",
+        "text2": "Author of the course",
         "table": {
             "head": "ABOUT THE COURSE",
             "user": "SPECIALTIES",
@@ -93,6 +98,7 @@
     },
     "titleReg": "You are already registered!",
     "login": {
+        "forgot_password": "Forgot the password",
         "title": "AUTHORIZATION",
         "btnEnter": "Login",
         "btnReg": "Registration",

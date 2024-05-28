@@ -176,7 +176,7 @@ export default {
         }
         this.GET_VEBINARSINGLE_FROM_API(obj).then((response) => {
             if(response) {
-                console.log('this.vebinar')
+                // console.log('this.vebinar')
                 this.vebinar = response
 
                 let VIDEO_ID = "dAv0Tyxu8-M"; // for live chat

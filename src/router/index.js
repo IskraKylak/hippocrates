@@ -4,6 +4,15 @@ import NotFound from '@/views/404.vue'
 
 const routes = [
   {
+    path: '/',
+    name: 'redirect',
+    meta: { layout: 'empty' },
+    beforeEnter(to, from, next) {
+      // Редирект на главную страницу
+      next('/ua/');
+    }
+  },
+  {
     path: '/:lang/',
     name: 'home',
     meta: { layout: 'main' },

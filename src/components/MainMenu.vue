@@ -86,7 +86,7 @@ export default {
     },
     methods: {
         redirect() {
-            window.open(`https://asprofosvit.azurewebsites.net/another_domen_auth/${this.tokkent}`);
+            window.open(`https://asprofosvit.org/another_domen_auth/${this.tokkent}`);
         },
         openLogin() {
             this.$router.push(`/${this.$i18n.locale}/login`)

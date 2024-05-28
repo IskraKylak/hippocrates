@@ -29,7 +29,7 @@ export default {
                     return error
                 })
             } else {
-                return axios(`https://asprof-test.azurewebsites.net/api/webinars/${payload.id}`, {
+                return axios(`https://asprof-test.azurewebsites.net/${payload.lang}/api/webinars/${payload.id}`, {
                     method: "GET"
                 }).then((products) => {
                     commit('SET_VEBINARSINGLE', products.data)

@@ -2,9 +2,9 @@
   <div class="home">
     <Poster :content="poster" /> 
     <Instruction :content="instruction" />
-    <Events :content="events" />
-    <Courses :content="courses" />
-    <CalendarEvent :content="calendarEvent" />
+    <Events v-if="events.list.length" :content="events" />
+    <Courses v-if="courses.list.length" :content="courses" />
+    <CalendarEvent v-if="calendarEvent.list.length" :content="calendarEvent" />
     <!-- <Portfolio :content="portfolio" /> -->
   </div>
 </template>

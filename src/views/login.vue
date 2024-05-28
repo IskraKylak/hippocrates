@@ -35,6 +35,13 @@
                     <p class="errorText" v-if="v$.password.minLength.$invalid">
                         Password mast have at least {{ v$.password.minLength.$params.min }} !
                     </p>
+                    <a 
+                      :href="`https://asprofosvit.org/${this.$i18n.locale}/forgot-password`"
+                      target="_blank"
+                      class="link-forgot-pass"
+                    >
+                      {{ $t('login.forgot_password') }}
+                    </a>
                 </div>
 				        <Button class="btnLogin">{{$t('login.btnEnter')}}</Button>
                 <Button :btnClass="'btnBorder'" @click.prevent="openReg()" class="btnReg">{{$t('login.btnReg')}}</Button>
@@ -131,6 +138,27 @@ export default {
    &_title {
       color: #1FAEEA;
    }
+}
+
+.link-forgot-pass {
+  font-size: desktop-vw(13);
+  display: block;
+  color: #1FAEEA;
+  margin-left: auto;
+  width: max-content;
+  text-decoration: none;
+  transform: all 0.3s ease;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media screen and (max-width: $tablet) {
+    font-size: desktop-vw(13);
+  }
+  @media screen and (max-width: $mobile) {
+    font-size: mobile-vw(13);
+  }
 }
 
 .form-item .errorText {

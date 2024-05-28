@@ -69,10 +69,10 @@ export default {
                 return month
         },
         getDateEnd() {
-            return new Date(this.content.testing_end_date).getDate()
+            return new Date(this.content.end_date).getDate()
         },
         getMonthEnd() {
-            let month = new Date(this.content.testing_end_date).getMonth() + 1
+            let month = new Date(this.content.end_date).getMonth() + 1
             if(month < 10)
                 return '0' + month
             else

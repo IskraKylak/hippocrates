@@ -11,7 +11,7 @@
             <div class="courseSingle_left">
                 <div class="courseSingle_lessons" v-if="isLessons">
                     <div class="courseSingle_lessons_item bg">
-                        Уроки
+                        {{$t("course-single.text1")}}
                     </div>
                     <div class="courseSingle_lessons_item" v-for="(item, idx) in coursesContent.lessons_set" :key="idx">
                         <div @click="openLesson(item)" :class="[getClassLesson(item) ? 'disabled' : '']">
@@ -139,7 +139,7 @@ export default {
         },
         title: this.$route.params.Pid2,
         author: {
-            name: 'Автор курсу',
+            name: this.$t("course-single.text2"),
             img: require('../assets/img/courses.jpg'),
         }
     }

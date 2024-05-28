@@ -6,7 +6,7 @@
     <div class="container">
         <div class="courses-page_wrapList">
             <div class="courses-page_type">
-                {{ coursesType2.name }}
+                {{$t('coursePage.btnName')}}
             </div>
             <div class="courses-page_list">
                 <ItemCourses v-for="(item, idx) in coursesType2.courses" :key="idx" :content="item" />

@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-        filterTitle: 'Вебінари по спеціальностям',
+        filterTitle: this.$t("webinarPage.title1"),
         activeFilter: true,
         filter: [],
         courses: {

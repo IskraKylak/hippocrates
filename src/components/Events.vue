@@ -46,7 +46,7 @@ export default {
             if(this.tokkent === '')
                 this.$router.push(`/${this.$i18n.locale}/login`)
             else
-                window.open(`https://asprofosvit.azurewebsites.net/another_domen_auth/${this.tokkent}`);
+                window.open(`https://asprofosvit.org/another_domen_auth/${this.tokkent}`);
         }
     },
     computed: {

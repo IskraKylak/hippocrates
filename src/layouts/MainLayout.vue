@@ -34,7 +34,9 @@ export default {
         'GET_ACC_FROM_API',
     ]),
     reloadCommponents() {
-      this.langChanged++;
+      this.$nextTick(() => {
+        this.langChanged++;
+      });
     }
   },
   computed: {
